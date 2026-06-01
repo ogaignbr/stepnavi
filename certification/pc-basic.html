@@ -366,7 +366,11 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
   function rand(a,b){ return a + Math.random()*(b-a); }
 
   function pickQuest(){
-    currentQuest = SHORTCUTS[Math.floor(Math.random()*SHORTCUTS.length)];
+    const prevKey = currentQuest ? currentQuest.key : null;
+    let next;
+    do { next = SHORTCUTS[Math.floor(Math.random()*SHORTCUTS.length)]; }
+    while (next.key === prevKey && SHORTCUTS.length > 1);
+    currentQuest = next;
     elQuestJp.textContent = currentQuest.jp;
     elQuestKey.textContent = currentQuest.label;
     elQuest.style.opacity = '1';
@@ -443,7 +447,7 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
 
   function jump(){
     if (!runner.jumping){
-      runner.vy = -11;
+      runner.vy = -13.5;
       runner.jumping = true;
       runner.squash = 6;
       // 砂埃
@@ -512,7 +516,7 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
     speed += 0.0008 * step; // 徐々に加速
 
     // runner物理
-    runner.vy += 0.62 * step;
+    runner.vy += 0.58 * step;
     runner.y += runner.vy * step;
     if (runner.y >= GROUND - runnerBase.h){ runner.y = GROUND - runnerBase.h; runner.vy = 0; runner.jumping = false; }
     if (runner.hit > 0) runner.hit -= step;
@@ -531,7 +535,7 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
 
     // スポーン
     spawnTimer -= step;
-    if (spawnTimer <= 0){ spawnObstacle(); spawnTimer = rand(72, 116) / (speed/3.2); }
+    if (spawnTimer <= 0){ spawnObstacle(); spawnTimer = rand(120, 180) / (speed/3.2); }
     heartTimer -= step;
     if (heartTimer <= 0){ spawnHeart(); heartTimer = rand(300, 480); }
 
