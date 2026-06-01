@@ -468,8 +468,11 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
       rings.push({ x:cx, y:cy, r:8, maxR:46, life:1 });
       flash = 0.5;
     } else {
-      loseLife();
+      // 誤入力：ダメージは受けない（コンボだけリセット）
+      combo = 0;
     }
+    // 正解・誤入力どちらでも、1回入力したら必ず次のお題へ
+    pickQuest();
   }
 
   function loseLife(){
