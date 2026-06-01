@@ -59,22 +59,101 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </div>
     <div class="flex-1">
       <h2 class="font-bold text-[15px]">資格取得ガイド</h2>
-      <p class="text-[12px] text-slate-400 mt-0.5">生成AIパスポート・MOSで就職力をアップ</p>
+      <p class="text-[12px] text-slate-400 mt-0.5">PC基礎から生成AIパスポートまで段階的に</p>
     </div>
   </div>
   <div class="mt-4 flex items-center gap-3">
     <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
       <div id="progress-bar" class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500" style="width:0%"></div>
     </div>
-    <span id="progress-text" class="text-[11px] text-slate-400 whitespace-nowrap">0 / 3 読了</span>
+    <span id="progress-text" class="text-[11px] text-slate-400 whitespace-nowrap">0 / 7 読了</span>
   </div>
 </section>
 
 <!-- ARTICLE LIST -->
 <section class="fade-up d1">
   <div class="px-5 pt-5 pb-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">記事一覧</p>
+    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">パソコンの基本</p>
   </div>
+
+  <a href="pc-basic.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-pc-basic">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">基礎の基礎</span>
+        <span class="text-[10px] text-slate-300">10分</span>
+      </div>
+      <p class="font-semibold text-[13px]">PC基礎スキル</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">ショートカット・フォルダ・ZIP・スクショ・PDF</p>
+    </div>
+    <div class="flex items-center gap-2 ml-3">
+      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
+    </div>
+  </a>
+
+  <a href="word-basic.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-word-basic">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">基礎</span>
+        <span class="text-[10px] text-slate-300">8分</span>
+      </div>
+      <p class="font-semibold text-[13px]">Word基本</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">文字入力・フォント・箇条書き・表・画像・PDF保存</p>
+    </div>
+    <div class="flex items-center gap-2 ml-3">
+      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
+    </div>
+  </a>
+
+  <a href="excel-basic.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-excel-basic">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">基礎</span>
+        <span class="text-[10px] text-slate-300">10分</span>
+      </div>
+      <p class="font-semibold text-[13px]">Excel基本</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">セル・行列・フィルター・SUM/AVERAGE/COUNT/IF</p>
+    </div>
+    <div class="flex items-center gap-2 ml-3">
+      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
+    </div>
+  </a>
+
+  <a href="powerpoint-basic.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-powerpoint-basic">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">基礎</span>
+        <span class="text-[10px] text-slate-300">5分</span>
+      </div>
+      <p class="font-semibold text-[13px]">PowerPoint基本</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">スライド・テキスト・画像・図形・資料作成</p>
+    </div>
+    <div class="flex items-center gap-2 ml-3">
+      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
+    </div>
+  </a>
+
+  <div class="px-5 pt-6 pb-2">
+    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">資格でスキルを証明する</p>
+  </div>
+
+  <a href="mos.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-mos">
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">資格</span>
+        <span class="text-[10px] text-slate-300">6分</span>
+      </div>
+      <p class="font-semibold text-[13px]">MOS資格対策</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">Word・Excelスキルを公的に証明する人気資格</p>
+    </div>
+    <div class="flex items-center gap-2 ml-3">
+      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
+    </div>
+  </a>
 
   <a href="gen-ai-passport.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-gen-ai-passport">
     <div class="flex-1 min-w-0">
@@ -82,8 +161,8 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
         <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">おすすめ</span>
         <span class="text-[10px] text-slate-300">8分</span>
       </div>
-      <p class="font-semibold text-[13px]">生成AIパスポートとは？取得のメリットと勉強法</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">今注目の資格の概要・試験内容・学習プランを解説</p>
+      <p class="font-semibold text-[13px]">生成AIパスポートとは？</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">今注目のAI資格・試験内容・学習プラン</p>
     </div>
     <div class="flex items-center gap-2 ml-3">
       <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
@@ -98,22 +177,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
         <span class="text-[10px] text-slate-300">10分</span>
       </div>
       <p class="font-semibold text-[13px]">生成AIパスポート合格ロードマップ</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">具体的な学習ステップとおすすめ教材で合格を目指そう</p>
-    </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
-  </a>
-
-  <a href="mos.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-mos">
-    <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">入門</span>
-        <span class="text-[10px] text-slate-300">6分</span>
-      </div>
-      <p class="font-semibold text-[13px]">事務職に強いMOS資格の基本ガイド</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">MOSとは何か、どれから受けるべきか、企業の評価を解説</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">4週間の学習ステップで合格を目指そう</p>
     </div>
     <div class="flex items-center gap-2 ml-3">
       <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
@@ -150,7 +214,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 const STORAGE_KEY = 'stepnavi_read';
-const articles = ['cert-gen-ai-passport','cert-gen-ai-roadmap','cert-mos'];
+const articles = ['cert-pc-basic','cert-word-basic','cert-excel-basic','cert-powerpoint-basic','cert-mos','cert-gen-ai-passport','cert-gen-ai-roadmap'];
 const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 let readCount = 0;
 document.querySelectorAll('[data-article]').forEach(card => {

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ログイン - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.input-field { width: 100%; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 14px; color: #0f172a; background: #fff; transition: border-color .15s }
+.input-field:focus { outline: none; border-color: #0f172a }
+.input-field::placeholder { color: #cbd5e1 }
+.btn-primary { width: 100%; padding: 13px; background: #0f172a; color: white; border-radius: 10px; font-size: 14px; font-weight: 600; transition: opacity .15s }
+.btn-primary:active { opacity: .85 }
+.btn-primary:disabled { background: #cbd5e1; cursor: not-allowed }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+<div class="min-h-screen flex flex-col px-5 py-10">
+
+  <!-- LOGO -->
+  <div class="text-center mb-8 fade-up">
+    <div class="inline-flex items-center gap-2 mb-2">
+      <div class="w-9 h-9 rounded-xl bg-black flex items-center justify-center">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <span class="font-bold text-[18px] tracking-tight font-heading">STEP NAVI</span>
+    </div>
+    <p class="text-[12px] text-slate-400">あなたのキャリアを、一歩前へ。</p>
+  </div>
+
+  <!-- CARD -->
+  <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 fade-up">
+    <h1 class="text-[18px] font-bold mb-1">ログイン</h1>
+    <p class="text-[12px] text-slate-400 mb-6">アカウントにログインして学習を続けよう</p>
+
+    <form id="login-form" class="space-y-4">
+      <div>
+        <label class="block text-[12px] font-semibold text-slate-700 mb-1.5">メールアドレス</label>
+        <input type="email" id="email" required class="input-field" placeholder="example@email.com" autocomplete="email">
+      </div>
+
+      <div>
+        <label class="block text-[12px] font-semibold text-slate-700 mb-1.5">パスワード</label>
+        <input type="password" id="password" required class="input-field" placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <div id="error-msg" class="hidden text-[11px] text-red-500 -mt-2"></div>
+
+      <button type="submit" class="btn-primary mt-2">ログイン</button>
+    </form>
+
+    <div class="text-center mt-5">
+      <a href="#" class="text-[11px] text-slate-400 hover:text-slate-600">パスワードを忘れた方はこちら</a>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="text-center mt-6 fade-up">
+    <p class="text-[12px] text-slate-500 mb-2">アカウントをお持ちでない方</p>
+    <a href="register.html" class="inline-block px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-semibold text-slate-700">新規登録はこちら</a>
+  </div>
+
+  <!-- GUEST -->
+  <div class="text-center mt-8 fade-up">
+    <a href="../index.html" class="text-[11px] text-slate-400 underline">ログインせずに見る</a>
+  </div>
+
+</div>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// 簡易ログイン処理（LocalStorageベース）
+document.getElementById('login-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const errEl = document.getElementById('error-msg');
+
+  const users = JSON.parse(localStorage.getItem('stepnavi_users') || '[]');
+  const user = users.find(u => u.email === email && u.password === password);
+
+  if (!user) {
+    errEl.textContent = 'メールアドレスまたはパスワードが正しくありません';
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  // セッション保存
+  localStorage.setItem('stepnavi_session', JSON.stringify({
+    email: user.email,
+    nickname: user.nickname,
+    loginAt: new Date().toISOString()
+  }));
+
+  window.location.href = 'mypage.html';
+});
+</script>
+</body>
+</html>
