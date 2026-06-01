@@ -9,6 +9,5 @@
  * 空文字のままなら送信はスキップされ、LocalStorage 保存のみ実行されます。
  */
 window.STEPNAVI_CONFIG = {
-  // 例: 'https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxxxx/exec'
-  SHEETS_ENDPOINT: ''
+  SHEETS_ENDPOINT: 'https://script.google.com/macros/s/AKfycbwzYELMmJGF9pGBfs68rDJJXyOkDAmYtuR2SUvQKferJHXFWzbY3tTKOUj2UH2A4i19/exec'
 };
