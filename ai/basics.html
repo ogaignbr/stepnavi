@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ChatGPTって何？5分でわかるAI入門 - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+.article-body h2 { font-size: 14px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid #0f172a }
+.article-body h3 { font-size: 13px; font-weight: 600; margin-top: 16px; margin-bottom: 6px; color: #1e293b }
+.article-body p { margin-bottom: 14px; font-size: 13px; line-height: 2; color: #64748b }
+.tip-box { background: #f8fafc; border-left: 2px solid #cbd5e1; padding: 12px 14px; margin: 16px 0 }
+.tip-box p { margin: 0; color: #475569; font-size: 12px; line-height: 1.8 }
+</style>
+</head>
+<body class="bg-white text-slate-900 pb-16">
+
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+  <div class="max-w-lg mx-auto h-12 px-4 flex items-center gap-3">
+    <a href="index.html" class="flex items-center justify-center w-8 h-8 rounded-lg">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-400"></i>
+    </a>
+    <span class="text-[13px] text-slate-400 truncate">AI活用入門</span>
+  </div>
+</header>
+
+<section class="max-w-lg mx-auto px-5 pt-6 pb-4">
+  <div class="fade-up">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600">入門</span>
+      <span class="text-[10px] text-slate-300">5分</span>
+    </div>
+    <h1 class="text-[18px] font-bold leading-tight mb-3">ChatGPTって何？<br>5分でわかるAI入門</h1>
+    <div class="p-4 bg-slate-50 rounded-xl">
+      <p class="text-[12px] leading-[1.8] text-slate-500 m-0">「AI」「ChatGPT」とよく聞くけど、実際何ができるの？難しい専門用語なしで、わかりやすく解説します。</p>
+    </div>
+  </div>
+</section>
+
+<article class="max-w-lg mx-auto px-5 article-body fade-up">
+
+  <h2>ChatGPTを一言で言うと？</h2>
+  <p>ChatGPTは「質問すると、人間のように文章で答えてくれるAI」です。OpenAI社が開発し、2022年末に公開されて以来、世界中で使われています。</p>
+  <p>イメージとしては「とても物知りで、文章を書くのが上手な相談相手」。メール作成、アイデア出し、文章の要約、調べもの——あらゆる言葉を使う仕事を手伝ってくれます。</p>
+
+  <h2>何ができるの？</h2>
+
+  <div class="grid grid-cols-2 gap-3 my-4">
+    <div class="p-4 rounded-xl bg-slate-50">
+      <h4 class="text-[11px] font-semibold text-slate-700 mb-2">できること</h4>
+      <p class="text-[12px] leading-[1.8] text-slate-500 !mb-0">・文章作成・添削<br>・アイデア出し<br>・要約・翻訳<br>・質問への回答<br>・メール文面作成<br>・学習のサポート</p>
+    </div>
+    <div class="p-4 rounded-xl bg-red-50/50">
+      <h4 class="text-[11px] font-semibold text-red-400 mb-2">苦手なこと</h4>
+      <p class="text-[12px] leading-[1.8] text-slate-500 !mb-0">・最新ニュース<br>・計算（複雑なもの）<br>・個人情報の検索<br>・100%正確な回答<br>・画像の中身を読む<br>・感情の理解</p>
+    </div>
+  </div>
+
+  <h2>どうやって使うの？</h2>
+  <p>使い方はとてもシンプルです。</p>
+  <p><strong>①</strong> chat.openai.com にアクセス（無料アカウント登録）</p>
+  <p><strong>②</strong> 画面下の入力欄に質問や指示を入力</p>
+  <p><strong>③</strong> AIが回答を生成してくれる</p>
+  <p>スマートフォンからでも使えます。LINEでメッセージを送る感覚に近いです。</p>
+
+  <div class="tip-box">
+    <p><strong>まずはこれを試してみよう:</strong>「自己PRを考えてください。事務職に応募する25歳です。」と入力してみてください。AIがすぐに文案を作ってくれます。</p>
+  </div>
+
+  <h2>AIに話しかけるコツ</h2>
+  <p>AIに質問することを「プロンプト」と言います。良い回答を得るコツは「具体的に指示する」ことです。</p>
+
+  <h3>悪い例</h3>
+  <p>「メールを書いて」→ 何のメール？誰に？目的は？ AIも困ってしまいます。</p>
+
+  <h3>良い例</h3>
+  <p>「面接のお礼メールを書いてください。株式会社○○の田中さん宛てです。本日面接を受けました。丁寧で短めの文章でお願いします。」</p>
+  <p>このように「誰に・何を・どんなトーンで」を伝えると、ぐっと良い回答が返ってきます。</p>
+
+  <h2>注意すること</h2>
+  <p><strong>① 情報は必ず確認する</strong> — AIは時々間違った情報を自信満々に答えることがあります（これを「ハルシネーション」と言います）。重要な情報は必ず自分で確認しましょう。</p>
+  <p><strong>② 個人情報を入力しない</strong> — 電話番号、住所、マイナンバーなどの個人情報は入力しないようにしましょう。</p>
+  <p><strong>③ あくまで「道具」として使う</strong> — AIの回答をそのまま提出するのではなく、自分で読んで修正・調整して使いましょう。</p>
+
+  <div class="p-4 bg-slate-50 rounded-xl mb-6 mt-7">
+    <h3 class="font-bold text-[13px] mb-2 text-slate-800">まとめ</h3>
+    <p class="text-[12px] text-slate-500 leading-[1.8] mb-0">ChatGPTは「文章を書く仕事を手伝ってくれるAI」。無料で使え、メール作成や面接準備に活用できます。まずは一度、気軽に話しかけてみましょう。</p>
+  </div>
+
+</article>
+
+<section class="max-w-lg mx-auto px-5 mb-5">
+  <a href="job-search.html" class="block border border-slate-100 rounded-xl px-4 py-3.5">
+    <span class="text-[10px] text-slate-300">次の記事</span>
+    <div class="flex items-center justify-between mt-1">
+      <span class="font-bold text-[13px]">仕事探しにAIを使う3つの方法</span>
+      <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+    </div>
+  </a>
+</section>
+
+<section class="max-w-lg mx-auto px-5 mb-6">
+  <div class="border border-slate-100 rounded-xl p-4 flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[12px] text-slate-500 leading-relaxed">AIの使い方で分からないことがあればLINEで質問できます</p>
+  </div>
+</section>
+
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="max-w-lg mx-auto h-12 flex items-center justify-around">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 px-3 py-1 text-slate-300"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[10px]">ホーム</span></a>
+    <a href="../manners/index.html" class="flex flex-col items-center gap-0.5 px-3 py-1 text-slate-300"><i data-lucide="briefcase" class="w-5 h-5"></i><span class="text-[10px]">マナー</span></a>
+    <a href="../certification/index.html" class="flex flex-col items-center gap-0.5 px-3 py-1 text-slate-300"><i data-lucide="award" class="w-5 h-5"></i><span class="text-[10px]">資格</span></a>
+    <a href="../ai/index.html" class="flex flex-col items-center gap-0.5 px-3 py-1 text-slate-900"><i data-lucide="sparkles" class="w-5 h-5"></i><span class="text-[10px] font-medium">AI</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+const STORAGE_KEY = 'stepnavi_read';
+const ARTICLE_ID = 'ai-basics';
+const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(STORAGE_KEY, JSON.stringify(read)); }
+</script>
+</body>
+</html>

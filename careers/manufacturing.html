@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>製造オペレーター - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+.article-body h2 { font-size: 14px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid #0f172a }
+.article-body p { font-size: 13px; line-height: 2; color: #64748b; margin-bottom: 14px }
+.info-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 14px 0 }
+.info-table th { background: #f8fafc; padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid #f1f5f9; color: #334155; white-space: nowrap; vertical-align: top }
+.info-table td { padding: 8px 12px; border: 1px solid #f1f5f9; color: #64748b }
+</style>
+</head>
+<body class="bg-white text-slate-900 pb-16">
+
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400">職種図鑑</span>
+  </div>
+</header>
+
+<section class="px-5 pt-6 pb-2 fade-up">
+  <div class="flex items-center gap-2 mb-2">
+    <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">製造系</span>
+    <span class="text-[10px] text-slate-300">5分</span>
+  </div>
+  <h1 class="text-[18px] font-bold leading-tight">製造オペレーター</h1>
+  <p class="text-[12px] text-slate-400 mt-2">工場の機械操作や組立を担当する仕事。未経験OKでシフト勤務でも安定収入が見込めます。</p>
+</section>
+
+<div class="mx-5 my-4 border-b border-slate-100"></div>
+
+<article class="px-5 article-body fade-up">
+
+  <table class="info-table">
+    <tr><th>仕事内容</th><td>工場の機械操作・組立・検査</td></tr>
+    <tr><th>向いてる人</th><td>モノづくり好き、集中力ある、手先器用</td></tr>
+    <tr><th>必要なスキル</th><td>機械操作、品質意識</td></tr>
+    <tr><th>関連資格</th><td>フォークリフト、危険物</td></tr>
+    <tr><th>平均年収</th><td>300〜500万円</td></tr>
+    <tr><th>未経験OK度</th><td>★★★★★</td></tr>
+    <tr><th>AI時代の展望</th><td>自動化進むが、複雑な工程は人間が必要、熟練工は重宝</td></tr>
+  </table>
+
+  <h2>どんな仕事？</h2>
+  <p>製造オペレーターは、工場のラインで機械を操作したり、製品を組み立てたり、品質を検査したりする仕事です。扱う製品は自動車部品、食品、電子機器、化学品など業界によって多種多様です。</p>
+  <p>2交代・3交代のシフト勤務が一般的で、夜勤手当などで収入を底上げできます。決まった作業を正確に繰り返す力が求められるため、コツコツ型の方に向いています。</p>
+  <p>未経験者の受け入れが盛んで、寮付き・赴任費支給などの福利厚生が充実した求人も多くあります。</p>
+
+  <h2>1日の流れ（例）</h2>
+  <p><strong>朝</strong> — 出勤、朝礼、安全確認、ラインスタート<br><strong>午前</strong> — 機械操作、製品の組立・検査<br><strong>昼食後</strong> — 作業再開、不良品対応、機械の調整<br><strong>夕方</strong> — 清掃、生産数の記録、引き継ぎ</p>
+
+  <h2>やりがい</h2>
+  <p>自分が手掛けた製品が世の中に出回る達成感。チームで連携してラインを動かす一体感や、技術を磨いて熟練工になる成長実感もあります。</p>
+
+  <h2>大変なこと</h2>
+  <p>立ち仕事や反復作業で身体的な疲労が溜まりがち。夜勤を含む不規則な勤務は生活リズムを整える工夫が必要です。単調さに飽きる人もいます。</p>
+
+  <h2>キャリアパス</h2>
+  <p>未経験 → 一般作業員 → リーダー → 班長・主任 → 工場の管理職、というキャリア。資格（フォークリフト、危険物、品質管理検定）を取れば任される範囲が広がります。</p>
+
+  <h2>AI時代の展望</h2>
+  <p>ロボットや自動化設備による省力化が進んでいますが、複雑な工程や少量多品種生産では人間の判断が必要です。熟練オペレーターは「機械を動かす側」「品質を守る側」として重宝され続けます。</p>
+
+  <h2>始め方</h2>
+  <p>求人サイトや工場専門サイト（工場ワークス等）で「製造 未経験」で検索。期間工なら短期で稼げる選択肢もあります。寮付きの大手メーカーは生活コストを抑えやすくおすすめ。</p>
+
+  <div class="p-4 bg-slate-50 rounded-xl mt-7 mb-6">
+    <p class="text-[12px] font-bold text-slate-700 mb-1">まとめ</p>
+    <p class="text-[12px] text-slate-500 leading-relaxed mb-0">製造オペレーターは未経験OK・寮付き求人多数で、地方でも働きやすい職種。コツコツ型の方が腰を据えて長く働けるフィールドです。</p>
+  </div>
+
+</article>
+
+<section class="px-5 mb-4">
+  <a href="logistics.html" class="flex items-center justify-between px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div>
+      <span class="text-[10px] text-slate-300">次の職種</span>
+      <p class="text-[13px] font-bold mt-0.5">運輸・物流</p>
+    </div>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+  </a>
+</section>
+
+<section class="px-5 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">職種の選び方はLINEで個別相談できます</p>
+  </div>
+</section>
+
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../manners/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="briefcase" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">マナー</span></a>
+    <a href="../certification/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="award" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">資格</span></a>
+    <a href="../ai/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="sparkles" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">AI</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+const STORAGE_KEY = 'stepnavi_read';
+const ARTICLE_ID = 'career-manufacturing';
+const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(STORAGE_KEY, JSON.stringify(read)); }
+</script>
+</body>
+</html>

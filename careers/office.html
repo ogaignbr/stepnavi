@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>一般事務 - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+.article-body h2 { font-size: 14px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid #0f172a }
+.article-body p { font-size: 13px; line-height: 2; color: #64748b; margin-bottom: 14px }
+.info-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 14px 0 }
+.info-table th { background: #f8fafc; padding: 8px 12px; text-align: left; font-weight: 600; border: 1px solid #f1f5f9; color: #334155; white-space: nowrap; vertical-align: top }
+.info-table td { padding: 8px 12px; border: 1px solid #f1f5f9; color: #64748b }
+</style>
+</head>
+<body class="bg-white text-slate-900 pb-16">
+
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400">職種図鑑</span>
+  </div>
+</header>
+
+<section class="px-5 pt-6 pb-2 fade-up">
+  <div class="flex items-center gap-2 mb-2">
+    <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">事務系</span>
+    <span class="text-[10px] text-slate-300">5分</span>
+  </div>
+  <h1 class="text-[18px] font-bold leading-tight">一般事務</h1>
+  <p class="text-[12px] text-slate-400 mt-2">未経験から始められる定番職種。書類作成・データ入力・電話応対が中心で、安定志向の方に人気です。</p>
+</section>
+
+<div class="mx-5 my-4 border-b border-slate-100"></div>
+
+<article class="px-5 article-body fade-up">
+
+  <table class="info-table">
+    <tr><th>仕事内容</th><td>書類作成・データ入力・電話応対が中心</td></tr>
+    <tr><th>向いてる人</th><td>几帳面、コツコツ作業好き、人と話せる</td></tr>
+    <tr><th>必要なスキル</th><td>Excel、Word、丁寧な対応</td></tr>
+    <tr><th>関連資格</th><td>MOS、簿記3級</td></tr>
+    <tr><th>平均年収</th><td>250〜400万円</td></tr>
+    <tr><th>未経験OK度</th><td>★★★★★</td></tr>
+    <tr><th>AI時代の展望</th><td>AI活用で進化中、対応力ある事務は需要継続</td></tr>
+  </table>
+
+  <h2>どんな仕事？</h2>
+  <p>一般事務は、会社運営を裏側から支える役割です。書類作成、データ入力、ファイリング、電話・来客応対、備品管理など、業務範囲は幅広く、配属される部署によって内容は変わります。</p>
+  <p>定型業務が多いため、決まった手順を正確にこなすことが評価されます。営業事務や経理事務、人事事務など、専門分野に特化したポジションもあり、経験を積むとキャリアの幅が広がります。</p>
+  <p>女性比率が高めの職種で、ライフイベントとの両立がしやすい点も人気の理由です。</p>
+
+  <h2>1日の流れ（例）</h2>
+  <p><strong>朝</strong> — メールチェック、その日のタスク整理、電話応対の準備<br><strong>昼前</strong> — 書類作成、データ入力、来客応対<br><strong>昼食後</strong> — 経費精算、ファイリング、社内便対応<br><strong>夕方</strong> — 翌日の準備、デスク整理、退勤</p>
+
+  <h2>やりがい</h2>
+  <p>「ありがとう」と感謝される機会が多く、社内のハブとして頼られる存在になれます。地道な作業の積み重ねが組織を支えている実感を持てる仕事です。</p>
+
+  <h2>大変なこと</h2>
+  <p>突発的な依頼が重なるとマルチタスクで混乱しがちです。また、地味で目立たない仕事のため、自分から成果をアピールしないと評価されにくい面もあります。</p>
+
+  <h2>キャリアパス</h2>
+  <p>未経験 → 一般事務 → 専門事務（経理・人事・総務）→ 主任・チームリーダー、というのが一般的な流れ。簿記やMOSなど資格取得で、より専門性の高いポジションへ移れます。</p>
+
+  <h2>AI時代の展望</h2>
+  <p>定型的な書類処理やデータ入力はAI・RPAでの自動化が進みます。一方で、電話応対や社内調整など、人間ならではの柔軟な対応が求められる業務は残り続けます。AIツールを使いこなせる事務員は、むしろ価値が高まる時代です。</p>
+
+  <h2>始め方</h2>
+  <p>求人サイト（リクナビ、マイナビ、Indeed等）で「一般事務 未経験OK」で検索すると多数ヒットします。派遣やパートから始めて正社員を目指すルートも一般的。MOSや簿記3級を取得しておくと選考で有利になります。</p>
+
+  <div class="p-4 bg-slate-50 rounded-xl mt-7 mb-6">
+    <p class="text-[12px] font-bold text-slate-700 mb-1">まとめ</p>
+    <p class="text-[12px] text-slate-500 leading-relaxed mb-0">一般事務は未経験から入りやすく、安定して長く働ける定番職種。AI時代に対応するため、ExcelやAIツールのスキルを磨くと将来性も広がります。</p>
+  </div>
+
+</article>
+
+<section class="px-5 mb-4">
+  <a href="sales.html" class="flex items-center justify-between px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div>
+      <span class="text-[10px] text-slate-300">次の職種</span>
+      <p class="text-[13px] font-bold mt-0.5">営業職</p>
+    </div>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+  </a>
+</section>
+
+<section class="px-5 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">職種の選び方はLINEで個別相談できます</p>
+  </div>
+</section>
+
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../manners/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="briefcase" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">マナー</span></a>
+    <a href="../certification/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="award" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">資格</span></a>
+    <a href="../ai/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="sparkles" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">AI</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+const STORAGE_KEY = 'stepnavi_read';
+const ARTICLE_ID = 'career-office';
+const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(STORAGE_KEY, JSON.stringify(read)); }
+</script>
+</body>
+</html>

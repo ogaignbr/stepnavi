@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>面接で好印象を残す5つの基本 - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+.article-body h2 { font-size: 14px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid #0f172a }
+.article-body p { margin-bottom: 14px; font-size: 13px; line-height: 2; color: #64748b }
+.tip-box { background: #f8fafc; border-left: 2px solid #cbd5e1; border-radius: 0; padding: 12px 14px; margin: 16px 0 }
+.tip-box p { margin: 0; color: #475569; font-size: 12px; line-height: 1.8 }
+.check-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; font-size: 13px; color: #334155; border-bottom: 1px solid #f1f5f9 }
+.check-item:last-child { border-bottom: none }
+.check-item::before { content: ''; display: block; width: 16px; height: 16px; min-width: 16px; margin-top: 2px; border-radius: 3px; border: 1.5px solid #cbd5e1 }
+</style>
+</head>
+<body class="bg-white text-slate-900 pb-16">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400 truncate">ビジネスマナー</span>
+  </div>
+</header>
+
+<!-- ARTICLE HEADER -->
+<section class="px-5 pt-6 pb-2 fade-up">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">入門</span>
+    <span class="text-[10px] text-slate-300">5分で読める</span>
+  </div>
+  <h1 class="text-[18px] font-bold leading-[1.5]">面接で好印象を残す5つの基本</h1>
+  <p class="text-[12px] text-slate-400 mt-2 leading-[1.8]">第一印象は最初の7秒で決まると言われています。ここでは、面接で好印象を残すための5つのポイントを紹介します。</p>
+</section>
+
+<div class="mx-5 my-4 border-b border-slate-100"></div>
+
+<!-- ARTICLE BODY -->
+<article class="px-5 article-body fade-up">
+
+  <h2>1. 第一印象は「清潔感」で決まる</h2>
+  <p>面接官が最初に見るのは、あなたの見た目の清潔感です。高い服を着る必要はありません。シワのないシャツ、磨いた靴、整えた髪型。この3つだけで印象は大きく変わります。</p>
+
+  <div class="tip-box">
+    <p><strong>ポイント:</strong> 前日の夜に服を準備し、鏡の前で全身をチェックしましょう。</p>
+  </div>
+
+  <h2>2. 挨拶は「笑顔 + はっきり」</h2>
+  <p>「本日はお時間いただきありがとうございます」——この一言を、笑顔ではっきり言えるだけで合格ラインに近づきます。</p>
+  <p>緊張して声が小さくなりがちですが、普段の1.2倍の声量を意識してみてください。</p>
+
+  <h2>3. 姿勢で「やる気」を伝える</h2>
+  <p>背筋を伸ばし、椅子に浅めに座ること。猫背やふんぞり返りは、無意識に「やる気がない」と判断されてしまいます。</p>
+
+  <div class="tip-box">
+    <p><strong>ポイント:</strong> 椅子の背もたれには寄りかからず、背筋をまっすぐに保ちましょう。</p>
+  </div>
+
+  <h2>4. 目線は「三角形」を意識</h2>
+  <p>面接官の目をじっと見つめ続けると威圧感が出てしまいます。「両目と鼻」の三角形のあたりを見るようにすると、自然なアイコンタクトになります。</p>
+
+  <h2>5. 締めの言葉で差をつける</h2>
+  <p>面接の最後に「本日はありがとうございました。御社で働けることを楽しみにしています」と前向きな言葉を添えましょう。</p>
+
+  <!-- CHECKLIST -->
+  <div class="mt-6 mb-5 p-4 bg-slate-50 rounded-xl">
+    <p class="font-bold text-[12px] mb-3 text-slate-700">面接前チェックリスト</p>
+    <div class="check-item">服にシワがないか確認した</div>
+    <div class="check-item">靴を磨いた / きれいな靴を準備した</div>
+    <div class="check-item">挨拶のセリフを声に出して練習した</div>
+    <div class="check-item">姿勢を意識して座る練習をした</div>
+    <div class="check-item">面接会場への道順を確認した</div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="p-4 bg-slate-50 rounded-xl mb-5">
+    <p class="font-bold text-[12px] mb-2 text-slate-700">まとめ</p>
+    <p class="text-[12px] text-slate-500 leading-[1.8] mb-0">面接の好印象は「清潔感・挨拶・姿勢・目線・締めの言葉」の5つで作れます。完璧を目指さず、一つずつ意識してみましょう。</p>
+  </div>
+
+</article>
+
+<!-- NEXT ARTICLE -->
+<section class="px-5 mb-5">
+  <a href="email.html" class="flex items-center justify-between px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div>
+      <p class="text-[10px] text-slate-300 mb-0.5">次の記事</p>
+      <p class="font-semibold text-[13px]">ビジネスメールの書き方入門</p>
+    </div>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+  </a>
+</section>
+
+<!-- LINE CTA -->
+<section class="px-5 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">面接が不安な方は、LINEでアドバイザーに相談できます</p>
+  </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../manners/index.html" class="flex flex-col items-center gap-0.5 text-slate-900"><i data-lucide="briefcase" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">マナー</span></a>
+    <a href="../certification/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="award" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">資格</span></a>
+    <a href="../ai/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="sparkles" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">AI</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+const STORAGE_KEY = 'stepnavi_read';
+const ARTICLE_ID = 'manners-interview';
+const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(STORAGE_KEY, JSON.stringify(read)); }
+</script>
+</body>
+</html>

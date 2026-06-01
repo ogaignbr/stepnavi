@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>自己分析プロンプト - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+.copy-btn { transition: background .2s ease }
+.copy-btn:active { opacity: .85 }
+</style>
+</head>
+<body class="bg-white text-slate-900 pb-16">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400 truncate">プロンプト集</span>
+  </div>
+</header>
+
+<!-- ARTICLE HEADER -->
+<section class="px-5 pt-6 pb-2 fade-up">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">実用</span>
+    <span class="text-[10px] text-slate-300">5プロンプト</span>
+  </div>
+  <h1 class="text-[18px] font-bold leading-[1.5]">自己分析プロンプト</h1>
+  <p class="text-[12px] text-slate-400 mt-2 leading-[1.8]">自分の強み・価値観・キャリア軸を整理するためのAIプロンプト集です。ChatGPTなどに貼り付けて、空欄を埋めて使ってください。</p>
+</section>
+
+<div class="mx-5 my-4 border-b border-slate-100"></div>
+
+<!-- PROMPT CARDS -->
+<section class="px-5 fade-up">
+
+  <div class="prompt-card bg-white border border-slate-100 rounded-xl p-4 mb-3">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex-1 min-w-0 pr-3">
+        <p class="font-bold text-[13px] mb-1">自分の強みを引き出す</p>
+        <p class="text-[11px] text-slate-400 leading-[1.6]">過去の経験から自分でも気づいていない強みを5つ抽出してもらえます。</p>
+      </div>
+    </div>
+    <div class="bg-slate-50 rounded-lg p-3 text-[12px] leading-[1.9] text-slate-600 mb-3" style="white-space: pre-wrap; word-break: break-word;">以下の経験から、私の強みを5つ挙げてください。それぞれ具体例も添えてください。
+
+【経験】
+〜</div>
+    <button class="copy-btn flex items-center justify-center gap-1.5 w-full py-2 bg-slate-900 text-white rounded-lg text-[12px] font-semibold" data-prompt="以下の経験から、私の強みを5つ挙げてください。それぞれ具体例も添えてください。&#10;&#10;【経験】&#10;〜">
+      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+      <span>プロンプトをコピー</span>
+    </button>
+  </div>
+
+  <div class="prompt-card bg-white border border-slate-100 rounded-xl p-4 mb-3">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex-1 min-w-0 pr-3">
+        <p class="font-bold text-[13px] mb-1">キャリアの価値観を明確にする</p>
+        <p class="text-[11px] text-slate-400 leading-[1.6]">仕事で何を大切にしているかが言語化され、軸ブレを防げます。</p>
+      </div>
+    </div>
+    <div class="bg-slate-50 rounded-lg p-3 text-[12px] leading-[1.9] text-slate-600 mb-3" style="white-space: pre-wrap; word-break: break-word;">以下の質問に答えました。私が仕事で大切にしている価値観を3つに整理してください。
+
+Q1. これまでで一番やりがいを感じた仕事は？
+A. 〜
+
+Q2. 逆にストレスを感じた仕事は？
+A. 〜
+
+Q3. 5年後どう働いていたい？
+A. 〜</div>
+    <button class="copy-btn flex items-center justify-center gap-1.5 w-full py-2 bg-slate-900 text-white rounded-lg text-[12px] font-semibold" data-prompt="以下の質問に答えました。私が仕事で大切にしている価値観を3つに整理してください。&#10;&#10;Q1. これまでで一番やりがいを感じた仕事は？&#10;A. 〜&#10;&#10;Q2. 逆にストレスを感じた仕事は？&#10;A. 〜&#10;&#10;Q3. 5年後どう働いていたい？&#10;A. 〜">
+      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+      <span>プロンプトをコピー</span>
+    </button>
+  </div>
+
+  <div class="prompt-card bg-white border border-slate-100 rounded-xl p-4 mb-3">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex-1 min-w-0 pr-3">
+        <p class="font-bold text-[13px] mb-1">30秒の自己紹介を作る</p>
+        <p class="text-[11px] text-slate-400 leading-[1.6]">面接の冒頭でそのまま使える、短くて印象に残る自己紹介を作成。</p>
+      </div>
+    </div>
+    <div class="bg-slate-50 rounded-lg p-3 text-[12px] leading-[1.9] text-slate-600 mb-3" style="white-space: pre-wrap; word-break: break-word;">以下の情報から、面接で使える30秒の自己紹介を作ってください。
+
+【名前】〜
+【経歴】〜
+【強み】〜
+【応募職種】〜
+【トーン】落ち着いた・前向き</div>
+    <button class="copy-btn flex items-center justify-center gap-1.5 w-full py-2 bg-slate-900 text-white rounded-lg text-[12px] font-semibold" data-prompt="以下の情報から、面接で使える30秒の自己紹介を作ってください。&#10;&#10;【名前】〜&#10;【経歴】〜&#10;【強み】〜&#10;【応募職種】〜&#10;【トーン】落ち着いた・前向き">
+      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+      <span>プロンプトをコピー</span>
+    </button>
+  </div>
+
+  <div class="prompt-card bg-white border border-slate-100 rounded-xl p-4 mb-3">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex-1 min-w-0 pr-3">
+        <p class="font-bold text-[13px] mb-1">3年後の理想像を描く</p>
+        <p class="text-[11px] text-slate-400 leading-[1.6]">将来像をパターン化して比較することで、進むべき方向が見えます。</p>
+      </div>
+    </div>
+    <div class="bg-slate-50 rounded-lg p-3 text-[12px] leading-[1.9] text-slate-600 mb-3" style="white-space: pre-wrap; word-break: break-word;">私の現状と希望は以下です。3年後の理想の働き方を3パターン提案してください。それぞれにメリット・課題・必要なアクションを添えてください。
+
+【現状】〜
+【希望】〜
+【避けたいこと】〜</div>
+    <button class="copy-btn flex items-center justify-center gap-1.5 w-full py-2 bg-slate-900 text-white rounded-lg text-[12px] font-semibold" data-prompt="私の現状と希望は以下です。3年後の理想の働き方を3パターン提案してください。それぞれにメリット・課題・必要なアクションを添えてください。&#10;&#10;【現状】〜&#10;【希望】〜&#10;【避けたいこと】〜">
+      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+      <span>プロンプトをコピー</span>
+    </button>
+  </div>
+
+  <div class="prompt-card bg-white border border-slate-100 rounded-xl p-4 mb-3">
+    <div class="flex items-start justify-between mb-2">
+      <div class="flex-1 min-w-0 pr-3">
+        <p class="font-bold text-[13px] mb-1">キャリアの棚卸し</p>
+        <p class="text-[11px] text-slate-400 leading-[1.6]">これまでの経験を表形式で整理し、職務経歴書の下地にも使えます。</p>
+      </div>
+    </div>
+    <div class="bg-slate-50 rounded-lg p-3 text-[12px] leading-[1.9] text-slate-600 mb-3" style="white-space: pre-wrap; word-break: break-word;">これまでの職歴を整理します。各仕事で得たスキルと学びを表形式でまとめてください。表の列は「期間 / 会社・職種 / 主な業務 / 得たスキル / 学び」でお願いします。
+
+【職歴】
+〜</div>
+    <button class="copy-btn flex items-center justify-center gap-1.5 w-full py-2 bg-slate-900 text-white rounded-lg text-[12px] font-semibold" data-prompt="これまでの職歴を整理します。各仕事で得たスキルと学びを表形式でまとめてください。表の列は「期間 / 会社・職種 / 主な業務 / 得たスキル / 学び」でお願いします。&#10;&#10;【職歴】&#10;〜">
+      <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+      <span>プロンプトをコピー</span>
+    </button>
+  </div>
+
+</section>
+
+<!-- LINE CTA -->
+<section class="px-5 mt-6 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">プロンプトの使い方相談はLINEからどうぞ</p>
+  </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../manners/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="briefcase" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">マナー</span></a>
+    <a href="../certification/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="award" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">資格</span></a>
+    <a href="../ai/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="sparkles" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">AI</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+const STORAGE_KEY = 'stepnavi_read';
+const ARTICLE_ID = 'prompts-self-analysis';
+const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(STORAGE_KEY, JSON.stringify(read)); }
+
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const text = btn.dataset.prompt;
+    try {
+      await navigator.clipboard.writeText(text);
+      const original = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5"></i><span>コピーしました</span>';
+      btn.classList.remove('bg-slate-900');
+      btn.classList.add('bg-emerald-600');
+      lucide.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.classList.remove('bg-emerald-600');
+        btn.classList.add('bg-slate-900');
+        lucide.createIcons();
+      }, 1800);
+    } catch(e) { alert('コピーに失敗しました'); }
+  });
+});
+</script>
+</body>
+</html>

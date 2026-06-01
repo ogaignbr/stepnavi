@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ビジネスメールの書き方入門 - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+.article-body h2 { font-size: 14px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid #0f172a }
+.article-body p { font-size: 13px; line-height: 2; color: #64748b; margin-bottom: 14px }
+.tip-box { background: #f8fafc; border-left: 2px solid #cbd5e1; padding: 12px 14px; margin: 14px 0 }
+.tip-box p { margin-bottom: 0; color: #64748b; font-size: 13px; line-height: 2 }
+.template-box { background: #f8fafc; border-radius: 12px; padding: 16px; font-family: monospace; font-size: 12px; line-height: 1.8; color: #475569; white-space: pre-line; margin: 14px 0 }
+</style>
+</head>
+<body class="bg-white text-slate-900 pb-16">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400">ビジネスマナー</span>
+  </div>
+</header>
+
+<!-- ARTICLE TITLE -->
+<section class="px-5 pt-6 pb-2 fade-up">
+  <div class="flex items-center gap-2 mb-2">
+    <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">入門</span>
+    <span class="text-[10px] text-slate-300">7分</span>
+  </div>
+  <h1 class="text-[18px] font-bold leading-tight">ビジネスメールの書き方入門</h1>
+  <p class="text-[12px] text-slate-400 mt-2">ビジネスメールには「型」があります。この型を覚えれば、誰でもすぐにプロフェッショナルなメールが書けるようになります。</p>
+</section>
+
+<!-- DIVIDER -->
+<div class="mx-5 my-4 border-b border-slate-100"></div>
+
+<!-- ARTICLE BODY -->
+<article class="px-5 article-body fade-up">
+
+  <h2>1. 件名は「用件 + 名前」が鉄則</h2>
+  <p>ビジネスメールの件名は、相手が一目で内容を把握できることが大切です。「お世話になっております」はNG。具体的な用件を書きましょう。</p>
+
+  <div class="tip-box">
+    <p><strong>良い例:</strong>「面接日程のご確認（山田太郎）」「書類送付のお願い（山田太郎）」</p>
+  </div>
+
+  <h2>2. 宛名の基本ルール</h2>
+  <p>社外向けは「会社名 + 部署名 + 役職 + 氏名 + 様」。社内向けは「部署名 + 氏名 + さん」が基本です。初回は正式名称で、以降は「○○様」で構いません。</p>
+
+  <h2>3. 本文の構成（4ステップ）</h2>
+  <p>ビジネスメールの本文は、以下の4つの要素で構成します。</p>
+
+  <div class="template-box">件名：面接日程のご確認（山田太郎）
+
+株式会社〇〇
+人事部 △△様
+
+お世話になっております。
+山田太郎と申します。
+
+【用件】
+面接の日程につきまして、
+下記の候補日をお送りいたします。
+
+・6月5日（木）10:00〜
+・6月6日（金）14:00〜
+・6月9日（月）11:00〜
+
+ご都合の良い日程を
+お知らせいただけますと幸いです。
+
+【締め】
+お忙しいところ恐れ入りますが、
+何卒よろしくお願いいたします。
+
+──────────────
+山田太郎
+TEL: 090-XXXX-XXXX
+Email: taro.yamada@example.com
+──────────────</div>
+
+  <h2>4. 署名を設定しよう</h2>
+  <p>名前・電話番号・メールアドレスを含む署名を事前に作っておきましょう。区切り線で本文と分けるのが一般的です。</p>
+
+  <div class="tip-box">
+    <p><strong>ポイント:</strong> Gmailなら「設定 → 署名」から自動挿入を設定できます。毎回手入力する手間がなくなります。</p>
+  </div>
+
+  <h2>5. 送信前の3つのチェック</h2>
+  <p>送信ボタンを押す前に、必ず以下を確認しましょう。</p>
+  <p>① 宛先（To/CC）が正しいか<br>② 添付ファイルの付け忘れがないか<br>③ 誤字脱字がないか</p>
+
+  <!-- SUMMARY BOX -->
+  <div class="p-4 bg-slate-50 rounded-xl mt-7 mb-6">
+    <p class="text-[12px] font-bold text-slate-700 mb-1">まとめ</p>
+    <p class="text-[12px] text-slate-500 leading-relaxed mb-0">ビジネスメールは「件名・宛名・本文・署名」の4要素で構成されます。テンプレートを保存しておけば、毎回ゼロから書く必要はありません。まずは上のテンプレートをコピーして使ってみましょう。</p>
+  </div>
+
+</article>
+
+<!-- NEXT ARTICLE -->
+<section class="px-5 mb-4">
+  <a href="workplace.html" class="flex items-center justify-between px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div>
+      <span class="text-[10px] text-slate-300">次の記事</span>
+      <p class="text-[13px] font-bold mt-0.5">入社初日から使える職場マナー</p>
+    </div>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+  </a>
+</section>
+
+<!-- LINE CTA -->
+<section class="px-5 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">メール文面の添削もLINEで相談できます</p>
+  </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../manners/index.html" class="flex flex-col items-center gap-0.5 text-slate-900"><i data-lucide="briefcase" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">マナー</span></a>
+    <a href="../certification/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="award" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">資格</span></a>
+    <a href="../ai/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="sparkles" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">AI</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+const STORAGE_KEY = 'stepnavi_read';
+const ARTICLE_ID = 'manners-email';
+const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(STORAGE_KEY, JSON.stringify(read)); }
+</script>
+</body>
+</html>
