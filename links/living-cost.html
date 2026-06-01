@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>生活費見直し - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+.article-body h2 { font-size: 14px; font-weight: 700; margin-top: 28px; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid #0f172a }
+.article-body h3 { font-size: 13px; font-weight: 600; margin-top: 18px; margin-bottom: 6px; color: #1e293b }
+.article-body p { font-size: 13px; line-height: 2; color: #64748b; margin-bottom: 14px }
+.tip-box { background: #f8fafc; border-left: 2px solid #cbd5e1; padding: 12px 14px; margin: 14px 0 }
+.tip-box p { margin-bottom: 0; color: #64748b; font-size: 13px; line-height: 2 }
+</style>
+</head>
+<body class="bg-white text-slate-900 pb-16">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400 truncate">外部リンク</span>
+  </div>
+</header>
+
+<!-- HERO IMAGE -->
+<section class="relative">
+  <img src="../assets/links/living-cost.png" alt="" class="w-full aspect-[16/9] object-cover">
+</section>
+
+<!-- TITLE -->
+<section class="px-5 pt-6 pb-2 fade-up">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">生活費見直し</span>
+  </div>
+  <h1 class="text-[18px] font-bold leading-[1.5]">毎月の固定費、見直してみませんか</h1>
+  <p class="text-[12px] text-slate-400 mt-2 leading-[1.8]">Wi-Fiや電気は、切り替えるだけで毎月の支払いを下げられたり、キャッシュバックを受け取れることがあります。少しの手間で、家計に余裕が生まれます。</p>
+</section>
+
+<div class="mx-5 my-4 border-b border-slate-100"></div>
+
+<!-- BODY -->
+<article class="px-5 article-body fade-up">
+
+  <h2>なぜ「固定費」の見直しが効果的なのか</h2>
+  <p>食費や日用品の節約は毎日の努力が必要ですが、固定費（毎月決まって出ていくお金）は一度見直すだけで継続的に効果が出ます。Wi-Fi・電気・スマホ・保険などが代表例です。</p>
+  <p>特にWi-Fiと電気は、「同じ使い方なのに料金が安くなる」「乗り換えで特典がもらえる」サービスが多く、見直しやすい固定費です。</p>
+
+  <h2>Wi-Fiの見直し</h2>
+
+  <h3>① 料金プランの比較</h3>
+  <p>長年同じ会社を使っていると、知らない間に新プランの方が安くなっていることがあります。光回線・ホームルーター・モバイルWi-Fiなど、自分の使い方に合ったプランを比較してみましょう。</p>
+
+  <h3>② キャッシュバック特典</h3>
+  <p>新規申込みで数万円のキャッシュバックや、工事費無料のキャンペーンを実施している会社が多くあります。乗り換えのタイミングをうまく使えば、お得に切り替えられます。</p>
+
+  <h3>③ スマホとのセット割引</h3>
+  <p>スマホキャリアと同じ会社のWi-Fiを契約すると、スマホ料金が割引になることがあります。「セット割」をチェックしましょう。</p>
+
+  <div class="tip-box">
+    <p><strong>チェックポイント:</strong> 「使う場所」「速度」「データ容量」「契約期間」「解約金」を比較。月額だけでなく総額で見るのが大事です。</p>
+  </div>
+
+  <h2>電気の見直し</h2>
+
+  <h3>① 電力会社の切り替え</h3>
+  <p>2016年の電力自由化以降、自分で電力会社を選べるようになりました。生活スタイル（夜型・昼型・在宅時間）に合うプランを選ぶことで、月の電気代を下げられる場合があります。</p>
+
+  <h3>② 新電力の活用</h3>
+  <p>大手電力会社以外の「新電力」では、契約特典としてポイント還元やキャッシュバックを行っているところもあります。家族構成や使用量に応じて選びましょう。</p>
+
+  <h3>③ ガスとのセット契約</h3>
+  <p>電気とガスを同じ会社にまとめると、セット割引で月数百円〜千円ほど安くなることがあります。</p>
+
+  <div class="tip-box">
+    <p><strong>注意点:</strong> 切り替え時の手数料・解約金の有無、サポート体制も確認しましょう。安さだけで決めず、トータルで判断するのがおすすめです。</p>
+  </div>
+
+  <h2>見直しの進め方</h2>
+  <p><strong>① 今の支払額をチェック</strong> — 検針票やマイページで、月の使用量・料金を把握します。</p>
+  <p><strong>② 比較サイトで候補を絞る</strong> — 価格.com、エネチェンジなどで自分の条件に合うプランを検索。</p>
+  <p><strong>③ 申込み</strong> — Web申込みで完結することが多いです。工事や立ち会いが必要かも確認。</p>
+  <p><strong>④ キャッシュバックの受取</strong> — 後日メールで案内が来るので、見落とさず手続きしましょう。</p>
+
+  <h2>関連サービス（準備中）</h2>
+  <p>当サイトでは、Wi-Fi・電気の見直しに役立つサービスや特典の情報をまとめて準備中です。詳細はLINEからお問い合わせください。</p>
+
+  <div class="p-4 bg-slate-50 rounded-xl mt-7 mb-6">
+    <p class="text-[12px] font-bold text-slate-700 mb-1">まとめ</p>
+    <p class="text-[12px] text-slate-500 leading-relaxed mb-0">毎月の固定費は、一度見直すだけで継続的にお得になります。Wi-Fi・電気は特に乗り換えやすい項目です。具体的なおすすめサービスはLINEでご案内しています。</p>
+  </div>
+
+</article>
+
+<!-- LINE CTA -->
+<section class="px-5 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">おすすめサービスはLINEからご案内します</p>
+  </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
+    <a href="../content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
+    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-900"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">外部リンク</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

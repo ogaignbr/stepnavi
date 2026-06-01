@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>資格取得ガイド - STEP NAVI</title>
+<title>面接対策 - STEP NAVI</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
-tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'] } } } }
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
 </script>
 <style>
 html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
@@ -18,8 +18,6 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
 .fade-up.visible { opacity: 1; transform: none }
 .fade-up.d1 { transition-delay: .08s }
-.fade-up.d2 { transition-delay: .16s }
-.fade-up.d3 { transition-delay: .24s }
 .menu-item { transition: background .15s ease }
 .menu-item:active { background: #f8fafc }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
@@ -33,20 +31,20 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <a href="../index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
       <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
     </a>
-    <h1 class="font-bold text-[15px]">資格取得ガイド</h1>
+    <h1 class="font-bold text-[15px]">面接対策</h1>
   </div>
 </header>
 
 <!-- HERO IMAGE -->
 <section class="relative">
-  <img src="../assets/hero/certification.png" alt="" class="w-full aspect-[16/9] object-cover">
+  <img src="../assets/prompts/iv_practice.png" alt="" class="w-full aspect-[16/9] object-cover">
   <div class="absolute inset-0 flex flex-col justify-end px-5 pb-5"
        style="background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, transparent 100%);">
     <h2 class="text-white font-bold text-[20px] leading-[1.4]" style="text-shadow: 0 2px 8px rgba(0,0,0,0.4);">
-      学んだぶんだけ、選べる未来。
+      面接で自信を、行動に。
     </h2>
     <p class="text-white/90 text-[12px] mt-1" style="text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
-      生成AIパスポート・MOSで就職力アップ
+      面接対策の3点セット
     </p>
   </div>
 </section>
@@ -55,71 +53,54 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <section class="px-5 pt-6 pb-5 border-b border-slate-100 fade-up">
   <div class="flex items-center gap-4">
     <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center flex-shrink-0">
-      <i data-lucide="award" class="w-5 h-5 text-slate-600"></i>
+      <i data-lucide="target" class="w-5 h-5 text-slate-600"></i>
     </div>
     <div class="flex-1">
-      <h2 class="font-bold text-[15px]">資格取得ガイド</h2>
-      <p class="text-[12px] text-slate-400 mt-0.5">生成AIパスポート・MOSで就職力をアップ</p>
+      <h2 class="font-bold text-[15px]">面接対策</h2>
+      <p class="text-[12px] text-slate-400 mt-0.5">本番に強くなるための3つのツール</p>
     </div>
-  </div>
-  <div class="mt-4 flex items-center gap-3">
-    <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-      <div id="progress-bar" class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500" style="width:0%"></div>
-    </div>
-    <span id="progress-text" class="text-[11px] text-slate-400 whitespace-nowrap">0 / 3 読了</span>
   </div>
 </section>
 
-<!-- ARTICLE LIST -->
+<!-- TOOL LIST -->
 <section class="fade-up d1">
   <div class="px-5 pt-5 pb-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">記事一覧</p>
+    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">ツール一覧</p>
   </div>
 
-  <a href="gen-ai-passport.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-gen-ai-passport">
+  <a href="../prompts/interview.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
+    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
+      <i data-lucide="wand-2" class="w-[18px] h-[18px] text-white"></i>
+    </div>
     <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">おすすめ</span>
-        <span class="text-[10px] text-slate-300">8分</span>
-      </div>
-      <p class="font-semibold text-[13px]">生成AIパスポートとは？取得のメリットと勉強法</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">今注目の資格の概要・試験内容・学習プランを解説</p>
+      <p class="font-semibold text-[13px]">面接練習のAIプロンプト</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">ChatGPTで本番さながらの練習ができる</p>
     </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
   </a>
 
-  <a href="gen-ai-roadmap.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-gen-ai-roadmap">
+  <a href="resume.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
+    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
+      <i data-lucide="file-text" class="w-[18px] h-[18px] text-white"></i>
+    </div>
     <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">実践</span>
-        <span class="text-[10px] text-slate-300">10分</span>
-      </div>
-      <p class="font-semibold text-[13px]">生成AIパスポート合格ロードマップ</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">具体的な学習ステップとおすすめ教材で合格を目指そう</p>
+      <p class="font-semibold text-[13px]">履歴書・職務経歴書の書き方</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">テンプレ付きで書類選考を突破</p>
     </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
   </a>
 
-  <a href="mos.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="cert-mos">
+  <a href="interview-checklist.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
+    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
+      <i data-lucide="list-checks" class="w-[18px] h-[18px] text-white"></i>
+    </div>
     <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">入門</span>
-        <span class="text-[10px] text-slate-300">6分</span>
-      </div>
-      <p class="font-semibold text-[13px]">事務職に強いMOS資格の基本ガイド</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">MOSとは何か、どれから受けるべきか、企業の評価を解説</p>
+      <p class="font-semibold text-[13px]">面接チェックリスト</p>
+      <p class="text-[11px] text-slate-400 mt-0.5">前日〜当日の準備をタップで管理</p>
     </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
   </a>
+
 </section>
 
 <!-- LINE CTA -->
@@ -128,7 +109,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
     </div>
-    <p class="text-[11px] text-slate-500">資格学習の相談・教材の詳細はLINEからどうぞ</p>
+    <p class="text-[11px] text-slate-500">面接の不安はLINEで個別相談できます</p>
   </div>
 </section>
 
@@ -136,7 +117,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
   <div class="flex items-center justify-around h-12">
     <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
-    <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
+    <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-900"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
     <a href="../content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
     <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">外部リンク</span></a>
   </div>
@@ -148,16 +129,6 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
 }, { threshold: 0.08 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-const STORAGE_KEY = 'stepnavi_read';
-const articles = ['cert-gen-ai-passport','cert-gen-ai-roadmap','cert-mos'];
-const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-let readCount = 0;
-document.querySelectorAll('[data-article]').forEach(card => {
-  if (read.includes(card.dataset.article)) { readCount++; const b = card.querySelector('.read-badge'); b.classList.remove('hidden'); b.classList.add('text-emerald-500'); }
-});
-document.getElementById('progress-bar').style.width = Math.round((readCount / articles.length) * 100) + '%';
-document.getElementById('progress-text').textContent = readCount + ' / ' + articles.length + ' 読了';
 </script>
 </body>
 </html>
