@@ -54,14 +54,18 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 </header>
 
 <!-- ===== HERO ===== -->
-<section class="px-5 pt-10 pb-6 text-center fade-up">
-  <p class="text-[11px] font-semibold tracking-widest text-slate-400 uppercase mb-5">Free Career Contents</p>
-  <h1 class="text-[22px] font-bold leading-[1.4] mb-4 font-heading">
-    あなたのキャリアを、<br>一歩前へ。
-  </h1>
-  <p class="text-[13px] text-slate-400 leading-relaxed">
-    多様な仕事を知り、スキルを身につけ、<br>あなたに合った道を見つけよう
-  </p>
+<section class="relative overflow-hidden fade-up">
+  <img src="assets/hero/home.png" alt="" class="absolute inset-0 w-full h-full object-cover">
+  <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.62) 45%, rgba(255,255,255,0.85) 100%);"></div>
+  <div class="relative px-5 pt-10 pb-8 text-center">
+    <p class="text-[11px] font-semibold tracking-widest text-slate-500 uppercase mb-4">Free Career Contents</p>
+    <h1 class="text-[23px] font-bold leading-[1.4] mb-3 font-heading text-slate-900" style="text-shadow: 0 1px 12px rgba(255,255,255,0.9);">
+      あなたのキャリアを、<br>一歩前へ。
+    </h1>
+    <p class="text-[13px] text-slate-600 leading-relaxed" style="text-shadow: 0 1px 8px rgba(255,255,255,0.9);">
+      多様な仕事を知り、スキルを身につけ、<br>あなたに合った道を見つけよう
+    </p>
+  </div>
 </section>
 
 <!-- ===== PROGRESS BADGE ===== -->
@@ -82,10 +86,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 <!-- ===== WEEKLY PICK ===== -->
 <section class="px-5 mb-6 fade-up d2">
-  <div class="flex items-center gap-2 mb-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">今週のおすすめ</p>
-    <span class="text-[10px] font-semibold text-slate-900 bg-slate-100 px-1.5 py-0.5 rounded">面接対策</span>
-  </div>
+  <p class="text-[11px] font-semibold text-slate-400 tracking-wider mb-2">面接対策</p>
   <div class="border border-slate-100 rounded-xl overflow-hidden">
 
     <a href="prompts/interview.html" class="menu-item flex items-center px-4 py-4 border-b border-slate-50">
@@ -100,8 +101,8 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </a>
 
     <a href="guides/resume.html" class="menu-item flex items-center px-4 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4 flex-shrink-0">
-        <i data-lucide="file-text" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
+        <i data-lucide="file-text" class="w-[18px] h-[18px] text-white"></i>
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[13px]">履歴書・職務経歴書の書き方</p>
@@ -111,8 +112,8 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </a>
 
     <a href="guides/interview-checklist.html" class="menu-item flex items-center px-4 py-4">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4 flex-shrink-0">
-        <i data-lucide="list-checks" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
+        <i data-lucide="list-checks" class="w-[18px] h-[18px] text-white"></i>
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[13px]">面接チェックリスト</p>
