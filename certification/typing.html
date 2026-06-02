@@ -33,9 +33,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tj-cat { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 14px; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: all .15s }
 .tj-cat:active { transform: scale(0.98) }
 .tj-cat.selected { border-color: #f97316; background: #fff7ed }
-.tj-cat .tj-cat-emoji { font-size: 22px; line-height: 1 }
+.tj-cat .tj-cat-icon { width: 24px; height: 24px; color: #f97316; line-height: 1 }
 .tj-cat .tj-cat-label { font-size: 13px; font-weight: 700; color: #0f172a }
 .tj-cat .tj-cat-desc { font-size: 10.5px; color: #64748b; line-height: 1.5 }
+.tj-cat.selected .tj-cat-icon { color: #ea580c }
 
 /* メインボタン */
 .tj-btn-primary { width: 100%; background: #f97316; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .15s; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25) }
@@ -145,7 +146,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 <!-- HERO -->
 <section class="tj-hero fade-up">
-  <span class="tj-badge">⌨ タイピング測定</span>
+  <span class="tj-badge inline-flex items-center gap-1"><i data-lucide="keyboard" class="w-3 h-3"></i>タイピング測定</span>
   <h1>タイピング・ジョブ</h1>
   <p>全10問のお題を打って、自分のタイピング速度を測ろう。<br>求人票の「1分○文字」と比較できる <b>CPM</b> を表示します。</p>
 </section>
@@ -218,7 +219,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </div>
 
   <div class="tj-best-row">
-    <span class="tj-best-label">🏆 自己ベスト</span>
+    <span class="tj-best-label inline-flex items-center gap-1"><i data-lucide="trophy" class="w-3.5 h-3.5"></i>自己ベスト</span>
     <span class="tj-best-val" id="tj-r-best">— CPM</span>
   </div>
 
@@ -262,7 +263,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   "categories": [
     {
       "id": "email",
-      "emoji": "✉",
+      "icon": "mail",
       "label": "ビジネスメール",
       "desc": "定型句で実務直結",
       "prompts": [
@@ -285,7 +286,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     },
     {
       "id": "pr",
-      "emoji": "📝",
+      "icon": "file-edit",
       "label": "自己PR",
       "desc": "面接でも使える例文",
       "prompts": [
@@ -305,7 +306,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     },
     {
       "id": "phone",
-      "emoji": "📞",
+      "icon": "phone",
       "label": "電話応対",
       "desc": "口頭の決まり文句",
       "prompts": [
@@ -325,7 +326,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     },
     {
       "id": "general",
-      "emoji": "🌿",
+      "icon": "leaf",
       "label": "一般文",
       "desc": "やわらかい文章で練習",
       "prompts": [
@@ -421,7 +422,7 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
       btn.className = 'tj-cat' + (cat.id === selectedCatId ? ' selected' : '');
       btn.dataset.id = cat.id;
       btn.innerHTML = `
-        <span class="tj-cat-emoji">${cat.emoji}</span>
+        <i data-lucide="${cat.icon}" class="tj-cat-icon"></i>
         <span class="tj-cat-label">${cat.label}</span>
         <span class="tj-cat-desc">${cat.desc}</span>
       `;
@@ -432,6 +433,7 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
       });
       catGrid.appendChild(btn);
     });
+    if (window.lucide) lucide.createIcons();
   }
 
   function showBestOnStart() {
@@ -606,8 +608,9 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     rBest.textContent = finalBest + ' CPM';
 
     if (newBest) {
-      rDelta.textContent = '🎉 自己ベスト更新！';
+      rDelta.innerHTML = '<i data-lucide="party-popper" class="w-3.5 h-3.5 inline align-text-bottom"></i> 自己ベスト更新！';
       rDelta.className = 'tj-result-delta new';
+      if (window.lucide) lucide.createIcons();
     } else if (prevBest > 0) {
       const diff = cpm - prevBest;
       if (diff > 0) {

@@ -35,7 +35,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .ec-level-card[data-level="advanced"] { border-color: #f9a8d4 }
 .ec-level-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px }
 .ec-level-title { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: #0f172a }
-.ec-level-title .ec-level-emoji { font-size: 20px; line-height: 1 }
+.ec-level-title .ec-level-icon { width: 22px; height: 22px; flex-shrink: 0 }
+.ec-level-card[data-level="beginner"] .ec-level-icon { color: #10b981 }
+.ec-level-card[data-level="intermediate"] .ec-level-icon { color: #f59e0b }
+.ec-level-card[data-level="advanced"] .ec-level-icon { color: #ec4899 }
 .ec-level-status { font-size: 11px; color: #64748b; font-weight: 600 }
 .ec-level-bar { height: 5px; background: #f1f5f9; border-radius: 999px; overflow: hidden; margin: 8px 0 }
 .ec-level-bar-fill { height: 100%; border-radius: 999px; transition: width .4s }
@@ -58,6 +61,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .ec-meta-item b { font-size: 14px; color: #0f172a; font-weight: 700 }
 
 .ec-streak-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #ea580c; background: #fff7ed; border: 1px solid #fed7aa; padding: 3px 8px; border-radius: 999px }
+.ec-streak-badge i { width: 12px; height: 12px }
 
 /* 表 */
 .ec-table-wrap { overflow-x: auto; margin: 14px 0; border: 1px solid #e2e8f0; border-radius: 10px }
@@ -97,7 +101,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .ec-badge-pop.hidden { display: none }
 .ec-badge-pop-inner { background: #fff; border-radius: 18px; padding: 28px 24px; text-align: center; max-width: 320px; width: 100%; animation: badgeIn .35s }
 @keyframes badgeIn { from { transform: scale(0.85); opacity: 0 } to { transform: scale(1); opacity: 1 } }
-.ec-badge-icon { font-size: 56px; line-height: 1; margin-bottom: 8px }
+.ec-badge-icon { width: 64px; height: 64px; color: #f59e0b; margin: 0 auto 8px; display: block }
 .ec-badge-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 4px }
 .ec-badge-func { font-family: 'Inter', monospace; font-size: 22px; font-weight: 800; color: #15803d; background: #dcfce7; padding: 4px 16px; border-radius: 8px; display: inline-block; margin: 6px 0 12px }
 .ec-badge-text { font-size: 12px; color: #64748b; line-height: 1.7 }
@@ -161,7 +165,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 <!-- HERO -->
 <section class="ec-hero fade-up">
-  <span class="ec-badge">📊 関数を覚える</span>
+  <span class="ec-badge inline-flex items-center gap-1"><i data-lucide="sigma" class="w-3 h-3"></i>関数を覚える</span>
   <h1>Excel関数チャレンジ</h1>
   <p>初級・中級・上級に分かれた15の関数を、お題に答えながら段階的に覚えよう。<br>3問連続で正解すれば <b>習得バッジ</b> が手に入ります。</p>
 </section>
@@ -172,7 +176,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
   <button class="ec-level-card" data-level="beginner">
     <div class="ec-level-head">
-      <span class="ec-level-title"><span class="ec-level-emoji">🌱</span>初級</span>
+      <span class="ec-level-title"><i data-lucide="sprout" class="ec-level-icon"></i>初級</span>
       <span class="ec-level-status" id="ec-status-beginner">0 / 5 関数習得</span>
     </div>
     <div class="ec-level-bar"><div class="ec-level-bar-fill" id="ec-bar-beginner" style="width:0%"></div></div>
@@ -182,7 +186,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
   <button class="ec-level-card" data-level="intermediate">
     <div class="ec-level-head">
-      <span class="ec-level-title"><span class="ec-level-emoji">🪴</span>中級</span>
+      <span class="ec-level-title"><i data-lucide="flower-2" class="ec-level-icon"></i>中級</span>
       <span class="ec-level-status" id="ec-status-intermediate">0 / 5 関数習得</span>
     </div>
     <div class="ec-level-bar"><div class="ec-level-bar-fill" id="ec-bar-intermediate" style="width:0%"></div></div>
@@ -192,7 +196,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
   <button class="ec-level-card" data-level="advanced">
     <div class="ec-level-head">
-      <span class="ec-level-title"><span class="ec-level-emoji">🌳</span>上級</span>
+      <span class="ec-level-title"><i data-lucide="tree-pine" class="ec-level-icon"></i>上級</span>
       <span class="ec-level-status" id="ec-status-advanced">0 / 5 関数習得</span>
     </div>
     <div class="ec-level-bar"><div class="ec-level-bar-fill" id="ec-bar-advanced" style="width:0%"></div></div>
@@ -215,7 +219,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <section id="ec-view-play" class="px-5 pt-5 pb-6 ec-hidden">
   <div class="ec-play-meta">
     <span class="ec-meta-item">レベル <b id="ec-level-name">初級</b></span>
-    <span class="ec-streak-badge"><span>🔥</span><span id="ec-streak">連続 0</span></span>
+    <span class="ec-streak-badge"><i data-lucide="flame"></i><span id="ec-streak">連続 0</span></span>
     <span class="ec-meta-item">累計 <b id="ec-total">0</b><span class="text-[10px] text-slate-400"> 問</span></span>
   </div>
 
@@ -249,7 +253,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <!-- バッジ獲得モーダル -->
 <div class="ec-badge-pop hidden" id="ec-badge-pop">
   <div class="ec-badge-pop-inner">
-    <div class="ec-badge-icon">🏅</div>
+    <i data-lucide="award" class="ec-badge-icon"></i>
     <p class="ec-badge-title">関数を習得しました！</p>
     <div class="ec-badge-func" id="ec-badge-func-name">SUM</div>
     <p class="ec-badge-text" id="ec-badge-text">3問連続で正解しました。<br>引き続き他の関数にも挑戦しよう。</p>
@@ -827,7 +831,8 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
   }
 
   function onCorrect() {
-    feedbackEl.textContent = '🎉 正解！';
+    feedbackEl.innerHTML = '<i data-lucide="check-circle-2" class="w-3.5 h-3.5 inline align-text-bottom"></i> 正解！';
+    if (window.lucide) lucide.createIcons();
     feedbackEl.className = 'ec-feedback ok';
     questCardEl.classList.add('flash-ok');
     currentStreaks[currentFunc] = (currentStreaks[currentFunc] || 0) + 1;
@@ -857,9 +862,11 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
     if (attempts === 1) {
       hintEl.classList.add('show');
-      hintEl.innerHTML = `💡 <b>ヒント:</b> ${escapeHtml(currentQuest.hint1)}`;
+      hintEl.innerHTML = `<i data-lucide="lightbulb" class="w-3.5 h-3.5 inline align-text-bottom text-amber-500"></i> <b>ヒント:</b> ${escapeHtml(currentQuest.hint1)}`;
+      if (window.lucide) lucide.createIcons();
     } else if (attempts === 2) {
-      hintEl.innerHTML = `💡 <b>答え:</b> <code>${escapeHtml(currentQuest.hint2)}</code> の形`;
+      hintEl.innerHTML = `<i data-lucide="lightbulb" class="w-3.5 h-3.5 inline align-text-bottom text-amber-500"></i> <b>答え:</b> <code>${escapeHtml(currentQuest.hint2)}</code> の形`;
+      if (window.lucide) lucide.createIcons();
     } else if (attempts >= 3) {
       // 自動で次の問題へ（ペナルティなし）
       setTimeout(nextQuestion, 1200);
