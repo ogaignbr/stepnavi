@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Excel関数チャレンジ - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+
+/* Excelアプリ */
+.ec-hero { background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); padding: 28px 20px; border-bottom: 1px solid #a7f3d0 }
+.ec-hero h1 { font-size: 22px; font-weight: 800; color: #065f46; letter-spacing: -0.01em }
+.ec-hero p { font-size: 12px; color: #047857; line-height: 1.8; margin-top: 6px }
+.ec-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #047857; background: #fff; border: 1px solid #a7f3d0; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px }
+
+/* レベル選択 */
+.ec-level-card { display: block; width: 100%; padding: 16px; border-radius: 14px; border: 1.5px solid #e2e8f0; background: #fff; cursor: pointer; margin-bottom: 10px; text-align: left; transition: all .15s }
+.ec-level-card:active { transform: scale(0.99) }
+.ec-level-card.locked { opacity: 0.55; cursor: not-allowed }
+.ec-level-card.locked:active { transform: none }
+.ec-level-card[data-level="beginner"] { border-color: #6ee7b7 }
+.ec-level-card[data-level="intermediate"] { border-color: #fcd34d }
+.ec-level-card[data-level="advanced"] { border-color: #f9a8d4 }
+.ec-level-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px }
+.ec-level-title { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: #0f172a }
+.ec-level-title .ec-level-emoji { font-size: 20px; line-height: 1 }
+.ec-level-status { font-size: 11px; color: #64748b; font-weight: 600 }
+.ec-level-bar { height: 5px; background: #f1f5f9; border-radius: 999px; overflow: hidden; margin: 8px 0 }
+.ec-level-bar-fill { height: 100%; border-radius: 999px; transition: width .4s }
+.ec-level-card[data-level="beginner"] .ec-level-bar-fill { background: linear-gradient(90deg, #34d399, #10b981) }
+.ec-level-card[data-level="intermediate"] .ec-level-bar-fill { background: linear-gradient(90deg, #fbbf24, #f59e0b) }
+.ec-level-card[data-level="advanced"] .ec-level-bar-fill { background: linear-gradient(90deg, #f472b6, #ec4899) }
+.ec-level-funcs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px }
+.ec-func-chip { font-family: 'Inter', monospace; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; background: #f1f5f9; color: #475569; border: 1px solid transparent }
+.ec-func-chip.mastered { background: #dcfce7; color: #15803d; border-color: #86efac }
+
+/* メインボタン */
+.ec-btn-primary { width: 100%; background: #10b981; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) }
+.ec-btn-primary:active { opacity: 0.85; transform: scale(0.99) }
+.ec-btn-secondary { width: 100%; background: #fff; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600; cursor: pointer }
+.ec-btn-secondary:active { background: #f8fafc }
+
+/* プレイ画面 */
+.ec-play-meta { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9 }
+.ec-meta-item { font-size: 11px; color: #64748b }
+.ec-meta-item b { font-size: 14px; color: #0f172a; font-weight: 700 }
+
+.ec-streak-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: #ea580c; background: #fff7ed; border: 1px solid #fed7aa; padding: 3px 8px; border-radius: 999px }
+
+/* 表 */
+.ec-table-wrap { overflow-x: auto; margin: 14px 0; border: 1px solid #e2e8f0; border-radius: 10px }
+.ec-table { border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 13px; width: 100%; min-width: 240px }
+.ec-table th, .ec-table td { border: 1px solid #e2e8f0; padding: 6px 10px; text-align: right; min-width: 56px; white-space: nowrap }
+.ec-table th { background: #f1f5f9; color: #475569; font-weight: 700; font-size: 11px; text-align: center }
+.ec-table .ec-row-head { background: #f8fafc; color: #64748b; text-align: center; font-weight: 700; font-size: 11px }
+.ec-table .ec-text { text-align: left }
+.ec-table .ec-target { background: #fff7ed; color: #b45309; font-weight: 700 }
+
+.ec-quest-card { background: #f8fafc; border-radius: 14px; padding: 16px; margin-bottom: 14px }
+.ec-quest-label { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em; margin-bottom: 6px }
+.ec-quest-func-tag { display: inline-block; font-family: 'Inter', monospace; font-size: 11px; font-weight: 700; color: #15803d; background: #dcfce7; padding: 2px 7px; border-radius: 5px; margin-right: 6px }
+.ec-quest-prompt { font-size: 14px; line-height: 1.8; color: #0f172a; font-weight: 600 }
+
+.ec-input-wrap { display: flex; align-items: center; gap: 8px; background: #fff; border: 2px solid #e2e8f0; border-radius: 12px; padding: 4px 4px 4px 14px; transition: border-color .15s }
+.ec-input-wrap:focus-within { border-color: #10b981 }
+.ec-input-wrap .ec-eq { font-family: 'Inter', monospace; font-size: 17px; font-weight: 800; color: #10b981 }
+.ec-input { flex: 1; padding: 12px 8px 12px 0; font-family: 'Inter', monospace; font-size: 16px; font-weight: 600; border: none; outline: none; background: transparent; min-width: 0 }
+.ec-submit { background: #10b981; color: #fff; border: none; border-radius: 9px; padding: 10px 14px; font-size: 13px; font-weight: 700; cursor: pointer }
+.ec-submit:active { opacity: 0.85 }
+
+.ec-hint { font-size: 12px; color: #64748b; margin-top: 12px; padding: 12px 14px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 10px; line-height: 1.7; display: none }
+.ec-hint.show { display: block }
+.ec-hint code { font-family: 'Inter', monospace; background: #fff; padding: 1px 6px; border-radius: 4px; color: #b45309; font-weight: 700 }
+
+.ec-feedback { font-size: 12px; margin-top: 10px; min-height: 18px; text-align: center; font-weight: 600 }
+.ec-feedback.ok { color: #16a34a }
+.ec-feedback.bad { color: #dc2626 }
+
+/* 正解時アニメーション */
+.ec-quest-card.flash-ok { animation: flashOk 0.6s }
+@keyframes flashOk { 0% { background: #f8fafc } 30% { background: #d1fae5 } 100% { background: #f8fafc } }
+
+/* バッジ獲得モーダル */
+.ec-badge-pop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px }
+.ec-badge-pop.hidden { display: none }
+.ec-badge-pop-inner { background: #fff; border-radius: 18px; padding: 28px 24px; text-align: center; max-width: 320px; width: 100%; animation: badgeIn .35s }
+@keyframes badgeIn { from { transform: scale(0.85); opacity: 0 } to { transform: scale(1); opacity: 1 } }
+.ec-badge-icon { font-size: 56px; line-height: 1; margin-bottom: 8px }
+.ec-badge-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 4px }
+.ec-badge-func { font-family: 'Inter', monospace; font-size: 22px; font-weight: 800; color: #15803d; background: #dcfce7; padding: 4px 16px; border-radius: 8px; display: inline-block; margin: 6px 0 12px }
+.ec-badge-text { font-size: 12px; color: #64748b; line-height: 1.7 }
+.ec-badge-close { margin-top: 16px; background: #10b981; color: #fff; border: none; padding: 10px 26px; border-radius: 10px; font-weight: 700; cursor: pointer }
+
+.ec-hidden { display: none !important }
+
+@media (min-width: 768px) {
+  .ec-table th, .ec-table td { min-width: 70px }
+}
+</style>
+<link rel="stylesheet" href="../assets/desktop.css">
+</head>
+<body class="bg-white text-slate-900 pb-16 cat-content">
+
+<!-- DESKTOP SIDEBAR -->
+<aside class="desktop-sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
+    <span>STEP NAVI</span>
+  </div>
+  <div class="sidebar-section sidebar-section--main">メイン</div>
+  <a href="../index.html"><i data-lucide="home"></i>ホーム</a>
+  <a href="../auth/mypage.html"><i data-lucide="user"></i>マイページ</a>
+  <div class="sidebar-section sidebar-section--interview">面接対策</div>
+  <a href="../guides/index.html"><i data-lucide="target"></i>面接対策一覧</a>
+  <a href="../prompts/interview.html"><i data-lucide="wand-2"></i>AIプロンプト</a>
+  <a href="../guides/resume.html"><i data-lucide="file-text"></i>履歴書の書き方</a>
+  <a href="../guides/interview-checklist.html"><i data-lucide="list-checks"></i>チェックリスト</a>
+    <div class="sidebar-section sidebar-section--apps">レベルアップアプリ</div>
+  <a href="../certification/pc-basic.html#shortcut-run"><i data-lucide="gamepad-2"></i>ショートカット・ラン</a>
+  <a href="../certification/typing.html"><i data-lucide="keyboard"></i>タイピング・ジョブ</a>
+  <a href="../certification/excel-challenge.html"><i data-lucide="sigma"></i>Excel関数チャレンジ</a>
+  <div class="sidebar-section sidebar-section--content">コンテンツ</div>
+  <a href="../content/index.html"><i data-lucide="layout-grid"></i>コンテンツ一覧</a>
+  <a href="../manners/index.html"><i data-lucide="briefcase"></i>ビジネスマナー</a>
+  <a href="../certification/index.html"><i data-lucide="award"></i>資格取得ガイド</a>
+  <a href="../ai/index.html"><i data-lucide="sparkles"></i>AI活用入門</a>
+  <a href="../careers/index.html"><i data-lucide="library"></i>職種図鑑</a>
+  <a href="../prompts/index.html"><i data-lucide="wand-2"></i>プロンプト集</a>
+  <a href="../future/index.html"><i data-lucide="compass"></i>AI時代のキャリア</a>
+  <div class="sidebar-section sidebar-section--support">各種サポート</div>
+  <a href="../links/index.html"><i data-lucide="external-link"></i>各種サポート一覧</a>
+  <a href="../links/jobs.html"><i data-lucide="briefcase"></i>求人情報</a>
+  <a href="../links/resignation.html"><i data-lucide="shield-check"></i>退職サポート</a>
+  <a href="../links/ai-reskilling.html"><i data-lucide="brain-circuit"></i>AIリスキリング</a>
+  <a href="../links/living-cost.html"><i data-lucide="piggy-bank"></i>生活費見直し</a>
+</aside>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400 truncate">Excel関数チャレンジ</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="ec-hero fade-up">
+  <span class="ec-badge">📊 関数を覚える</span>
+  <h1>Excel関数チャレンジ</h1>
+  <p>初級・中級・上級に分かれた15の関数を、お題に答えながら段階的に覚えよう。<br>3問連続で正解すれば <b>習得バッジ</b> が手に入ります。</p>
+</section>
+
+<!-- ============ LEVEL VIEW ============ -->
+<section id="ec-view-levels" class="px-5 pt-5 pb-6 fade-up">
+  <p class="text-[11px] font-semibold text-slate-400 tracking-wider mb-3">レベルを選ぶ</p>
+
+  <button class="ec-level-card" data-level="beginner">
+    <div class="ec-level-head">
+      <span class="ec-level-title"><span class="ec-level-emoji">🌱</span>初級</span>
+      <span class="ec-level-status" id="ec-status-beginner">0 / 5 関数習得</span>
+    </div>
+    <div class="ec-level-bar"><div class="ec-level-bar-fill" id="ec-bar-beginner" style="width:0%"></div></div>
+    <p class="text-[11px] text-slate-500 mb-1">単純な範囲の集計から始めよう</p>
+    <div class="ec-level-funcs" id="ec-funcs-beginner"></div>
+  </button>
+
+  <button class="ec-level-card" data-level="intermediate">
+    <div class="ec-level-head">
+      <span class="ec-level-title"><span class="ec-level-emoji">🪴</span>中級</span>
+      <span class="ec-level-status" id="ec-status-intermediate">0 / 5 関数習得</span>
+    </div>
+    <div class="ec-level-bar"><div class="ec-level-bar-fill" id="ec-bar-intermediate" style="width:0%"></div></div>
+    <p class="text-[11px] text-slate-500 mb-1">条件分岐や端数処理に挑戦</p>
+    <div class="ec-level-funcs" id="ec-funcs-intermediate"></div>
+  </button>
+
+  <button class="ec-level-card" data-level="advanced">
+    <div class="ec-level-head">
+      <span class="ec-level-title"><span class="ec-level-emoji">🌳</span>上級</span>
+      <span class="ec-level-status" id="ec-status-advanced">0 / 5 関数習得</span>
+    </div>
+    <div class="ec-level-bar"><div class="ec-level-bar-fill" id="ec-bar-advanced" style="width:0%"></div></div>
+    <p class="text-[11px] text-slate-500 mb-1">表検索・文字列結合まで一気に</p>
+    <div class="ec-level-funcs" id="ec-funcs-advanced"></div>
+  </button>
+
+  <div class="mt-5 p-4 bg-slate-50 rounded-xl">
+    <p class="text-[11px] font-bold text-slate-700 mb-1">遊び方</p>
+    <ul class="text-[11px] text-slate-500 leading-relaxed pl-4 list-disc space-y-1">
+      <li>表のセル値とお題を読んで、答えを <code class="font-mono bg-white px-1 rounded">=</code> から打ち込みます</li>
+      <li>3問連続で正解すれば、その関数が <b>習得済</b> に</li>
+      <li>同じレベルの全関数を習得すると、次のレベルが解放されます</li>
+      <li>間違えてもペナルティはありません。ヒントが順に増えていきます</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PLAY VIEW ============ -->
+<section id="ec-view-play" class="px-5 pt-5 pb-6 ec-hidden">
+  <div class="ec-play-meta">
+    <span class="ec-meta-item">レベル <b id="ec-level-name">初級</b></span>
+    <span class="ec-streak-badge"><span>🔥</span><span id="ec-streak">連続 0</span></span>
+    <span class="ec-meta-item">累計 <b id="ec-total">0</b><span class="text-[10px] text-slate-400"> 問</span></span>
+  </div>
+
+  <div class="ec-quest-card" id="ec-quest-card">
+    <p class="ec-quest-label">お題</p>
+    <p class="ec-quest-prompt">
+      <span class="ec-quest-func-tag" id="ec-quest-func">SUM</span>
+      <span id="ec-quest-text">読み込み中...</span>
+    </p>
+  </div>
+
+  <div class="ec-table-wrap">
+    <table class="ec-table">
+      <thead id="ec-table-head"></thead>
+      <tbody id="ec-table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="ec-input-wrap">
+    <span class="ec-eq">=</span>
+    <input class="ec-input" id="ec-input" type="text" placeholder="SUM(A1:A5)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <button class="ec-submit" id="ec-submit-btn">答える</button>
+  </div>
+
+  <div class="ec-hint" id="ec-hint"></div>
+  <p class="ec-feedback" id="ec-feedback"></p>
+
+  <button class="ec-btn-secondary mt-4" id="ec-quit-btn">レベル選択に戻る</button>
+</section>
+
+<!-- バッジ獲得モーダル -->
+<div class="ec-badge-pop hidden" id="ec-badge-pop">
+  <div class="ec-badge-pop-inner">
+    <div class="ec-badge-icon">🏅</div>
+    <p class="ec-badge-title">関数を習得しました！</p>
+    <div class="ec-badge-func" id="ec-badge-func-name">SUM</div>
+    <p class="ec-badge-text" id="ec-badge-text">3問連続で正解しました。<br>引き続き他の関数にも挑戦しよう。</p>
+    <button class="ec-badge-close" id="ec-badge-close">続ける</button>
+  </div>
+</div>
+
+<!-- LINE CTA -->
+<section class="px-5 mt-2 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">Excelの実践相談はLINEからどうぞ</p>
+  </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
+    <a href="../apps/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="gamepad-2" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">アプリ</span></a>
+    <a href="../content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
+    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">外部リンク</span></a>
+  </div>
+</nav>
+
+<script>
+lucide.createIcons();
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+/* ============ Excel Challenge ============ */
+(function(){
+  const STREAK_TO_MASTER = 3; // 3問連続正解で習得
+
+  /* ---- ユーティリティ ---- */
+  function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+  function randPick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function colLetter(n) { return String.fromCharCode(64 + n); } // 1 -> A
+  function normalizeAnswer(s) {
+    return (s || '').toString().trim().toUpperCase()
+      .replace(/^=+/, '')      // 先頭の=を除去
+      .replace(/\s+/g, '')     // 空白除去
+      .replace(/"/g, '"')      // 全角→半角ダブルクォート
+      .replace(/'/g, "'")
+      .replace(/，/g, ',')
+      .replace(/、/g, ',')
+      .replace(/（/g, '(')
+      .replace(/）/g, ')');
+  }
+  function sum(arr) { return arr.reduce((a, b) => a + b, 0); }
+  function avg(arr) { return arr.length ? sum(arr) / arr.length : 0; }
+
+  /* ---- 問題定義 ----
+     各問題は generate() を持ち、毎回呼ぶと:
+       { table:{ headers:[], rows:[[...]], highlight:{ row, col } | null },
+         prompt: 'A1〜A5の合計を求めてください',
+         answers: ['SUM(A1:A5)'],
+         hint1: '範囲は A1 から A5 まで',
+         hint2: '=SUM(?:?) の形',
+       }
+     を返す。
+  */
+  const QUESTS = {
+    beginner: {
+      SUM: {
+        label: '合計',
+        scenarios: [
+          () => {
+            const n = randInt(4, 7);
+            const values = Array.from({length: n}, () => randInt(10, 99));
+            return {
+              table: tableFromCol('A', values, ['売上']),
+              prompt: `A1からA${n}の合計を求めてください`,
+              answers: [`SUM(A1:A${n})`],
+              hint1: `範囲は A1 から A${n} まで`,
+              hint2: `=SUM(A1:A${n})`
+            };
+          },
+          () => {
+            const n = randInt(3, 5);
+            const values = Array.from({length: n}, () => randInt(100, 999));
+            return {
+              table: tableFromCol('B', values, ['金額']),
+              prompt: `B列（B1からB${n}）の合計を求めてください`,
+              answers: [`SUM(B1:B${n})`],
+              hint1: `B1 から B${n} までを足す`,
+              hint2: `=SUM(B1:B${n})`
+            };
+          }
+        ]
+      },
+      AVERAGE: {
+        label: '平均',
+        scenarios: [
+          () => {
+            const n = randInt(4, 6);
+            const values = Array.from({length: n}, () => randInt(20, 100));
+            return {
+              table: tableFromCol('A', values, ['点数']),
+              prompt: `A1からA${n}の平均を求めてください`,
+              answers: [`AVERAGE(A1:A${n})`],
+              hint1: `範囲は A1 から A${n} まで`,
+              hint2: `=AVERAGE(A1:A${n})`
+            };
+          },
+          () => {
+            const n = 5;
+            const values = Array.from({length: n}, () => randInt(50, 90));
+            return {
+              table: tableFromCol('C', values, ['テスト']),
+              prompt: `C1からC${n}の平均点を求めてください`,
+              answers: [`AVERAGE(C1:C${n})`],
+              hint1: `平均は AVERAGE を使う`,
+              hint2: `=AVERAGE(C1:C${n})`
+            };
+          }
+        ]
+      },
+      MAX: {
+        label: '最大値',
+        scenarios: [
+          () => {
+            const n = randInt(5, 7);
+            const values = Array.from({length: n}, () => randInt(10, 100));
+            return {
+              table: tableFromCol('A', values, ['数値']),
+              prompt: `A1からA${n}の中で一番大きい数を求めてください`,
+              answers: [`MAX(A1:A${n})`],
+              hint1: `最大値は MAX 関数`,
+              hint2: `=MAX(A1:A${n})`
+            };
+          }
+        ]
+      },
+      MIN: {
+        label: '最小値',
+        scenarios: [
+          () => {
+            const n = randInt(5, 7);
+            const values = Array.from({length: n}, () => randInt(10, 100));
+            return {
+              table: tableFromCol('A', values, ['数値']),
+              prompt: `A1からA${n}の中で一番小さい数を求めてください`,
+              answers: [`MIN(A1:A${n})`],
+              hint1: `最小値は MIN 関数`,
+              hint2: `=MIN(A1:A${n})`
+            };
+          }
+        ]
+      },
+      COUNT: {
+        label: '個数',
+        scenarios: [
+          () => {
+            const n = randInt(5, 8);
+            const values = Array.from({length: n}, () => randInt(1, 99));
+            return {
+              table: tableFromCol('A', values, ['数値']),
+              prompt: `A1からA${n}に入っている数値の個数を求めてください`,
+              answers: [`COUNT(A1:A${n})`],
+              hint1: `数値の個数は COUNT`,
+              hint2: `=COUNT(A1:A${n})`
+            };
+          }
+        ]
+      }
+    },
+
+    intermediate: {
+      IF: {
+        label: '条件分岐',
+        scenarios: [
+          () => {
+            const score = randInt(40, 95);
+            return {
+              table: tableFromCol('A', [score], ['点数']),
+              prompt: `A1の点数が60以上なら「合格」、それ以外なら「不合格」と表示する関数を書いてください`,
+              answers: [
+                `IF(A1>=60,"合格","不合格")`,
+                `IF(A1>=60,"合格","不合格")`
+              ],
+              hint1: `IF(条件, 真の値, 偽の値) の形`,
+              hint2: `=IF(A1>=60,"合格","不合格")`
+            };
+          }
+        ]
+      },
+      COUNTIF: {
+        label: '条件付き個数',
+        scenarios: [
+          () => {
+            const n = 6;
+            const values = Array.from({length: n}, () => randPick(['◯','×','◯','◯','×']));
+            return {
+              table: tableFromCol('A', values, ['結果']),
+              prompt: `A1からA${n}の中で「◯」が何個あるか数えてください`,
+              answers: [`COUNTIF(A1:A${n},"◯")`],
+              hint1: `条件付きの個数は COUNTIF`,
+              hint2: `=COUNTIF(A1:A${n},"◯")`
+            };
+          }
+        ]
+      },
+      SUMIF: {
+        label: '条件付き合計',
+        scenarios: [
+          () => {
+            const n = 5;
+            const categories = Array.from({length: n}, () => randPick(['食品','雑貨','食品','食品','雑貨']));
+            const prices = Array.from({length: n}, () => randInt(100, 999));
+            return {
+              table: tableFromCols(['A','B'], [categories, prices], ['カテゴリ','金額']),
+              prompt: `A1からA${n}の中で「食品」のものだけ、B列の金額を合計してください`,
+              answers: [`SUMIF(A1:A${n},"食品",B1:B${n})`],
+              hint1: `SUMIF(範囲, 条件, 合計範囲) の形`,
+              hint2: `=SUMIF(A1:A${n},"食品",B1:B${n})`
+            };
+          }
+        ]
+      },
+      ROUND: {
+        label: '四捨五入',
+        scenarios: [
+          () => {
+            const v = (randInt(100, 999) / 10).toFixed(1); // 例 12.3
+            return {
+              table: tableFromCol('A', [parseFloat(v)], ['数値']),
+              prompt: `A1の値を小数点以下を四捨五入して整数にしてください`,
+              answers: [`ROUND(A1,0)`],
+              hint1: `ROUND(数値, 桁数) の形。整数にするなら桁数は0`,
+              hint2: `=ROUND(A1,0)`
+            };
+          }
+        ]
+      },
+      TODAY: {
+        label: '今日の日付',
+        scenarios: [
+          () => {
+            return {
+              table: { headers: ['—'], rows: [['—']], highlight: null },
+              prompt: `今日の日付を表示する関数を書いてください（引数なし）`,
+              answers: [`TODAY()`],
+              hint1: `引数のない関数。括弧だけ`,
+              hint2: `=TODAY()`
+            };
+          }
+        ]
+      }
+    },
+
+    advanced: {
+      VLOOKUP: {
+        label: '表検索',
+        scenarios: [
+          () => {
+            const ids = ['101','102','103','104'];
+            const names = ['田中','佐藤','鈴木','高橋'];
+            const target = randInt(0, 3);
+            return {
+              table: tableFromCols(['A','B'], [ids, names], ['社員番号','氏名'], { rowHighlight: target }),
+              prompt: `社員番号「${ids[target]}」に対応する氏名を、A1:B4の表から検索してください（完全一致）`,
+              answers: [`VLOOKUP("${ids[target]}",A1:B4,2,FALSE)`, `VLOOKUP("${ids[target]}",A1:B4,2,0)`],
+              hint1: `VLOOKUP(検索値, 範囲, 列番号, 検索方法) の形。完全一致は FALSE か 0`,
+              hint2: `=VLOOKUP("${ids[target]}",A1:B4,2,FALSE)`
+            };
+          }
+        ]
+      },
+      IFERROR: {
+        label: 'エラー処理',
+        scenarios: [
+          () => {
+            return {
+              table: tableFromCols(['A','B'], [[100], [0]], ['売上','個数']),
+              prompt: `A1÷B1 を計算し、エラーになる場合は「ー」と表示する関数を書いてください`,
+              answers: [`IFERROR(A1/B1,"ー")`, `IFERROR(A1/B1,"ー")`],
+              hint1: `IFERROR(式, エラー時の値) の形`,
+              hint2: `=IFERROR(A1/B1,"ー")`
+            };
+          }
+        ]
+      },
+      CONCATENATE: {
+        label: '文字列結合',
+        scenarios: [
+          () => {
+            const sei = randPick(['田中','佐藤','鈴木']);
+            const mei = randPick(['太郎','花子','一郎']);
+            return {
+              table: tableFromCols(['A','B'], [[sei], [mei]], ['姓','名']),
+              prompt: `A1の姓とB1の名を、間にスペースを挟まずに結合して表示してください`,
+              answers: [`CONCATENATE(A1,B1)`, `A1&B1`],
+              hint1: `CONCATENATE か & 演算子で結合できる`,
+              hint2: `=CONCATENATE(A1,B1) または =A1&B1`
+            };
+          }
+        ]
+      },
+      TEXT: {
+        label: '表示形式',
+        scenarios: [
+          () => {
+            const v = randInt(1000, 9999);
+            return {
+              table: tableFromCol('A', [v], ['金額']),
+              prompt: `A1の数値を「￥1,234」のように円マーク＋カンマ区切りで表示してください`,
+              answers: [`TEXT(A1,"¥#,##0")`, `TEXT(A1,"￥#,##0")`],
+              hint1: `TEXT(値, 表示形式) の形。カンマ区切りは #,##0`,
+              hint2: `=TEXT(A1,"¥#,##0")`
+            };
+          }
+        ]
+      },
+      RANK: {
+        label: '順位',
+        scenarios: [
+          () => {
+            const n = 5;
+            const values = Array.from({length: n}, () => randInt(50, 99));
+            return {
+              table: tableFromCol('A', values, ['点数']),
+              prompt: `A1の値が、A1からA${n}の中で何番目に大きいか（順位）を求めてください`,
+              answers: [`RANK(A1,A1:A${n})`, `RANK(A1,A1:A${n},0)`, `RANK.EQ(A1,A1:A${n})`],
+              hint1: `RANK(数値, 範囲) で大きい順の順位が出る`,
+              hint2: `=RANK(A1,A1:A${n})`
+            };
+          }
+        ]
+      }
+    }
+  };
+
+  function tableFromCol(col, values, headerLabels) {
+    // 1列のみの表 (列名: A,B,...)
+    const headers = [col];
+    const rows = values.map(v => [v]);
+    return { headers, rows, label: headerLabels && headerLabels[0], highlight: null };
+  }
+  function tableFromCols(cols, valueColumns, headerLabels, opts) {
+    // 複数列の表
+    const headers = cols;
+    const rowCount = valueColumns[0].length;
+    const rows = [];
+    for (let i = 0; i < rowCount; i++) {
+      const row = [];
+      for (let c = 0; c < cols.length; c++) row.push(valueColumns[c][i]);
+      rows.push(row);
+    }
+    const highlight = opts && opts.rowHighlight != null ? { row: opts.rowHighlight } : null;
+    return { headers, rows, labels: headerLabels, highlight };
+  }
+
+  /* ---- レベル定義 ---- */
+  const LEVELS = ['beginner', 'intermediate', 'advanced'];
+  const LEVEL_LABELS = { beginner: '初級', intermediate: '中級', advanced: '上級' };
+
+  /* ---- ストレージ ---- */
+  const STORE = {
+    masteredKey: 'stepnavi.excel.mastered',
+    unlockedKey: 'stepnavi.excel.unlocked',
+    totalKey: 'stepnavi.excel.total_solved',
+
+    loadMastered() {
+      try { return JSON.parse(localStorage.getItem(this.masteredKey) || '[]'); } catch(e) { return []; }
+    },
+    saveMastered(arr) { localStorage.setItem(this.masteredKey, JSON.stringify(arr)); },
+
+    loadUnlocked() {
+      try {
+        const v = JSON.parse(localStorage.getItem(this.unlockedKey) || '["beginner"]');
+        return Array.isArray(v) && v.length ? v : ['beginner'];
+      } catch(e) { return ['beginner']; }
+    },
+    saveUnlocked(arr) { localStorage.setItem(this.unlockedKey, JSON.stringify(arr)); },
+
+    loadTotal() { return parseInt(localStorage.getItem(this.totalKey) || '0', 10); },
+    saveTotal(n) { localStorage.setItem(this.totalKey, String(n)); }
+  };
+
+  /* ---- DOM 参照 ---- */
+  const $ = (id) => document.getElementById(id);
+  const viewLevels = $('ec-view-levels');
+  const viewPlay = $('ec-view-play');
+  const levelNameEl = $('ec-level-name');
+  const streakEl = $('ec-streak');
+  const totalEl = $('ec-total');
+  const questCardEl = $('ec-quest-card');
+  const questFuncEl = $('ec-quest-func');
+  const questTextEl = $('ec-quest-text');
+  const tableHeadEl = $('ec-table-head');
+  const tableBodyEl = $('ec-table-body');
+  const inputEl = $('ec-input');
+  const submitBtn = $('ec-submit-btn');
+  const hintEl = $('ec-hint');
+  const feedbackEl = $('ec-feedback');
+  const quitBtn = $('ec-quit-btn');
+  const badgePop = $('ec-badge-pop');
+  const badgeFuncName = $('ec-badge-func-name');
+  const badgeClose = $('ec-badge-close');
+
+  /* ---- 状態 ---- */
+  let currentLevel = null;
+  let currentFunc = null;
+  let currentQuest = null;
+  let currentStreaks = {}; // { funcName: 連続正解数 }
+  let attempts = 0; // 現在の問題での試行回数
+  let mastered = STORE.loadMastered();
+  let unlocked = STORE.loadUnlocked();
+  let totalSolved = STORE.loadTotal();
+
+  /* ---- 初期化 ---- */
+  function init() {
+    renderLevels();
+    document.querySelectorAll('.ec-level-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const lv = card.dataset.level;
+        if (!unlocked.includes(lv)) {
+          card.classList.remove('locked'); void card.offsetWidth; card.classList.add('locked');
+          flashLocked(card);
+          return;
+        }
+        startLevel(lv);
+      });
+    });
+    submitBtn.addEventListener('click', submitAnswer);
+    inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); } });
+    quitBtn.addEventListener('click', goBackToLevels);
+    badgeClose.addEventListener('click', closeBadge);
+  }
+
+  function flashLocked(card) {
+    const prev = card.style.transform;
+    card.style.transform = 'translateX(-4px)';
+    setTimeout(() => { card.style.transform = 'translateX(4px)'; }, 80);
+    setTimeout(() => { card.style.transform = prev || ''; }, 160);
+  }
+
+  /* ---- レベル選択画面 ---- */
+  function renderLevels() {
+    LEVELS.forEach(lv => {
+      const funcs = Object.keys(QUESTS[lv]);
+      const masteredHere = funcs.filter(f => mastered.includes(f));
+      const ratio = funcs.length ? masteredHere.length / funcs.length : 0;
+      $(`ec-status-${lv}`).textContent = `${masteredHere.length} / ${funcs.length} 関数習得`;
+      $(`ec-bar-${lv}`).style.width = Math.round(ratio * 100) + '%';
+      const chipsEl = $(`ec-funcs-${lv}`);
+      chipsEl.innerHTML = '';
+      funcs.forEach(f => {
+        const chip = document.createElement('span');
+        chip.className = 'ec-func-chip' + (mastered.includes(f) ? ' mastered' : '');
+        chip.textContent = f;
+        chipsEl.appendChild(chip);
+      });
+      const card = document.querySelector(`.ec-level-card[data-level="${lv}"]`);
+      card.classList.toggle('locked', !unlocked.includes(lv));
+    });
+  }
+
+  /* ---- ゲーム開始 ---- */
+  function startLevel(level) {
+    currentLevel = level;
+    currentStreaks = {};
+    levelNameEl.textContent = LEVEL_LABELS[level];
+    streakEl.textContent = '連続 0';
+    totalEl.textContent = String(totalSolved);
+    setView('play');
+    nextQuestion();
+    setTimeout(() => inputEl.focus(), 80);
+  }
+
+  function pickNextFunc() {
+    // 未習得の関数を優先。全て習得済みならランダムから。
+    const funcs = Object.keys(QUESTS[currentLevel]);
+    const unmastered = funcs.filter(f => !mastered.includes(f));
+    if (unmastered.length > 0) {
+      // 連続正解数が低いものを優先
+      unmastered.sort((a, b) => (currentStreaks[a] || 0) - (currentStreaks[b] || 0));
+      // 先頭の数個からランダム
+      const pool = unmastered.slice(0, Math.min(2, unmastered.length));
+      return randPick(pool);
+    }
+    return randPick(funcs);
+  }
+
+  function nextQuestion() {
+    const fname = pickNextFunc();
+    const funcDef = QUESTS[currentLevel][fname];
+    const scenarioFn = randPick(funcDef.scenarios);
+    currentFunc = fname;
+    currentQuest = scenarioFn();
+    attempts = 0;
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    questFuncEl.textContent = currentFunc;
+    questTextEl.textContent = currentQuest.prompt;
+    renderTable(currentQuest.table);
+    inputEl.value = '';
+    hintEl.classList.remove('show');
+    hintEl.innerHTML = '';
+    feedbackEl.textContent = '';
+    feedbackEl.className = 'ec-feedback';
+    questCardEl.classList.remove('flash-ok');
+    inputEl.focus();
+  }
+
+  function renderTable(table) {
+    tableHeadEl.innerHTML = '';
+    tableBodyEl.innerHTML = '';
+    const trH = document.createElement('tr');
+    trH.appendChild(thEl(''));
+    table.headers.forEach((h, i) => {
+      const label = table.labels && table.labels[i] ? `${h}<div class="text-[10px] text-slate-400 font-normal mt-0.5">${escapeHtml(table.labels[i])}</div>` : h;
+      const th = document.createElement('th');
+      th.innerHTML = label;
+      trH.appendChild(th);
+    });
+    if (!table.labels && table.label) {
+      // 単列で label のみ
+      const labelTr = document.createElement('tr');
+      labelTr.appendChild(thEl(''));
+      const td = document.createElement('th');
+      td.style.fontWeight = '400';
+      td.style.fontSize = '10px';
+      td.style.color = '#94a3b8';
+      td.textContent = table.label;
+      labelTr.appendChild(td);
+      tableHeadEl.appendChild(trH);
+      tableHeadEl.appendChild(labelTr);
+    } else {
+      tableHeadEl.appendChild(trH);
+    }
+    table.rows.forEach((row, ri) => {
+      const tr = document.createElement('tr');
+      const rh = document.createElement('td');
+      rh.className = 'ec-row-head';
+      rh.textContent = String(ri + 1);
+      tr.appendChild(rh);
+      row.forEach(cell => {
+        const td = document.createElement('td');
+        const cellStr = String(cell);
+        if (typeof cell === 'string' && !/^-?\d+(\.\d+)?$/.test(cellStr)) {
+          td.className = 'ec-text';
+        }
+        if (table.highlight && table.highlight.row === ri) {
+          td.classList.add('ec-target');
+        }
+        td.textContent = cellStr;
+        tr.appendChild(td);
+      });
+      tableBodyEl.appendChild(tr);
+    });
+  }
+  function thEl(text) { const t = document.createElement('th'); t.textContent = text; return t; }
+
+  /* ---- 回答処理 ---- */
+  function submitAnswer() {
+    const raw = inputEl.value;
+    if (!raw.trim()) return;
+    const normalized = normalizeAnswer(raw);
+    const accepts = currentQuest.answers.map(normalizeAnswer);
+    const correct = accepts.includes(normalized);
+    if (correct) {
+      onCorrect();
+    } else {
+      onWrong();
+    }
+  }
+
+  function onCorrect() {
+    feedbackEl.textContent = '🎉 正解！';
+    feedbackEl.className = 'ec-feedback ok';
+    questCardEl.classList.add('flash-ok');
+    currentStreaks[currentFunc] = (currentStreaks[currentFunc] || 0) + 1;
+    streakEl.textContent = '連続 ' + currentStreaks[currentFunc];
+    totalSolved++;
+    totalEl.textContent = String(totalSolved);
+    STORE.saveTotal(totalSolved);
+
+    // 習得判定
+    if (currentStreaks[currentFunc] >= STREAK_TO_MASTER && !mastered.includes(currentFunc)) {
+      mastered.push(currentFunc);
+      STORE.saveMastered(mastered);
+      checkLevelUnlock();
+      showBadge(currentFunc);
+      return;
+    }
+    setTimeout(nextQuestion, 800);
+  }
+
+  function onWrong() {
+    attempts++;
+    currentStreaks[currentFunc] = 0;
+    streakEl.textContent = '連続 0';
+    feedbackEl.textContent = attempts >= 3 ? 'もう一度トライ。次の問題へ進みます' : '惜しい、もう一度入力してみよう';
+    feedbackEl.className = 'ec-feedback bad';
+    inputEl.focus();
+
+    if (attempts === 1) {
+      hintEl.classList.add('show');
+      hintEl.innerHTML = `💡 <b>ヒント:</b> ${escapeHtml(currentQuest.hint1)}`;
+    } else if (attempts === 2) {
+      hintEl.innerHTML = `💡 <b>答え:</b> <code>${escapeHtml(currentQuest.hint2)}</code> の形`;
+    } else if (attempts >= 3) {
+      // 自動で次の問題へ（ペナルティなし）
+      setTimeout(nextQuestion, 1200);
+    }
+  }
+
+  function checkLevelUnlock() {
+    // 現在レベルの全関数が習得済みなら次のレベル解放
+    const funcs = Object.keys(QUESTS[currentLevel]);
+    const allMastered = funcs.every(f => mastered.includes(f));
+    if (allMastered) {
+      const idx = LEVELS.indexOf(currentLevel);
+      if (idx >= 0 && idx + 1 < LEVELS.length) {
+        const next = LEVELS[idx + 1];
+        if (!unlocked.includes(next)) {
+          unlocked.push(next);
+          STORE.saveUnlocked(unlocked);
+        }
+      }
+    }
+  }
+
+  /* ---- バッジモーダル ---- */
+  function showBadge(funcName) {
+    badgeFuncName.textContent = funcName;
+    badgePop.classList.remove('hidden');
+  }
+  function closeBadge() {
+    badgePop.classList.add('hidden');
+    nextQuestion();
+  }
+
+  /* ---- ビュー切替 ---- */
+  function setView(name) {
+    viewLevels.classList.toggle('ec-hidden', name !== 'levels');
+    viewPlay.classList.toggle('ec-hidden', name !== 'play');
+  }
+  function goBackToLevels() {
+    renderLevels();
+    setView('levels');
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

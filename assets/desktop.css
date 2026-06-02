@@ -10,6 +10,8 @@
   --cat-content-soft: #f5f3ff;
   --cat-support: #d97706;       /* 各種サポート: アンバー */
   --cat-support-soft: #fffbeb;
+  --cat-apps: #e11d48;          /* レベルアップアプリ: ローズ */
+  --cat-apps-soft: #fff1f2;
 }
 
 /* ページ最上部の細いカテゴリーバー（モバイル & デスクトップ共通） */
@@ -17,6 +19,7 @@ body.cat-main > header.sticky    { border-top: 3px solid var(--cat-main); }
 body.cat-interview > header.sticky { border-top: 3px solid var(--cat-interview); }
 body.cat-content > header.sticky { border-top: 3px solid var(--cat-content); }
 body.cat-support > header.sticky { border-top: 3px solid var(--cat-support); }
+body.cat-apps > header.sticky    { border-top: 3px solid var(--cat-apps); }
 
 /* 学習進捗ゲージをカテゴリーカラーに合わせる */
 body.cat-main #badge-bar,
@@ -126,6 +129,11 @@ body.cat-support #progress-bar {
   color: var(--cat-content);
   background: var(--cat-content-soft);
   border-left-color: var(--cat-content);
+}
+.desktop-sidebar .sidebar-section--apps {
+  color: var(--cat-apps);
+  background: var(--cat-apps-soft);
+  border-left-color: var(--cat-apps);
 }
 .desktop-sidebar .sidebar-section--support {
   color: var(--cat-support);
