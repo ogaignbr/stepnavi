@@ -100,56 +100,61 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </div>
 </section>
 
-<!-- TOOL LIST -->
+<!-- PROGRESS -->
+<section class="px-5 pt-4 pb-2 fade-up">
+  <div class="flex items-center gap-3">
+    <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+      <div id="progress-bar" class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-300" style="width:0%"></div>
+    </div>
+    <span id="progress-text" class="text-[11px] text-slate-400 whitespace-nowrap">0 / 4 読了</span>
+  </div>
+</section>
+
+<!-- TOOL LIST (2×2 grid) -->
 <section class="fade-up d1">
-  <div class="px-5 pt-5 pb-2">
+  <div class="px-5 pt-3 pb-2">
     <p class="text-[11px] font-semibold text-slate-400 tracking-wider">ツール一覧</p>
   </div>
 
-  <a href="interview-questions.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
-      <i data-lucide="messages-square" class="w-[18px] h-[18px] text-white"></i>
-    </div>
-    <div class="flex-1 min-w-0">
-      <p class="font-semibold text-[13px]">面接でよくある質問</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">本音・答え方の型・NGを職種別にまとめて解説</p>
-    </div>
-    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
-  </a>
+  <div class="px-5 grid grid-cols-2 gap-2.5">
 
-  <a href="../prompts/interview.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
-      <i data-lucide="wand-2" class="w-[18px] h-[18px] text-white"></i>
-    </div>
-    <div class="flex-1 min-w-0">
-      <p class="font-semibold text-[13px]">面接練習のAIプロンプト</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">ChatGPTで本番さながらの練習ができる</p>
-    </div>
-    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
-  </a>
+    <a href="interview-questions.html" class="tool-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="guide-interview-questions">
+      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+        <i data-lucide="messages-square" class="w-[17px] h-[17px] text-white"></i>
+      </div>
+      <p class="font-semibold text-[12.5px] leading-[1.4]">よくある質問</p>
+      <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">本音・型・NGを職種別に解説</p>
+      <span class="read-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+    </a>
 
-  <a href="resume.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
-      <i data-lucide="file-text" class="w-[18px] h-[18px] text-white"></i>
-    </div>
-    <div class="flex-1 min-w-0">
-      <p class="font-semibold text-[13px]">履歴書・職務経歴書の書き方</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">テンプレ付きで書類選考を突破</p>
-    </div>
-    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
-  </a>
+    <a href="../prompts/interview.html" class="tool-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="prompts-interview">
+      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+        <i data-lucide="wand-2" class="w-[17px] h-[17px] text-white"></i>
+      </div>
+      <p class="font-semibold text-[12.5px] leading-[1.4]">AI面接練習</p>
+      <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">AIで本番さながらの練習</p>
+      <span class="read-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+    </a>
 
-  <a href="interview-checklist.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4 flex-shrink-0">
-      <i data-lucide="list-checks" class="w-[18px] h-[18px] text-white"></i>
-    </div>
-    <div class="flex-1 min-w-0">
-      <p class="font-semibold text-[13px]">面接チェックリスト</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">前日〜当日の準備をタップで管理</p>
-    </div>
-    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
-  </a>
+    <a href="resume.html" class="tool-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="guide-resume">
+      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+        <i data-lucide="file-text" class="w-[17px] h-[17px] text-white"></i>
+      </div>
+      <p class="font-semibold text-[12.5px] leading-[1.4]">履歴書の書き方</p>
+      <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">テンプレ付きで書類選考突破</p>
+      <span class="read-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+    </a>
 
+    <a href="interview-checklist.html" class="tool-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="guide-interview-checklist">
+      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+        <i data-lucide="list-checks" class="w-[17px] h-[17px] text-white"></i>
+      </div>
+      <p class="font-semibold text-[12.5px] leading-[1.4]">チェックリスト</p>
+      <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">前日〜当日の準備を管理</p>
+      <span class="read-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+    </a>
+
+  </div>
 </section>
 
 <!-- LINE CTA -->
@@ -179,6 +184,20 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
 }, { threshold: 0.08 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// learning progress
+const READ_KEY = 'stepnavi_read';
+const readList = JSON.parse(localStorage.getItem(READ_KEY) || '[]');
+const cards = document.querySelectorAll('.tool-card');
+let done = 0;
+cards.forEach(card => {
+  if (readList.includes(card.dataset.article)) {
+    card.querySelector('.read-badge').classList.remove('hidden');
+    done++;
+  }
+});
+document.getElementById('progress-bar').style.width = Math.round((done / cards.length) * 100) + '%';
+document.getElementById('progress-text').textContent = done + ' / ' + cards.length + ' 読了';
 </script>
 </body>
 </html>
