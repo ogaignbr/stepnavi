@@ -36,12 +36,11 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
 </style>
 <script>
-// 認証ガード：未ログイン＆ゲスト未承諾ならログイン画面へ
+// 認証ガード：未ログインならログイン画面へ
 (function(){
   try {
     var session = localStorage.getItem('stepnavi_session');
-    var guest = localStorage.getItem('stepnavi_guest');
-    if (!session && !guest) { window.location.replace('auth/login.html'); }
+    if (!session) { window.location.replace('auth/login.html'); }
   } catch(e) {}
 })();
 </script>

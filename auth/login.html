@@ -73,11 +73,6 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <a href="register.html" class="inline-block px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-semibold text-slate-700">新規登録はこちら</a>
   </div>
 
-  <!-- GUEST -->
-  <div class="text-center mt-8 fade-up">
-    <a href="#" id="guest-link" class="text-[11px] text-slate-400 underline">ログインせずに見る</a>
-  </div>
-
 </div>
 
 <script>
@@ -109,15 +104,9 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
     nickname: user.nickname,
     loginAt: new Date().toISOString()
   }));
+  localStorage.removeItem('stepnavi_guest');
 
   window.location.href = 'mypage.html';
-});
-
-// ゲスト閲覧
-document.getElementById('guest-link').addEventListener('click', (e) => {
-  e.preventDefault();
-  localStorage.setItem('stepnavi_guest', '1');
-  window.location.href = '../index.html';
 });
 </script>
 </body>
