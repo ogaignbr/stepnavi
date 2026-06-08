@@ -10,36 +10,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
-tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+tailwind.config = { theme: { extend: { colors: { brand: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534' } },  fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
 </script>
 <style>
 html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
 body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
 .fade-up.visible { opacity: 1; transform: none }
-.input-field { width: 100%; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 14px; color: #0f172a; background: #fff; transition: border-color .15s }
-.input-field:focus { outline: none; border-color: #0f172a }
+.input-field { width: 100%; padding: 13px 14px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 14px; color: #0f172a; background: #fff; transition: border-color .15s, box-shadow .15s }
+.input-field:focus { outline: none; border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.12) }
 .input-field::placeholder { color: #cbd5e1 }
-.btn-primary { width: 100%; padding: 13px; background: #0f172a; color: white; border-radius: 10px; font-size: 14px; font-weight: 600; transition: opacity .15s }
-.btn-primary:active { opacity: .85 }
-.btn-primary:disabled { background: #cbd5e1; cursor: not-allowed }
+.btn-primary { width: 100%; padding: 14px; background: linear-gradient(135deg,#22c55e,#15803d); color: white; border-radius: 12px; font-size: 14px; font-weight: 700; box-shadow: 0 8px 20px -6px rgba(21,128,61,.45); transition: transform .15s, box-shadow .15s }
+.btn-primary:active { transform: translateY(1px) scale(.99) }
+.btn-primary:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed }
+body { background: linear-gradient(to bottom, #f0fdf4 0%, #f8fafc 38%, #f8fafc 100%) }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
 <script src="../assets/storage.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen">
+<body class="text-slate-900 min-h-screen">
 
 <div class="min-h-screen flex flex-col px-5 py-10">
 
   <!-- LOGO -->
   <div class="text-center mb-8 fade-up">
-    <div class="inline-flex items-center gap-2 mb-2">
-      <div class="w-9 h-9 rounded-xl bg-black flex items-center justify-center">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    <div class="inline-flex items-center gap-2.5 mb-2.5">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-[0_8px_20px_-8px_rgba(21,128,61,.6)]">
+        <i data-lucide="footprints" class="w-[19px] h-[19px] text-white"></i>
       </div>
-      <span class="font-bold text-[18px] tracking-tight font-heading">STEP NAVI</span>
+      <span class="font-extrabold text-[19px] tracking-tight font-heading">STEP NAVI</span>
     </div>
-    <p class="text-[12px] text-slate-400">あなたのキャリアを、一歩前へ。</p>
+    <p class="text-[12px] text-slate-500">あなたのキャリアを、<span class="text-brand-600 font-semibold">一歩前へ。</span></p>
   </div>
 
   <!-- CARD -->
@@ -71,7 +72,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   <!-- REGISTER -->
   <div class="text-center mt-6 fade-up">
     <p class="text-[12px] text-slate-500 mb-2">アカウントをお持ちでない方</p>
-    <a href="register.html" class="inline-block px-6 py-2.5 bg-white border border-slate-200 rounded-xl text-[13px] font-semibold text-slate-700">新規登録はこちら</a>
+    <a href="register.html" class="inline-flex items-center gap-1.5 px-6 py-2.5 bg-white border border-brand-200 rounded-xl text-[13px] font-bold text-brand-700">新規登録はこちら<i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
   </div>
 
 </div>

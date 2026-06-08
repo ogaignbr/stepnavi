@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
-tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+tailwind.config = { theme: { extend: { colors: { brand: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534' } },  fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
 </script>
 <style>
 html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
@@ -34,7 +34,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <aside class="desktop-sidebar">
   <div class="sidebar-logo">
     <div class="logo-icon">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <i data-lucide="footprints" class="w-[15px] h-[15px] text-white"></i>
     </div>
     <span>STEP NAVI</span>
   </div>
@@ -84,7 +84,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <!-- USER PROFILE -->
 <section class="px-5 pt-6 pb-5 border-b border-slate-100 fade-up">
   <div class="flex items-center gap-4">
-    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-white font-bold text-[20px]" id="avatar">N</div>
+    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-white font-bold text-[20px] shadow-[0_8px_18px_-8px_rgba(21,128,61,.6)]" id="avatar">N</div>
     <div class="flex-1 min-w-0">
       <p class="font-bold text-[15px]" id="nickname-display">お名前</p>
       <p class="text-[11px] text-slate-400 mt-0.5" id="job-display">希望職種：—</p>
@@ -95,9 +95,9 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <!-- PROGRESS -->
 <section class="px-5 pt-6 fade-up d1">
   <p class="text-[11px] font-semibold text-slate-400 tracking-wider mb-2">あなたの学習進捗</p>
-  <div class="bg-slate-50 rounded-2xl px-5 py-4 flex items-center gap-4">
-    <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center flex-shrink-0">
-      <span id="read-count" class="text-[18px] font-bold text-slate-900">0</span>
+  <div class="bg-brand-50 border border-brand-100 rounded-2xl px-5 py-4 flex items-center gap-4">
+    <div class="w-12 h-12 rounded-xl bg-white border border-brand-100 flex items-center justify-center flex-shrink-0">
+      <span id="read-count" class="text-[18px] font-extrabold text-brand-700">0</span>
     </div>
     <div class="flex-1 min-w-0">
       <p class="text-[12px] font-semibold text-slate-700">読了した記事</p>
@@ -115,9 +115,9 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <p class="text-[11px] font-semibold text-slate-400 tracking-wider">次に見るおすすめ</p>
   </div>
   <div class="px-5">
-    <a id="next-primary" href="../guides/interview-questions.html" class="next-card block border border-slate-100 rounded-2xl p-4 bg-slate-50">
+    <a id="next-primary" href="../guides/interview-questions.html" class="next-card block border border-brand-100 rounded-2xl p-4 bg-brand-50">
       <div class="flex items-center gap-3">
-        <div id="next-icon-wrap" class="w-11 h-11 rounded-xl bg-slate-900 flex items-center justify-center flex-shrink-0">
+        <div id="next-icon-wrap" class="w-11 h-11 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center flex-shrink-0">
           <i id="next-icon" data-lucide="messages-square" class="w-[18px] h-[18px] text-white"></i>
         </div>
         <div class="flex-1 min-w-0">
@@ -130,7 +130,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </a>
     <div class="mt-3 grid grid-cols-2 gap-2.5">
       <a href="../guides/resume.html" class="menu-item block border border-slate-100 rounded-xl p-3">
-        <p class="text-[10px] font-bold text-blue-600">書類準備</p>
+        <p class="text-[10px] font-bold text-brand-600">書類準備</p>
         <p class="text-[12px] font-semibold text-slate-800 mt-1">履歴書の書き方</p>
       </a>
       <a href="https://lin.ee/WQzrYGn" target="_blank" rel="noopener" class="menu-item block border border-slate-100 rounded-xl p-3">
@@ -158,7 +158,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
     <a href="../apps/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="gamepad-2" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">アプリ</span></a>
     <a href="../content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
-    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">外部リンク</span></a>
+    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">サポート</span></a>
   </div>
 </nav>
 
@@ -202,7 +202,7 @@ if (count === 0) ptxt.textContent = '記事を読むとカウントされます'
 else if (count < 5) ptxt.textContent = count + ' / ' + TOTAL_ARTICLES + ' 記事を読了';
 else if (count < 15) ptxt.textContent = 'もう ' + count + ' 記事も読みました！';
 else if (count < TOTAL_ARTICLES) ptxt.textContent = 'あと ' + (TOTAL_ARTICLES - count) + ' 記事で全制覇';
-else ptxt.textContent = '🎉 全記事制覇おめでとう！';
+else ptxt.textContent = '全記事制覇おめでとう！';
 
 const nextItems = [
   {
@@ -212,7 +212,7 @@ const nextItems = [
     badge: '最初におすすめ',
     title: 'よくある質問',
     desc: '面接で聞かれやすい質問と答え方の型を確認しましょう。',
-    color: 'bg-slate-900'
+    color: 'bg-brand-600'
   },
   {
     id: 'guide-resume',
@@ -221,7 +221,7 @@ const nextItems = [
     badge: '書類準備',
     title: '履歴書・職務経歴書の書き方',
     desc: '応募前に、書類で見られるポイントを整えましょう。',
-    color: 'bg-blue-600'
+    color: 'bg-teal-600'
   },
   {
     id: 'guide-interview-checklist',
@@ -239,7 +239,7 @@ const nextItems = [
     badge: '次の一歩',
     title: '仕事探しにAIを使う方法',
     desc: '企業研究・履歴書・面接練習を効率よく進めましょう。',
-    color: 'bg-violet-600'
+    color: 'bg-brand-700'
   },
   {
     id: 'future-mental-care',
@@ -248,7 +248,7 @@ const nextItems = [
     badge: '困った時',
     title: '転職活動で心が疲れた時',
     desc: '不安や焦りが強い時の考え方を整理できます。',
-    color: 'bg-rose-600'
+    color: 'bg-amber-600'
   }
 ];
 const next = nextItems.find(item => !read.includes(item.id)) || nextItems[nextItems.length - 1];

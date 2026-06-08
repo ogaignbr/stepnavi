@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
-tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+tailwind.config = { theme: { extend: { colors: { brand: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534' } },  fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
 </script>
 <style>
 html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
@@ -20,10 +20,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
 
 /* タイピングアプリ */
-.tj-hero { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); padding: 28px 20px; border-bottom: 1px solid #fed7aa }
+.tj-hero { background: linear-gradient(135deg, #fff7ed 0%, #dcfce7 100%); padding: 28px 20px; border-bottom: 1px solid #bbf7d0 }
 .tj-hero h1 { font-size: 22px; font-weight: 800; color: #9a3412; letter-spacing: -0.01em }
 .tj-hero p { font-size: 12px; color: #b45309; line-height: 1.8; margin-top: 6px }
-.tj-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #ea580c; background: #fff; border: 1px solid #fed7aa; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px }
+.tj-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #15803d; background: #fff; border: 1px solid #bbf7d0; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px }
 
 .tj-card { border: 1px solid #f1f5f9; border-radius: 14px; padding: 18px; background: #fff }
 .tj-section-label { font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em; margin-bottom: 10px }
@@ -32,14 +32,14 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tj-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px }
 .tj-cat { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 14px; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: all .15s }
 .tj-cat:active { transform: scale(0.98) }
-.tj-cat.selected { border-color: #f97316; background: #fff7ed }
-.tj-cat .tj-cat-icon { width: 24px; height: 24px; color: #f97316; line-height: 1 }
+.tj-cat.selected { border-color: #16a34a; background: #fff7ed }
+.tj-cat .tj-cat-icon { width: 24px; height: 24px; color: #16a34a; line-height: 1 }
 .tj-cat .tj-cat-label { font-size: 13px; font-weight: 700; color: #0f172a }
 .tj-cat .tj-cat-desc { font-size: 10.5px; color: #64748b; line-height: 1.5 }
-.tj-cat.selected .tj-cat-icon { color: #ea580c }
+.tj-cat.selected .tj-cat-icon { color: #15803d }
 
 /* メインボタン */
-.tj-btn-primary { width: 100%; background: #f97316; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .15s; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25) }
+.tj-btn-primary { width: 100%; background: #16a34a; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .15s; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25) }
 .tj-btn-primary:active { opacity: 0.85; transform: scale(0.99) }
 .tj-btn-secondary { width: 100%; background: #fff; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600; cursor: pointer }
 .tj-btn-secondary:active { background: #f8fafc }
@@ -49,18 +49,18 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tj-meta-item { font-size: 11px; color: #64748b }
 .tj-meta-item b { font-size: 14px; color: #0f172a; font-weight: 700 }
 .tj-progress { height: 4px; background: #f1f5f9; border-radius: 999px; overflow: hidden; margin: 12px 0 16px }
-.tj-progress-bar { height: 100%; background: linear-gradient(90deg, #fb923c, #f97316); border-radius: 999px; transition: width .3s }
+.tj-progress-bar { height: 100%; background: linear-gradient(90deg, #4ade80, #16a34a); border-radius: 999px; transition: width .3s }
 
 .tj-prompt-wrap { background: #f8fafc; border-radius: 14px; padding: 18px 16px; margin-bottom: 14px; min-height: 90px }
 .tj-prompt-label { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em; margin-bottom: 8px }
 .tj-prompt-text { font-size: 17px; line-height: 1.9; color: #0f172a; font-weight: 500; word-break: break-all; letter-spacing: 0.01em }
 .tj-prompt-text .typed-ok { color: #16a34a; background: #dcfce7; border-radius: 2px }
 .tj-prompt-text .typed-bad { color: #dc2626; background: #fee2e2; border-radius: 2px; text-decoration: line-through }
-.tj-prompt-text .caret { display: inline-block; width: 1.5px; background: #f97316; animation: blink 1s steps(1) infinite; height: 22px; vertical-align: middle; margin: 0 1px }
+.tj-prompt-text .caret { display: inline-block; width: 1.5px; background: #16a34a; animation: blink 1s steps(1) infinite; height: 22px; vertical-align: middle; margin: 0 1px }
 @keyframes blink { 50% { opacity: 0 } }
 
 .tj-input { width: 100%; padding: 14px; font-size: 16px; line-height: 1.7; font-family: inherit; border: 2px solid #e2e8f0; border-radius: 12px; resize: none; box-sizing: border-box; transition: border-color .15s; -webkit-appearance: none }
-.tj-input:focus { outline: none; border-color: #f97316; background: #fffdf8 }
+.tj-input:focus { outline: none; border-color: #16a34a; background: #fffdf8 }
 .tj-input.shake { animation: shake .3s }
 @keyframes shake { 0%, 100% { transform: translateX(0) } 25% { transform: translateX(-4px) } 75% { transform: translateX(4px) } }
 
@@ -69,14 +69,14 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tj-feedback.bad { color: #dc2626 }
 
 /* 結果画面 */
-.tj-result-hero { text-align: center; padding: 22px 16px; background: linear-gradient(135deg, #fff7ed, #fed7aa); border-radius: 18px; margin-bottom: 18px }
+.tj-result-hero { text-align: center; padding: 22px 16px; background: linear-gradient(135deg, #fff7ed, #bbf7d0); border-radius: 18px; margin-bottom: 18px }
 .tj-result-cpm-label { font-size: 11px; font-weight: 700; color: #9a3412; letter-spacing: 0.06em; margin-bottom: 4px }
-.tj-result-cpm-value { font-size: 56px; font-weight: 800; color: #ea580c; line-height: 1; letter-spacing: -0.02em }
-.tj-result-cpm-unit { font-size: 13px; font-weight: 700; color: #c2410c; margin-top: 4px }
+.tj-result-cpm-value { font-size: 56px; font-weight: 800; color: #15803d; line-height: 1; letter-spacing: -0.02em }
+.tj-result-cpm-unit { font-size: 13px; font-weight: 700; color: #166534; margin-top: 4px }
 .tj-result-delta { font-size: 12px; font-weight: 700; margin-top: 10px; min-height: 16px }
 .tj-result-delta.up { color: #16a34a }
 .tj-result-delta.same { color: #64748b }
-.tj-result-delta.new { color: #f97316 }
+.tj-result-delta.new { color: #16a34a }
 
 .tj-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px }
 .tj-stat { background: #fff; border: 1px solid #f1f5f9; border-radius: 12px; padding: 12px 10px; text-align: center }
@@ -103,7 +103,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <aside class="desktop-sidebar">
   <div class="sidebar-logo">
     <div class="logo-icon">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <i data-lucide="footprints" class="w-[15px] h-[15px] text-white"></i>
     </div>
     <span>STEP NAVI</span>
   </div>
@@ -225,9 +225,9 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <span class="tj-best-val" id="tj-r-best">— CPM</span>
   </div>
 
-  <div class="p-4 bg-orange-50 rounded-xl mb-4 border border-orange-100">
-    <p class="text-[11px] font-bold text-orange-700 mb-1">求人票と比較してみよう</p>
-    <p class="text-[11px] text-orange-600 leading-relaxed">
+  <div class="p-4 bg-brand-50 rounded-xl mb-4 border border-brand-100">
+    <p class="text-[11px] font-bold text-brand-700 mb-1">求人票と比較してみよう</p>
+    <p class="text-[11px] text-brand-600 leading-relaxed">
       事務職の応募条件ではよく「1分80文字以上」「1分120文字以上」などと書かれます。<br>
       <b id="tj-r-bench">CPMが100を超えれば事務職の平均ライン</b>。続けるほど確実に上がります。
     </p>
@@ -254,7 +254,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
     <a href="../apps/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="gamepad-2" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">アプリ</span></a>
     <a href="../content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
-    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">外部リンク</span></a>
+    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">サポート</span></a>
   </div>
 </nav>
 

@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
-tailwind.config = { theme: { extend: { fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
+tailwind.config = { theme: { extend: { colors: { brand: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534' } },  fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'], heading: ['Inter','Noto Sans JP','sans-serif'] } } } }
 </script>
 <style>
 html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
@@ -35,7 +35,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 /* ===== Shortcut Game ===== */
 .kg-wrap { margin: 18px 0 8px; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; background: #fff }
 .kg-head { padding: 16px 16px 10px }
-.kg-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #ea580c; background: #fff7ed; border: 1px solid #fed7aa; padding: 3px 8px; border-radius: 6px }
+.kg-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #15803d; background: #fff7ed; border: 1px solid #bbf7d0; padding: 3px 8px; border-radius: 6px }
 .kg-title { font-size: 16px; font-weight: 700; color: #0f172a; margin: 8px 0 4px; padding: 0; border: none }
 .kg-lead { font-size: 12px; color: #64748b; line-height: 1.8; margin: 0 }
 .kg-stage { position: relative; width: 100%; background: linear-gradient(#eef6ff 0%, #f8fafc 100%); }
@@ -51,8 +51,8 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .kg-overlay-inner { max-width: 320px }
 .kg-ov-title { font-size: 18px; font-weight: 700; color: #fff; margin: 0 0 8px }
 .kg-ov-text { font-size: 12px; color: #e2e8f0; line-height: 1.8; margin: 0 0 6px }
-.kg-ov-best { font-size: 12px; color: #fdba74; font-weight: 700; margin: 0 0 14px; min-height: 14px }
-.kg-start-btn { background: #f97316; color: #fff; border: none; border-radius: 10px; padding: 12px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .15s }
+.kg-ov-best { font-size: 12px; color: #86efac; font-weight: 700; margin: 0 0 14px; min-height: 14px }
+.kg-start-btn { background: #16a34a; color: #fff; border: none; border-radius: 10px; padding: 12px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .15s }
 .kg-start-btn:active { opacity: .85 }
 .kg-pad { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px }
 .kg-pad button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all .12s }
@@ -73,7 +73,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <aside class="desktop-sidebar">
   <div class="sidebar-logo">
     <div class="logo-icon">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <i data-lucide="footprints" class="w-[15px] h-[15px] text-white"></i>
     </div>
     <span>STEP NAVI</span>
   </div>
@@ -170,9 +170,9 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   <!-- ===== SHORTCUT GAME ===== -->
   <div class="kg-wrap" id="shortcut-run">
     <div class="kg-head">
-      <span class="kg-badge">🎮 ゲームで覚える</span>
+      <span class="kg-badge">ゲームで覚える</span>
       <h3 class="kg-title">ショートカット・ラン</h3>
-      <p class="kg-lead">お題のショートカットを入力してジャンプ！障害物を avoid しながら走った距離を競おう。空中の<span style="color:#ef4444;font-weight:700;">❤</span>はジャンプで取るとライフ回復。</p>
+      <p class="kg-lead">お題のショートカットを入力してジャンプ！障害物を avoid しながら走った距離を競おう。空中の<span style="color:#ef4444;font-weight:700;">♥</span>はジャンプで取るとライフ回復。</p>
     </div>
 
     <div class="kg-stage">
@@ -180,7 +180,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
       <!-- HUD -->
       <div class="kg-hud">
-        <div class="kg-lives" id="kg-lives">❤❤❤</div>
+        <div class="kg-lives" id="kg-lives">♥♥♥</div>
         <div class="kg-dist"><span id="kg-distance">0</span> m</div>
       </div>
 
@@ -207,14 +207,14 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </div>
 
   <!-- ===== タイピング速度を測ろう ===== -->
-  <a href="typing.html" class="flex items-center gap-3 px-4 py-4 mt-4 mb-2 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 to-amber-50" style="text-decoration:none;">
-    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm"><i data-lucide="keyboard" class="w-5 h-5 text-orange-500"></i></div>
+  <a href="typing.html" class="flex items-center gap-3 px-4 py-4 mt-4 mb-2 rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50 to-amber-50" style="text-decoration:none;">
+    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm"><i data-lucide="keyboard" class="w-5 h-5 text-brand-500"></i></div>
     <div class="flex-1 min-w-0">
-      <p class="text-[10px] font-bold text-orange-600 tracking-wider">アプリで挑戦</p>
+      <p class="text-[10px] font-bold text-brand-600 tracking-wider">アプリで挑戦</p>
       <p class="text-[13px] font-bold text-slate-900 mt-0.5">タイピング・ジョブ</p>
       <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">10問で自分のタイピング速度を測定。求人票の「1分○文字」と比較できます</p>
     </div>
-    <i data-lucide="chevron-right" class="w-4 h-4 text-orange-400 flex-shrink-0"></i>
+    <i data-lucide="chevron-right" class="w-4 h-4 text-brand-400 flex-shrink-0"></i>
   </a>
 
   <h2>2. フォルダ作成</h2>
@@ -332,7 +332,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
     <a href="../apps/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="gamepad-2" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">アプリ</span></a>
     <a href="../content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
-    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">外部リンク</span></a>
+    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">サポート</span></a>
   </div>
 </nav>
 
@@ -468,8 +468,8 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
   }
 
   function updateHud(){
-    elLives.textContent = '❤'.repeat(Math.max(0,lives)) + '<span style="opacity:.25">'.length ? '' : '';
-    elLives.innerHTML = '<span style="color:#ef4444">'+'❤'.repeat(Math.max(0,lives))+'</span>'+'<span style="color:#cbd5e1">'+'❤'.repeat(Math.max(0,3-lives))+'</span>';
+    elLives.textContent = '♥'.repeat(Math.max(0,lives)) + '<span style="opacity:.25">'.length ? '' : '';
+    elLives.innerHTML = '<span style="color:#ef4444">'+'♥'.repeat(Math.max(0,lives))+'</span>'+'<span style="color:#cbd5e1">'+'♥'.repeat(Math.max(0,3-lives))+'</span>';
     elDist.textContent = Math.floor(distance);
   }
 
@@ -492,7 +492,7 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
       jump();
       // 正解エフェクト：キラキラ＋リング＋フラッシュ
       const cx = runner.x + runnerBase.w/2, cy = runner.y + runnerBase.h/2;
-      burst(cx, cy, 14, ['#fbbf24','#f97316','#fde68a','#fff'], { spMin:1.5, spMax:5, g:0.06, lifeMin:20, lifeMax:38, sizeMin:2, sizeMax:5, star:true });
+      burst(cx, cy, 14, ['#fbbf24','#16a34a','#fde68a','#fff'], { spMin:1.5, spMax:5, g:0.06, lifeMin:20, lifeMax:38, sizeMin:2, sizeMax:5, star:true });
       rings.push({ x:cx, y:cy, r:8, maxR:46, life:1 });
       flash = 0.5;
     } else {
@@ -704,7 +704,7 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
       // 上面ハイライト
       ctx.fillStyle = 'rgba(255,255,255,0.18)'; rr(o.x+3, oy+3, o.w-6, 5, 2); ctx.fill();
       // とげ（オレンジの三角）
-      ctx.fillStyle = o.cleared ? '#fecaca' : '#f97316';
+      ctx.fillStyle = o.cleared ? '#fecaca' : '#16a34a';
       ctx.beginPath(); ctx.moveTo(o.x+o.w/2-6, oy); ctx.lineTo(o.x+o.w/2, oy-9); ctx.lineTo(o.x+o.w/2+6, oy); ctx.closePath(); ctx.fill();
     });
 
@@ -730,16 +730,16 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
       ctx.scale(scaleX, scaleY);
       // 脚（走行アニメ。ジャンプ中は揃える）
       const legSwing = runner.jumping ? 0 : Math.sin(frame*0.5)*6;
-      ctx.fillStyle = '#c2410c';
+      ctx.fillStyle = '#166534';
       rr(-8 - legSwing*0.3, -10, 7, 12 + (runner.jumping?-3:legSwing*0.3), 3); ctx.fill();
       rr(2 + legSwing*0.3, -10, 7, 12 + (runner.jumping?-3:-legSwing*0.3), 3); ctx.fill();
       // 体（卵型グラデ）
       let bg = ctx.createLinearGradient(0,-rh,0,0);
-      bg.addColorStop(0,'#fdba74'); bg.addColorStop(0.5,'#fb923c'); bg.addColorStop(1,'#f97316');
+      bg.addColorStop(0,'#86efac'); bg.addColorStop(0.5,'#4ade80'); bg.addColorStop(1,'#16a34a');
       ctx.fillStyle = bg;
       rr(-rw/2, -rh, rw, rh, 13); ctx.fill();
       // 腕
-      ctx.fillStyle = '#ea580c';
+      ctx.fillStyle = '#15803d';
       rr(rw/2-6, -rh+15, 9, 6, 3); ctx.fill();
       // ほっぺ
       ctx.fillStyle = 'rgba(254,205,170,0.9)'; ctx.beginPath(); ctx.arc(rw/2-9, -12, 3, 0, Math.PI*2); ctx.fill();
@@ -775,7 +775,7 @@ if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(ST
       ctx.translate(cx, ry - 14);
       ctx.scale(1+pop*0.4, 1+pop*0.4);
       ctx.font = 'bold 16px Inter, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillStyle = '#f97316'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
+      ctx.fillStyle = '#16a34a'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
       ctx.strokeText('x'+combo, 0, 0); ctx.fillText('x'+combo, 0, 0);
       ctx.restore();
     }

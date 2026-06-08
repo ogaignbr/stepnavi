@@ -8,7 +8,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
 tailwind.config = {
@@ -17,6 +17,12 @@ tailwind.config = {
       fontFamily: {
         sans: ['Noto Sans JP', 'Inter', 'system-ui', 'sans-serif'],
         heading: ['Inter', 'Noto Sans JP', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac',
+          400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534'
+        }
       }
     }
   }
@@ -32,12 +38,23 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .fade-up.d3 { transition-delay: .24s }
 .fade-up.d4 { transition-delay: .32s }
 .menu-item { transition: background .15s ease }
-.menu-item:active { background: #f1f5f9 }
+.menu-item:active { background: #f0fdf4 }
 .start-card { transition: transform .15s ease, box-shadow .15s ease }
 .start-card:active { transform: scale(.985) }
-.start-thumb { width: 74px; min-height: 92px; object-fit: cover; flex-shrink: 0 }
-.priority-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; line-height: 1.4 }
+.start-thumb { width: 78px; min-height: 100px; object-fit: cover; flex-shrink: 0 }
+.priority-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; line-height: 1.4; letter-spacing: .02em }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+/* ヒーロー：グリーンの世界観 */
+.hero-overlay { background: linear-gradient(to bottom, rgba(240,253,244,0.82) 0%, rgba(255,255,255,0.66) 42%, rgba(240,253,244,0.94) 100%); }
+.hero-chip { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.hero-chip span { font-size:10.5px; font-weight:700; color:#166534; letter-spacing:.02em; line-height:1.3; text-align:center }
+.hero-chip .ic { width:42px; height:42px; border-radius:14px; background:#fff; border:1px solid #dcfce7; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px -6px rgba(21,128,61,.35) }
+/* ロードマップ */
+.road-step { position:relative; display:flex; gap:14px; padding-bottom:22px }
+.road-step:last-child { padding-bottom:0 }
+.road-step::before { content:""; position:absolute; left:17px; top:38px; bottom:-4px; width:2px; background:linear-gradient(to bottom,#bbf7d0,#dcfce7) }
+.road-step:last-child::before { display:none }
+.road-num { position:relative; z-index:1; width:36px; height:36px; border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:15px; background:linear-gradient(135deg,#22c55e,#15803d); box-shadow:0 6px 14px -6px rgba(21,128,61,.5) }
 </style>
 <script>
 // 認証ガード：未ログインならログイン画面へ
@@ -94,16 +111,21 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 
 <!-- ===== HEADER ===== -->
-<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
-  <div class="flex items-center justify-between px-5 h-12">
-    <div class="flex items-center gap-2">
-      <button id="menu-toggle" type="button" aria-label="メニューを開く" class="w-7 h-7 rounded-lg bg-black flex items-center justify-center">
-        <i data-lucide="menu" class="w-[16px] h-[16px] text-white"></i>
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100">
+  <div class="flex items-center justify-between px-5 h-14">
+    <div class="flex items-center gap-2.5">
+      <button id="menu-toggle" type="button" aria-label="メニューを開く" class="w-8 h-8 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center">
+        <i data-lucide="menu" class="w-[17px] h-[17px] text-brand-700"></i>
       </button>
-      <span class="font-bold text-[15px] tracking-tight font-heading">STEP NAVI</span>
+      <span class="flex items-center gap-2">
+        <span class="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-sm">
+          <i data-lucide="footprints" class="w-[15px] h-[15px] text-white"></i>
+        </span>
+        <span class="font-extrabold text-[16px] tracking-tight font-heading text-slate-900">STEP NAVI</span>
+      </span>
     </div>
-    <a href="#line-cta" class="w-8 h-8 flex items-center justify-center">
-      <i data-lucide="bell" class="w-[18px] h-[18px] text-slate-400"></i>
+    <a href="auth/mypage.html" class="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center" aria-label="マイページ">
+      <i data-lucide="user" class="w-[17px] h-[17px] text-slate-500"></i>
     </a>
   </div>
 </header>
@@ -111,161 +133,234 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <!-- ===== HERO ===== -->
 <section class="relative overflow-hidden fade-up">
   <img src="assets/hero/home.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
-  <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.62) 45%, rgba(255,255,255,0.85) 100%);"></div>
-  <div class="relative px-5 pt-10 pb-8 text-center">
-    <p class="text-[11px] font-semibold tracking-widest text-slate-500 uppercase mb-4">Free Career Contents</p>
-    <h1 class="text-[23px] font-bold leading-[1.4] mb-3 font-heading text-slate-900" style="text-shadow: 0 1px 12px rgba(255,255,255,0.9);">
-      あなたのキャリアを、<br>一歩前へ。
+  <div class="absolute inset-0 hero-overlay"></div>
+  <div class="relative px-5 pt-11 pb-9 text-center">
+    <p class="sn-eyebrow mb-4">Career Support for You</p>
+    <h1 class="text-[26px] font-extrabold leading-[1.4] mb-3.5 font-heading text-slate-900">
+      あなたのキャリアを、<br><span class="text-brand-600">一歩前へ。</span>
     </h1>
-    <p class="text-[13px] text-slate-600 leading-relaxed" style="text-shadow: 0 1px 8px rgba(255,255,255,0.9);">
-      多様な仕事を知り、スキルを身につけ、<br>あなたに合った道を見つけよう
+    <p class="text-[13px] text-slate-600 leading-[1.9] mb-7">
+      準備から面接、スキルアップまで。<br>就職活動に必要なことは、ここですべて整います。
     </p>
+    <!-- 機能チップ -->
+    <div class="grid grid-cols-4 gap-2 max-w-[340px] mx-auto mb-7">
+      <a href="guides/resume.html" class="hero-chip"><span class="ic"><i data-lucide="file-text" class="w-[19px] h-[19px] text-brand-600"></i></span><span>書類作成</span></a>
+      <a href="guides/index.html" class="hero-chip"><span class="ic"><i data-lucide="target" class="w-[19px] h-[19px] text-brand-600"></i></span><span>面接対策</span></a>
+      <a href="certification/index.html" class="hero-chip"><span class="ic"><i data-lucide="graduation-cap" class="w-[19px] h-[19px] text-brand-600"></i></span><span>スキル<br>アップ</span></a>
+      <a href="future/index.html" class="hero-chip"><span class="ic"><i data-lucide="compass" class="w-[19px] h-[19px] text-brand-600"></i></span><span>キャリア<br>設計</span></a>
+    </div>
+    <a href="content/index.html" class="sn-btn max-w-[300px] mx-auto">
+      <i data-lucide="play" class="w-[16px] h-[16px]"></i>学習をはじめる
+    </a>
   </div>
 </section>
 
 <!-- ===== PROGRESS BADGE ===== -->
-<section class="px-5 mb-6 fade-up d1">
-  <div class="bg-slate-50 rounded-2xl px-5 py-4 flex items-center gap-4">
-    <div class="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center flex-shrink-0">
-      <span id="badge-count" class="text-[18px] font-bold text-slate-900">0</span>
+<section class="px-5 mt-7 mb-2 fade-up d1">
+  <div class="rounded-2xl px-5 py-4 flex items-center gap-4 border border-brand-100 bg-brand-50">
+    <div class="w-12 h-12 rounded-xl bg-white border border-brand-100 flex items-center justify-center flex-shrink-0">
+      <span id="badge-count" class="text-[18px] font-extrabold text-brand-700">0</span>
     </div>
     <div class="flex-1 min-w-0">
-      <p class="text-[12px] font-semibold text-slate-700">あなたの学習進捗</p>
-      <p id="badge-text" class="text-[11px] text-slate-400 mt-0.5">記事を読むとカウントされます</p>
-      <div class="mt-2 h-1 bg-slate-200 rounded-full overflow-hidden">
-        <div id="badge-bar" class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500" style="width:0%"></div>
+      <p class="text-[12px] font-bold text-slate-700">あなたの学習進捗</p>
+      <p id="badge-text" class="text-[11px] text-slate-500 mt-0.5">記事を読むとカウントされます</p>
+      <div class="mt-2 h-1.5 bg-white rounded-full overflow-hidden">
+        <div id="badge-bar" class="h-full rounded-full transition-all duration-500" style="width:0%"></div>
       </div>
     </div>
   </div>
 </section>
 
+<hr class="sn-divider">
+
 <!-- ===== START HERE ===== -->
-<section class="px-5 mb-6 fade-up d2">
-  <div class="flex items-end justify-between mb-3">
+<section class="px-5 mb-2 fade-up d2">
+  <div class="flex items-end justify-between mb-3.5">
     <div>
-      <p class="text-[11px] font-semibold text-slate-400 tracking-wider">まずはここから</p>
-      <h2 class="text-[17px] font-bold mt-1">今の状況に近いものを選ぶ</h2>
+      <p class="sn-eyebrow">Start Here</p>
+      <h2 class="sn-title mt-1.5">今の状況に近いものを選ぶ</h2>
     </div>
-    <span class="text-[10px] text-slate-400">最短1分</span>
+    <span class="text-[10px] text-slate-400 font-medium whitespace-nowrap ml-3">最短1分</span>
   </div>
   <div class="space-y-3">
-    <a href="guides/interview-checklist.html" class="start-card flex overflow-hidden border border-emerald-100 bg-emerald-50 rounded-2xl">
+    <a href="guides/interview-checklist.html" class="start-card flex overflow-hidden border border-brand-100 bg-brand-50 rounded-2xl">
       <img src="assets/prompts/iv_practice.jpg" alt="" class="start-thumb">
-      <div class="flex-1 min-w-0 p-3.5">
-        <span class="priority-tag bg-white text-emerald-700">面接前に見る</span>
-        <p class="font-bold text-[14px] mt-2">面接が近い</p>
-        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">前日から当日までの準備を確認して、不安を減らします。</p>
+      <div class="flex-1 min-w-0 p-4">
+        <span class="priority-tag bg-white text-brand-700">面接前に見る</span>
+        <p class="font-bold text-[14.5px] mt-2">面接が近い</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">前日から当日までの準備を確認して、不安を減らします。</p>
+      </div>
+      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-brand-500"></i></div>
+    </a>
+
+    <a href="guides/resume.html" class="start-card flex overflow-hidden border border-teal-100 bg-teal-50 rounded-2xl">
+      <img src="assets/hero/certification.jpg" alt="" class="start-thumb">
+      <div class="flex-1 min-w-0 p-4">
+        <span class="priority-tag bg-white text-teal-700">最初におすすめ</span>
+        <p class="font-bold text-[14.5px] mt-2">履歴書・職務経歴書を整えたい</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">書類選考で見られるポイントを、例文付きで整理します。</p>
+      </div>
+      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-teal-500"></i></div>
+    </a>
+
+    <a href="content/index.html" class="start-card flex overflow-hidden border border-emerald-100 bg-emerald-50 rounded-2xl">
+      <img src="assets/hero/home.jpg" alt="" class="start-thumb">
+      <div class="flex-1 min-w-0 p-4">
+        <span class="priority-tag bg-white text-emerald-700">迷ったらここ</span>
+        <p class="font-bold text-[14.5px] mt-2">何から始めればいいか分からない</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">カテゴリ一覧から、自分に必要なテーマを見つけます。</p>
       </div>
       <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-emerald-500"></i></div>
     </a>
 
-    <a href="guides/resume.html" class="start-card flex overflow-hidden border border-blue-100 bg-blue-50 rounded-2xl">
-      <img src="assets/hero/certification.jpg" alt="" class="start-thumb">
-      <div class="flex-1 min-w-0 p-3.5">
-        <span class="priority-tag bg-white text-blue-700">最初におすすめ</span>
-        <p class="font-bold text-[14px] mt-2">履歴書・職務経歴書を整えたい</p>
-        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">書類選考で見られるポイントを、例文付きで整理します。</p>
-      </div>
-      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i></div>
-    </a>
-
-    <a href="content/index.html" class="start-card flex overflow-hidden border border-violet-100 bg-violet-50 rounded-2xl">
-      <img src="assets/hero/home.jpg" alt="" class="start-thumb">
-      <div class="flex-1 min-w-0 p-3.5">
-        <span class="priority-tag bg-white text-violet-700">迷ったらここ</span>
-        <p class="font-bold text-[14px] mt-2">何から始めればいいか分からない</p>
-        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">カテゴリ一覧から、自分に必要なテーマを見つけます。</p>
-      </div>
-      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-violet-500"></i></div>
-    </a>
-
-    <a href="apps/index.html" class="start-card flex overflow-hidden border border-rose-100 bg-rose-50 rounded-2xl">
+    <a href="apps/index.html" class="start-card flex overflow-hidden border border-amber-100 bg-amber-50 rounded-2xl">
       <img src="assets/cert/excel-basic.jpg" alt="" class="start-thumb">
-      <div class="flex-1 min-w-0 p-3.5">
-        <span class="priority-tag bg-white text-rose-700">時間がある時に見る</span>
-        <p class="font-bold text-[14px] mt-2">PC・Excelスキルを上げたい</p>
-        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">ゲーム感覚で、応募条件に出やすい基礎スキルを練習します。</p>
+      <div class="flex-1 min-w-0 p-4">
+        <span class="priority-tag bg-white text-amber-700">時間がある時に見る</span>
+        <p class="font-bold text-[14.5px] mt-2">PC・Excelスキルを上げたい</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">ゲーム感覚で、応募条件に出やすい基礎スキルを練習します。</p>
       </div>
-      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-rose-500"></i></div>
+      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-amber-500"></i></div>
     </a>
   </div>
 </section>
 
+<div class="sn-divider--leaf"><i data-lucide="sprout"></i></div>
+
+<!-- ===== 就活ロードマップ ===== -->
+<section class="px-5 mb-2 fade-up">
+  <div class="mb-4">
+    <p class="sn-eyebrow">Road Map</p>
+    <h2 class="sn-title mt-1.5">就職活動、5つのステップ</h2>
+    <p class="sn-lead mt-2">何から手をつければいいか分からなくても大丈夫。<br>上から順に進めれば、自然と準備が整います。</p>
+  </div>
+  <div class="rounded-2xl border border-slate-100 bg-white px-5 py-6 shadow-[0_8px_30px_-18px_rgba(15,41,28,0.25)]">
+    <a href="future/index.html" class="road-step">
+      <div class="road-num">1</div>
+      <div class="flex-1 min-w-0 pt-1">
+        <p class="font-bold text-[14px] text-slate-900">準備・心構えを整える</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">これからの働き方やAI時代のキャリアを知り、方向性を決めます。</p>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 mt-2 flex-shrink-0"></i>
+    </a>
+    <a href="guides/resume.html" class="road-step">
+      <div class="road-num">2</div>
+      <div class="flex-1 min-w-0 pt-1">
+        <p class="font-bold text-[14px] text-slate-900">応募書類をつくる</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">履歴書・職務経歴書を、例文とテンプレートを見ながら仕上げます。</p>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 mt-2 flex-shrink-0"></i>
+    </a>
+    <a href="certification/index.html" class="road-step">
+      <div class="road-num">3</div>
+      <div class="flex-1 min-w-0 pt-1">
+        <p class="font-bold text-[14px] text-slate-900">スキルを身につける</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">応募条件に出やすいPC・資格・AI活用を、無料で基礎から学びます。</p>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 mt-2 flex-shrink-0"></i>
+    </a>
+    <a href="guides/index.html" class="road-step">
+      <div class="road-num">4</div>
+      <div class="flex-1 min-w-0 pt-1">
+        <p class="font-bold text-[14px] text-slate-900">面接に備える</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">よくある質問・マナー・当日の流れを確認し、自信を持って臨みます。</p>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 mt-2 flex-shrink-0"></i>
+    </a>
+    <a href="links/index.html" class="road-step">
+      <div class="road-num">5</div>
+      <div class="flex-1 min-w-0 pt-1">
+        <p class="font-bold text-[14px] text-slate-900">応募・相談しながら進める</p>
+        <p class="text-[11.5px] text-slate-500 mt-1 leading-[1.7]">求人情報や各種サポートを活用し、迷ったらいつでも相談できます。</p>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 mt-2 flex-shrink-0"></i>
+    </a>
+  </div>
+</section>
+
+<div class="sn-divider--leaf"><i data-lucide="message-square-text"></i></div>
+
 <!-- ===== 面接対策 ===== -->
-<section class="px-5 mb-6 fade-up d3">
-  <div class="flex items-center justify-between mb-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">面接対策</p>
-    <span id="iv-progress" class="text-[10px] text-slate-400">0 / 4 読了</span>
+<section class="px-5 mb-2 fade-up d3">
+  <div class="flex items-center justify-between mb-3">
+    <div>
+      <p class="sn-eyebrow">Interview</p>
+      <h2 class="sn-title mt-1.5">面接対策</h2>
+    </div>
+    <span id="iv-progress" class="text-[10px] text-slate-400 font-medium whitespace-nowrap ml-3">0 / 4 読了</span>
   </div>
   <div class="grid grid-cols-2 gap-2.5">
 
-    <a href="guides/interview-questions.html" class="iv-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="guide-interview-questions">
-      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+    <a href="guides/interview-questions.html" class="iv-card block border border-slate-100 rounded-2xl p-4 active:bg-brand-50 transition-colors" data-article="guide-interview-questions">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center mb-2.5">
         <i data-lucide="messages-square" class="w-[17px] h-[17px] text-white"></i>
       </div>
-      <p class="font-semibold text-[12.5px] leading-[1.4]">よくある質問</p>
+      <p class="font-bold text-[12.5px] leading-[1.4]">よくある質問</p>
       <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">本音・型・NGを職種別に解説</p>
-      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded-full"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
     </a>
 
-    <a href="prompts/interview.html" class="iv-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="prompts-interview">
-      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+    <a href="prompts/interview.html" class="iv-card block border border-slate-100 rounded-2xl p-4 active:bg-brand-50 transition-colors" data-article="prompts-interview">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center mb-2.5">
         <i data-lucide="wand-2" class="w-[17px] h-[17px] text-white"></i>
       </div>
-      <p class="font-semibold text-[12.5px] leading-[1.4]">AI面接練習</p>
+      <p class="font-bold text-[12.5px] leading-[1.4]">AI面接練習</p>
       <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">AIで本番さながらの練習</p>
-      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded-full"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
     </a>
 
-    <a href="guides/resume.html" class="iv-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="guide-resume">
-      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+    <a href="guides/resume.html" class="iv-card block border border-slate-100 rounded-2xl p-4 active:bg-brand-50 transition-colors" data-article="guide-resume">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center mb-2.5">
         <i data-lucide="file-text" class="w-[17px] h-[17px] text-white"></i>
       </div>
-      <p class="font-semibold text-[12.5px] leading-[1.4]">履歴書の書き方</p>
+      <p class="font-bold text-[12.5px] leading-[1.4]">履歴書の書き方</p>
       <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">テンプレ付きで書類選考突破</p>
-      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded-full"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
     </a>
 
-    <a href="guides/interview-checklist.html" class="iv-card block border border-slate-100 rounded-xl p-3.5 active:bg-slate-50 transition-colors" data-article="guide-interview-checklist">
-      <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center mb-2.5">
+    <a href="guides/interview-checklist.html" class="iv-card block border border-slate-100 rounded-2xl p-4 active:bg-brand-50 transition-colors" data-article="guide-interview-checklist">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center mb-2.5">
         <i data-lucide="list-checks" class="w-[17px] h-[17px] text-white"></i>
       </div>
-      <p class="font-semibold text-[12.5px] leading-[1.4]">チェックリスト</p>
+      <p class="font-bold text-[12.5px] leading-[1.4]">チェックリスト</p>
       <p class="text-[10.5px] text-slate-400 mt-1 leading-[1.6]">前日〜当日の準備を管理</p>
-      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
+      <span class="iv-badge hidden mt-2 inline-flex items-center gap-1 text-[9px] text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded-full"><i data-lucide="check" class="w-2.5 h-2.5"></i>読了</span>
     </a>
 
   </div>
 </section>
 
+<div class="sn-divider--leaf"><i data-lucide="layout-grid"></i></div>
+
 <!-- ===== CATEGORY LIST ===== -->
 <section class="fade-up d4">
-  <div class="px-5 py-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">コンテンツ一覧</p>
+  <div class="px-5 mb-1">
+    <p class="sn-eyebrow">Contents</p>
+    <h2 class="sn-title mt-1.5">コンテンツ一覧</h2>
   </div>
-  <div class="border-t border-slate-100 desktop-grid-3">
+  <div class="border-t border-slate-100 mt-3 desktop-grid-3">
 
     <a href="manners/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="briefcase" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mr-4">
+        <i data-lucide="briefcase" class="w-[18px] h-[18px] text-brand-600"></i>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">ビジネスマナー</p>
+        <p class="font-bold text-[14px]">ビジネスマナー</p>
         <p class="text-[12px] text-slate-400 mt-0.5">面接前・入社前に確認</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
-        <span class="priority-tag bg-emerald-50 text-emerald-700">面接前</span>
+        <span class="priority-tag bg-brand-50 text-brand-700">面接前</span>
         <span class="article-count text-[11px] text-slate-400">3 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
     </a>
 
     <a href="certification/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="award" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mr-4">
+        <i data-lucide="award" class="w-[18px] h-[18px] text-brand-600"></i>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">資格取得ガイド</p>
+        <p class="font-bold text-[14px]">資格取得ガイド</p>
         <p class="text-[12px] text-slate-400 mt-0.5">応募条件に近い資格を確認</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
@@ -276,56 +371,56 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </a>
 
     <a href="ai/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="sparkles" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mr-4">
+        <i data-lucide="sparkles" class="w-[18px] h-[18px] text-brand-600"></i>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">AI活用入門</p>
+        <p class="font-bold text-[14px]">AI活用入門</p>
         <p class="text-[12px] text-slate-400 mt-0.5">履歴書・企業研究・面接練習に使える</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
-        <span class="priority-tag bg-blue-50 text-blue-700">最初におすすめ</span>
+        <span class="priority-tag bg-teal-50 text-teal-700">最初におすすめ</span>
         <span class="article-count text-[11px] text-slate-400">2 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
     </a>
 
     <a href="careers/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="library" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mr-4">
+        <i data-lucide="library" class="w-[18px] h-[18px] text-brand-600"></i>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">職種図鑑</p>
+        <p class="font-bold text-[14px]">職種図鑑</p>
         <p class="text-[12px] text-slate-400 mt-0.5">応募前に仕事内容を確認</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
-        <span class="priority-tag bg-violet-50 text-violet-700">迷ったら</span>
+        <span class="priority-tag bg-emerald-50 text-emerald-700">迷ったら</span>
         <span class="article-count text-[11px] text-slate-400">12 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
     </a>
 
     <a href="prompts/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="wand-2" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mr-4">
+        <i data-lucide="wand-2" class="w-[18px] h-[18px] text-brand-600"></i>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">プロンプト集</p>
+        <p class="font-bold text-[14px]">プロンプト集</p>
         <p class="text-[12px] text-slate-400 mt-0.5">書類・面接準備をAIで時短</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
-        <span class="priority-tag bg-blue-50 text-blue-700">困った時</span>
+        <span class="priority-tag bg-teal-50 text-teal-700">困った時</span>
         <span class="article-count text-[11px] text-slate-400">6 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
     </a>
 
     <a href="future/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="compass" class="w-[18px] h-[18px] text-slate-600"></i>
+      <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mr-4">
+        <i data-lucide="compass" class="w-[18px] h-[18px] text-brand-600"></i>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">AI時代のキャリア</p>
+        <p class="font-bold text-[14px]">AI時代のキャリア</p>
         <p class="text-[12px] text-slate-400 mt-0.5">将来性や仕事選びの不安を整理</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
@@ -338,11 +433,16 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </div>
 </section>
 
+<hr class="sn-divider">
+
 <!-- ===== ENCOURAGEMENT ===== -->
-<section class="px-5 mt-8 fade-up d4">
-  <div class="bg-slate-50 rounded-2xl px-6 py-7 text-center">
-    <p class="text-[15px] font-bold mb-2">一歩ずつで大丈夫。</p>
-    <p class="text-[12px] text-slate-400 leading-[1.8]">
+<section class="px-5 fade-up d4">
+  <div class="rounded-2xl px-6 py-8 text-center bg-gradient-to-b from-brand-50 to-white border border-brand-100">
+    <span class="inline-flex w-11 h-11 rounded-full bg-white border border-brand-100 items-center justify-center mb-3">
+      <i data-lucide="sprout" class="w-[20px] h-[20px] text-brand-600"></i>
+    </span>
+    <p class="text-[16px] font-extrabold mb-2 text-slate-900">一歩ずつで大丈夫。</p>
+    <p class="text-[12px] text-slate-500 leading-[1.9]">
       今すぐ完璧である必要はありません。<br>
       少しずつスキルを磨いて、<br>
       あなたに合った仕事を一緒に見つけましょう。
@@ -351,36 +451,43 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 </section>
 
 <!-- ===== LINE CTA ===== -->
-<section id="line-cta" class="px-5 mt-6 mb-8 fade-up d4">
-  <a href="https://lin.ee/WQzrYGn" target="_blank" rel="noopener" class="block border border-slate-100 rounded-2xl px-5 py-5">
+<section id="line-cta" class="px-5 mt-5 mb-9 fade-up d4">
+  <a href="https://lin.ee/WQzrYGn" target="_blank" rel="noopener" class="block border border-slate-100 rounded-2xl px-5 py-5 bg-white shadow-[0_8px_30px_-20px_rgba(15,41,28,0.3)]">
     <div class="flex items-center gap-3 mb-3">
-      <div class="w-10 h-10 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+      <div class="w-11 h-11 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
       </div>
       <div>
-        <p class="font-semibold text-[13px]">LINE公式アカウント</p>
-        <p class="text-[11px] text-slate-400">履歴書添削・面接不安・求人相談</p>
+        <p class="font-bold text-[13.5px] text-slate-900">LINEで相談する</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">履歴書添削・面接の不安・求人相談</p>
       </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-auto"></i>
     </div>
-    <p class="text-[11px] text-slate-400 leading-[1.8]">
-      履歴書の書き方、面接前の不安、求人の探し方など、迷ったことはLINEで相談できます。
+    <p class="text-[11px] text-slate-500 leading-[1.9]">
+      履歴書の書き方、面接前の不安、求人の探し方など、迷ったことは無料で相談できます。一人で抱え込まずに、気軽にメッセージしてください。
     </p>
   </a>
 </section>
 
 <!-- ===== FOOTER ===== -->
-<footer class="px-5 py-5 text-center">
-  <p class="text-[10px] text-slate-300">&copy; 2024 STEP NAVI</p>
+<footer class="px-5 py-6 text-center border-t border-slate-100">
+  <span class="inline-flex items-center gap-1.5 mb-1.5">
+    <span class="w-5 h-5 rounded-md bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
+      <i data-lucide="footprints" class="w-[11px] h-[11px] text-white"></i>
+    </span>
+    <span class="font-bold text-[12px] text-slate-500 tracking-tight">STEP NAVI</span>
+  </span>
+  <p class="text-[10px] text-slate-300">&copy; 2026 STEP NAVI</p>
 </footer>
 
 <!-- ===== BOTTOM NAVIGATION ===== -->
-<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
-  <div class="flex items-center justify-around h-12">
-    <a href="index.html" class="flex flex-col items-center gap-0.5 text-slate-900"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
-    <a href="guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
-    <a href="apps/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="gamepad-2" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">アプリ</span></a>
-    <a href="content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
-    <a href="links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">外部リンク</span></a>
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-t border-slate-100">
+  <div class="flex items-center justify-around h-14">
+    <a href="index.html" class="flex flex-col items-center gap-0.5 text-brand-600"><i data-lucide="home" class="w-[19px] h-[19px]"></i><span class="text-[9px] font-bold">ホーム</span></a>
+    <a href="guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[19px] h-[19px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
+    <a href="apps/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="gamepad-2" class="w-[19px] h-[19px]"></i><span class="text-[9px] font-medium">アプリ</span></a>
+    <a href="content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[19px] h-[19px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
+    <a href="links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[19px] h-[19px]"></i><span class="text-[9px] font-medium">サポート</span></a>
   </div>
 </nav>
 
@@ -422,22 +529,22 @@ document.getElementById('iv-progress').textContent = ivDone + ' / ' + ivCards.le
 
 // Progress badge - count of all read articles
 const STORAGE_KEY = 'stepnavi_read';
-const TOTAL_ARTICLES = 32; // 3+3+2 (v1) + 6+6+12 (v2)
+const TOTAL_ARTICLES = 36; // 3(マナー)+7(資格)+2(AI)+12(職種)+6(プロンプト)+6(キャリア)
 const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 const count = read.length;
 document.getElementById('badge-count').textContent = count;
-const pct = Math.round((count / TOTAL_ARTICLES) * 100);
+const pct = Math.min(100, Math.round((count / TOTAL_ARTICLES) * 100));
 document.getElementById('badge-bar').style.width = pct + '%';
 if (count === 0) {
   document.getElementById('badge-text').textContent = '記事を読むとカウントされます';
 } else if (count < 5) {
   document.getElementById('badge-text').textContent = count + ' / ' + TOTAL_ARTICLES + ' 記事を読了';
 } else if (count < 15) {
-  document.getElementById('badge-text').textContent = 'もう ' + count + ' 記事も読みました！';
+  document.getElementById('badge-text').textContent = 'もう ' + count + ' 記事も読みました';
 } else if (count < TOTAL_ARTICLES) {
   document.getElementById('badge-text').textContent = 'あと ' + (TOTAL_ARTICLES - count) + ' 記事で全制覇';
 } else {
-  document.getElementById('badge-text').textContent = '🎉 全記事制覇おめでとうございます';
+  document.getElementById('badge-text').textContent = '全記事を読破しました。おめでとうございます';
 }
 </script>
 </body>

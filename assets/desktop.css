@@ -1,17 +1,146 @@
-/* STEP NAVI - デスクトップ対応 (768px以上) */
+/* STEP NAVI - グリーン・デザインシステム（全幅で使用） */
 
-/* カテゴリーカラー（全幅で使用） */
+/* ブランドカラー：CreAIteの世界観に合わせたフレッシュ・グリーン */
 :root {
-  --cat-main: #2563eb;          /* メイン: ブルー */
-  --cat-main-soft: #eff6ff;
-  --cat-interview: #059669;     /* 面接対策: エメラルド */
-  --cat-interview-soft: #ecfdf5;
-  --cat-content: #7c3aed;       /* コンテンツ: バイオレット */
-  --cat-content-soft: #f5f3ff;
-  --cat-support: #d97706;       /* 各種サポート: アンバー */
+  --brand:        #16a34a;   /* green-600 ブランド主色 */
+  --brand-dark:   #15803d;   /* green-700 */
+  --brand-deep:   #166534;   /* green-800 見出し/濃色 */
+  --brand-bright: #22c55e;   /* green-500 グラデ */
+  --brand-50:     #f0fdf4;
+  --brand-100:    #dcfce7;
+  --brand-200:    #bbf7d0;
+  --ink:          #0f291c;   /* 深いグリーン寄りの黒（本文見出し） */
+
+  /* カテゴリーアクセント（グリーン基調で調和。1色だけ暖色アンバーで差し色） */
+  --cat-main: var(--brand);     /* ホーム/メイン: グリーン */
+  --cat-main-soft: var(--brand-50);
+  --cat-interview: #0d9488;     /* 面接対策: ティール */
+  --cat-interview-soft: #f0fdfa;
+  --cat-content: #15803d;       /* コンテンツ: ディープグリーン */
+  --cat-content-soft: #f0fdf4;
+  --cat-support: #b45309;       /* 各種サポート: アンバー（差し色） */
   --cat-support-soft: #fffbeb;
-  --cat-apps: #e11d48;          /* レベルアップアプリ: ローズ */
-  --cat-apps-soft: #fff1f2;
+  --cat-apps: #0891b2;          /* レベルアップアプリ: シアン */
+  --cat-apps-soft: #ecfeff;
+}
+
+/* ===== 全画面共通：タイポ階層・区切り線・ボタン（メディアクエリ外＝モバイルにも適用） ===== */
+
+/* セクション見出しのラベル（小さな上見出し）＋メインタイトル */
+.sn-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+.sn-title {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.sn-lead {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #475569;
+}
+
+/* 区切り線（セクションの境目をはっきりさせる） */
+.sn-divider {
+  height: 1px;
+  border: 0;
+  margin: 28px 20px;
+  background: linear-gradient(to right, transparent, #e2e8f0 18%, #e2e8f0 82%, transparent);
+}
+.sn-divider--leaf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 30px 20px;
+  color: var(--brand);
+}
+.sn-divider--leaf::before,
+.sn-divider--leaf::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d1fae5, var(--brand-200));
+}
+.sn-divider--leaf::after {
+  background: linear-gradient(to left, transparent, #d1fae5, var(--brand-200));
+}
+.sn-divider--leaf i { width: 15px; height: 15px; }
+
+/* プレミアム・プライマリボタン（グリーングラデ＋ソフトシャドウ） */
+.sn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-bright), var(--brand-dark));
+  box-shadow: 0 8px 20px -6px rgba(21,128,61,0.45);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.sn-btn:active { transform: translateY(1px) scale(.99); }
+.sn-btn--ghost {
+  color: var(--brand-dark);
+  background: #fff;
+  border: 1.5px solid var(--brand-200);
+  box-shadow: none;
+}
+
+/* 学習進捗ゲージのデフォルトをブランドグリーンに */
+#badge-bar, #progress-bar {
+  background-image: linear-gradient(to right, var(--brand-bright), var(--brand)) !important;
+}
+
+/* ===== 共通コンポーネントのグリーン化（全ページ・全幅で一括適用） ===== */
+
+/* ヘッダー：すりガラス効果で上品に */
+body > header.sticky {
+  background: rgba(255,255,255,0.94) !important;
+  backdrop-filter: saturate(180%) blur(8px);
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+}
+
+/* サイドバーのロゴ箱をブランドグリーンに統一 */
+.desktop-sidebar .sidebar-logo .logo-icon {
+  background: linear-gradient(135deg, var(--brand-bright), var(--brand-dark)) !important;
+}
+.desktop-sidebar .sidebar-logo .logo-icon:hover {
+  background: linear-gradient(135deg, var(--brand), var(--brand-deep)) !important;
+}
+
+/* ボトムナビ：アクティブ項目をブランドグリーンに（各ページはactiveを text-slate-900 で表現） */
+.bottom-nav a.text-slate-900 {
+  color: var(--brand) !important;
+}
+.bottom-nav a.text-slate-900 span {
+  font-weight: 700 !important;
+}
+
+/* メニューリスト行：アイコンタイルをブランドグリーンの淡色に、アイコンをグリーンに */
+.menu-item .bg-slate-50 {
+  background-color: var(--brand-50) !important;
+}
+.menu-item .bg-slate-50 .text-slate-600,
+.menu-item svg.text-slate-600,
+.menu-item .text-slate-600 svg {
+  color: var(--brand-600) !important;
+}
+
+/* サブページの「戻る」矢印を少し上品に（黒→濃グリーン寄り） */
+header.sticky a > svg.text-slate-900,
+header.sticky a > .text-slate-900 {
+  color: var(--ink) !important;
 }
 
 /* ページ最上部の細いカテゴリーバー（モバイル & デスクトップ共通） */
@@ -222,10 +351,10 @@ body.cat-support #progress-bar {
     margin-left: 240px !important;
   }
 
-  /* ヘッダーもずらす */
+  /* ヘッダー：bodyが既に240pxずれているので、コンテンツ幅いっぱいに */
   body > header.sticky {
-    left: 240px !important;
-    width: calc(100% - 240px) !important;
+    left: 0 !important;
+    width: 100% !important;
   }
 
   /* ボトムナビ非表示 */
