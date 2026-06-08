@@ -33,6 +33,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .fade-up.d4 { transition-delay: .32s }
 .menu-item { transition: background .15s ease }
 .menu-item:active { background: #f1f5f9 }
+.start-card { transition: transform .15s ease, box-shadow .15s ease }
+.start-card:active { transform: scale(.985) }
+.start-thumb { width: 74px; min-height: 92px; object-fit: cover; flex-shrink: 0 }
+.priority-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; line-height: 1.4 }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
 </style>
 <script>
@@ -135,8 +139,60 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </div>
 </section>
 
-<!-- ===== 面接対策 ===== -->
+<!-- ===== START HERE ===== -->
 <section class="px-5 mb-6 fade-up d2">
+  <div class="flex items-end justify-between mb-3">
+    <div>
+      <p class="text-[11px] font-semibold text-slate-400 tracking-wider">まずはここから</p>
+      <h2 class="text-[17px] font-bold mt-1">今の状況に近いものを選ぶ</h2>
+    </div>
+    <span class="text-[10px] text-slate-400">最短1分</span>
+  </div>
+  <div class="space-y-3">
+    <a href="guides/interview-checklist.html" class="start-card flex overflow-hidden border border-emerald-100 bg-emerald-50 rounded-2xl">
+      <img src="assets/prompts/iv_practice.jpg" alt="" class="start-thumb">
+      <div class="flex-1 min-w-0 p-3.5">
+        <span class="priority-tag bg-white text-emerald-700">面接前に見る</span>
+        <p class="font-bold text-[14px] mt-2">面接が近い</p>
+        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">前日から当日までの準備を確認して、不安を減らします。</p>
+      </div>
+      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-emerald-500"></i></div>
+    </a>
+
+    <a href="guides/resume.html" class="start-card flex overflow-hidden border border-blue-100 bg-blue-50 rounded-2xl">
+      <img src="assets/hero/certification.jpg" alt="" class="start-thumb">
+      <div class="flex-1 min-w-0 p-3.5">
+        <span class="priority-tag bg-white text-blue-700">最初におすすめ</span>
+        <p class="font-bold text-[14px] mt-2">履歴書・職務経歴書を整えたい</p>
+        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">書類選考で見られるポイントを、例文付きで整理します。</p>
+      </div>
+      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i></div>
+    </a>
+
+    <a href="content/index.html" class="start-card flex overflow-hidden border border-violet-100 bg-violet-50 rounded-2xl">
+      <img src="assets/hero/home.jpg" alt="" class="start-thumb">
+      <div class="flex-1 min-w-0 p-3.5">
+        <span class="priority-tag bg-white text-violet-700">迷ったらここ</span>
+        <p class="font-bold text-[14px] mt-2">何から始めればいいか分からない</p>
+        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">カテゴリ一覧から、自分に必要なテーマを見つけます。</p>
+      </div>
+      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-violet-500"></i></div>
+    </a>
+
+    <a href="apps/index.html" class="start-card flex overflow-hidden border border-rose-100 bg-rose-50 rounded-2xl">
+      <img src="assets/cert/excel-basic.jpg" alt="" class="start-thumb">
+      <div class="flex-1 min-w-0 p-3.5">
+        <span class="priority-tag bg-white text-rose-700">時間がある時に見る</span>
+        <p class="font-bold text-[14px] mt-2">PC・Excelスキルを上げたい</p>
+        <p class="text-[11px] text-slate-500 mt-1 leading-[1.7]">ゲーム感覚で、応募条件に出やすい基礎スキルを練習します。</p>
+      </div>
+      <div class="w-8 flex items-center justify-center pr-2"><i data-lucide="chevron-right" class="w-4 h-4 text-rose-500"></i></div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== 面接対策 ===== -->
+<section class="px-5 mb-6 fade-up d3">
   <div class="flex items-center justify-between mb-2">
     <p class="text-[11px] font-semibold text-slate-400 tracking-wider">面接対策</p>
     <span id="iv-progress" class="text-[10px] text-slate-400">0 / 4 読了</span>
@@ -183,9 +239,9 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 </section>
 
 <!-- ===== CATEGORY LIST ===== -->
-<section class="fade-up d3">
+<section class="fade-up d4">
   <div class="px-5 py-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">コンテンツ</p>
+    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">コンテンツ一覧</p>
   </div>
   <div class="border-t border-slate-100 desktop-grid-3">
 
@@ -195,9 +251,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[14px]">ビジネスマナー</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">面接・メール・職場の基本</p>
+        <p class="text-[12px] text-slate-400 mt-0.5">面接前・入社前に確認</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
+        <span class="priority-tag bg-emerald-50 text-emerald-700">面接前</span>
         <span class="article-count text-[11px] text-slate-400">3 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
@@ -209,9 +266,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[14px]">資格取得ガイド</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">生成AIパスポート・MOS</p>
+        <p class="text-[12px] text-slate-400 mt-0.5">応募条件に近い資格を確認</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
+        <span class="priority-tag bg-slate-100 text-slate-600">時間がある時</span>
         <span class="article-count text-[11px] text-slate-400">7 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
@@ -223,9 +281,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[14px]">AI活用入門</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">ChatGPTの基本と仕事への活用</p>
+        <p class="text-[12px] text-slate-400 mt-0.5">履歴書・企業研究・面接練習に使える</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
+        <span class="priority-tag bg-blue-50 text-blue-700">最初におすすめ</span>
         <span class="article-count text-[11px] text-slate-400">2 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
@@ -237,9 +296,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[14px]">職種図鑑</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">事務・営業・施工管理など12職種</p>
+        <p class="text-[12px] text-slate-400 mt-0.5">応募前に仕事内容を確認</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
+        <span class="priority-tag bg-violet-50 text-violet-700">迷ったら</span>
         <span class="article-count text-[11px] text-slate-400">12 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
@@ -251,9 +311,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[14px]">プロンプト集</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">コピペで使えるAIプロンプト</p>
+        <p class="text-[12px] text-slate-400 mt-0.5">書類・面接準備をAIで時短</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
+        <span class="priority-tag bg-blue-50 text-blue-700">困った時</span>
         <span class="article-count text-[11px] text-slate-400">6 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
@@ -265,9 +326,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       </div>
       <div class="flex-1 min-w-0">
         <p class="font-semibold text-[14px]">AI時代のキャリア</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">これからの働き方・現業の価値</p>
+        <p class="text-[12px] text-slate-400 mt-0.5">将来性や仕事選びの不安を整理</p>
       </div>
       <div class="flex items-center gap-2 ml-2">
+        <span class="priority-tag bg-slate-100 text-slate-600">時間がある時</span>
         <span class="article-count text-[11px] text-slate-400">6 記事</span>
         <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
@@ -297,11 +359,11 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       </div>
       <div>
         <p class="font-semibold text-[13px]">LINE公式アカウント</p>
-        <p class="text-[11px] text-slate-400">最新記事・求人情報をお届け</p>
+        <p class="text-[11px] text-slate-400">履歴書添削・面接不安・求人相談</p>
       </div>
     </div>
     <p class="text-[11px] text-slate-400 leading-[1.8]">
-      面談でご案内したLINE公式アカウントから、新着コンテンツや求人情報をお届けしています。
+      履歴書の書き方、面接前の不安、求人の探し方など、迷ったことはLINEで相談できます。
     </p>
   </div>
 </section>

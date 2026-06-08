@@ -21,6 +21,9 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .fade-up.d2 { transition-delay: .16s }
 .menu-item { transition: background .15s ease }
 .menu-item:active { background: #f8fafc }
+.next-card { transition: transform .15s ease, box-shadow .15s ease }
+.next-card:active { transform: scale(.985) }
+.next-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; line-height: 1.4 }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
@@ -109,43 +112,32 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <!-- RECOMMENDED -->
 <section class="fade-up d2 mt-6">
   <div class="px-5 py-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">おすすめ</p>
+    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">次に見るおすすめ</p>
   </div>
-  <div class="border-t border-slate-100">
-
-    <a href="../guides/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mr-4">
-        <i data-lucide="target" class="w-[18px] h-[18px] text-white"></i>
+  <div class="px-5">
+    <a id="next-primary" href="../guides/interview-questions.html" class="next-card block border border-slate-100 rounded-2xl p-4 bg-slate-50">
+      <div class="flex items-center gap-3">
+        <div id="next-icon-wrap" class="w-11 h-11 rounded-xl bg-slate-900 flex items-center justify-center flex-shrink-0">
+          <i id="next-icon" data-lucide="messages-square" class="w-[18px] h-[18px] text-white"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <span id="next-badge" class="next-badge bg-white text-slate-700">最初におすすめ</span>
+          <p id="next-title" class="font-bold text-[14px] mt-1.5">よくある質問</p>
+          <p id="next-desc" class="text-[12px] text-slate-500 mt-0.5 leading-[1.7]">面接で聞かれやすい質問と答え方の型を確認しましょう。</p>
+        </div>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
       </div>
-      <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">面接対策</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">本番に強くなる3つのツール</p>
-      </div>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
     </a>
-
-    <a href="../certification/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="award" class="w-[18px] h-[18px] text-slate-600"></i>
-      </div>
-      <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">資格取得ガイド</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">PC基礎から生成AIパスポートまで</p>
-      </div>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
-    </a>
-
-    <a href="../links/index.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50">
-      <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-4">
-        <i data-lucide="external-link" class="w-[18px] h-[18px] text-slate-600"></i>
-      </div>
-      <div class="flex-1 min-w-0">
-        <p class="font-semibold text-[14px]">外部リンク</p>
-        <p class="text-[12px] text-slate-400 mt-0.5">求人・サポート・リスキリング</p>
-      </div>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
-    </a>
-
+    <div class="mt-3 grid grid-cols-2 gap-2.5">
+      <a href="../guides/resume.html" class="menu-item block border border-slate-100 rounded-xl p-3">
+        <p class="text-[10px] font-bold text-blue-600">書類準備</p>
+        <p class="text-[12px] font-semibold text-slate-800 mt-1">履歴書の書き方</p>
+      </a>
+      <a href="../links/index.html" class="menu-item block border border-slate-100 rounded-xl p-3">
+        <p class="text-[10px] font-bold text-amber-600">困った時</p>
+        <p class="text-[12px] font-semibold text-slate-800 mt-1">LINE・求人相談</p>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -155,7 +147,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
     </div>
-    <p class="text-[11px] text-slate-500">担当アドバイザーとのやりとりはLINEで</p>
+    <p class="text-[11px] text-slate-500">履歴書添削・面接不安・求人相談はLINEで</p>
   </div>
 </section>
 
@@ -211,6 +203,63 @@ else if (count < 5) ptxt.textContent = count + ' / ' + TOTAL_ARTICLES + ' 記事
 else if (count < 15) ptxt.textContent = 'もう ' + count + ' 記事も読みました！';
 else if (count < TOTAL_ARTICLES) ptxt.textContent = 'あと ' + (TOTAL_ARTICLES - count) + ' 記事で全制覇';
 else ptxt.textContent = '🎉 全記事制覇おめでとう！';
+
+const nextItems = [
+  {
+    id: 'guide-interview-questions',
+    href: '../guides/interview-questions.html',
+    icon: 'messages-square',
+    badge: '最初におすすめ',
+    title: 'よくある質問',
+    desc: '面接で聞かれやすい質問と答え方の型を確認しましょう。',
+    color: 'bg-slate-900'
+  },
+  {
+    id: 'guide-resume',
+    href: '../guides/resume.html',
+    icon: 'file-text',
+    badge: '書類準備',
+    title: '履歴書・職務経歴書の書き方',
+    desc: '応募前に、書類で見られるポイントを整えましょう。',
+    color: 'bg-blue-600'
+  },
+  {
+    id: 'guide-interview-checklist',
+    href: '../guides/interview-checklist.html',
+    icon: 'list-checks',
+    badge: '面接前に見る',
+    title: '面接チェックリスト',
+    desc: '前日から当日までの準備をチェックできます。',
+    color: 'bg-emerald-600'
+  },
+  {
+    id: 'ai-job-search',
+    href: '../ai/job-search.html',
+    icon: 'sparkles',
+    badge: '次の一歩',
+    title: '仕事探しにAIを使う方法',
+    desc: '企業研究・履歴書・面接練習を効率よく進めましょう。',
+    color: 'bg-violet-600'
+  },
+  {
+    id: 'future-mental-care',
+    href: '../future/mental-care.html',
+    icon: 'heart-handshake',
+    badge: '困った時',
+    title: '転職活動で心が疲れた時',
+    desc: '不安や焦りが強い時の考え方を整理できます。',
+    color: 'bg-rose-600'
+  }
+];
+const next = nextItems.find(item => !read.includes(item.id)) || nextItems[nextItems.length - 1];
+document.getElementById('next-primary').href = next.href;
+document.getElementById('next-badge').textContent = next.badge;
+document.getElementById('next-title').textContent = next.title;
+document.getElementById('next-desc').textContent = next.desc;
+const nextIconWrap = document.getElementById('next-icon-wrap');
+nextIconWrap.className = 'w-11 h-11 rounded-xl ' + next.color + ' flex items-center justify-center flex-shrink-0';
+document.getElementById('next-icon').setAttribute('data-lucide', next.icon);
+lucide.createIcons();
 
 // ログアウト
 document.getElementById('logout-btn').addEventListener('click', () => {

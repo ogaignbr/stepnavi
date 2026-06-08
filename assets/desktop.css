@@ -39,6 +39,45 @@ body.cat-support #progress-bar {
   background-image: linear-gradient(to right, #fbbf24, var(--cat-support)) !important;
 }
 
+/* 記事冒頭のミニ目次 */
+.article-guide {
+  margin: 0 0 22px;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+.article-guide-title {
+  margin: 0 0 10px !important;
+  font-size: 11px !important;
+  font-weight: 700;
+  color: #334155 !important;
+  letter-spacing: 0.06em;
+}
+.article-guide-grid {
+  display: grid;
+  gap: 8px;
+}
+.article-guide-item {
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #f1f5f9;
+}
+.article-guide-item span {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+.article-guide-item p {
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.6 !important;
+  color: #64748b !important;
+}
+
 /* サイドバー（モバイル＝ドロワー、デスクトップ＝常時表示） */
 .desktop-sidebar {
   display: flex;
@@ -237,6 +276,7 @@ body.cat-support #progress-bar {
   .desktop-grid-3 > a > div:last-child {
     display: flex !important;
     justify-content: center !important;
+    flex-wrap: wrap !important;
     margin: 8px auto 0 !important;
   }
   .desktop-grid-3 > a > div:last-child > i,
@@ -308,5 +348,8 @@ body.cat-support #progress-bar {
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .article-guide-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
