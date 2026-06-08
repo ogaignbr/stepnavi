@@ -5,6 +5,7 @@
  * 進捗系キーだけをログイン中ユーザーの名前空間へ自動的に振り分ける。
  */
 (function () {
+  const LINE_URL = 'https://lin.ee/WQzrYGn';
   const SESSION_KEY = 'stepnavi_session';
   const USERS_KEY = 'stepnavi_users';
   const SCOPED_KEYS = new Set([
@@ -129,6 +130,7 @@
   }
 
   const api = {
+    LINE_URL,
     USERS_KEY,
     SESSION_KEY,
     makeUserId,
@@ -149,6 +151,7 @@
   };
 
   window.StepNaviStorage = api;
+  window.StepNaviLineUrl = LINE_URL;
 
   Storage.prototype.getItem = function (key) {
     if (this === localStorage && isScopedKey(key)) {
@@ -170,4 +173,32 @@
     }
     return native.removeItem.call(this, key);
   };
+
+  function enhanceLineCtas() {
+    document.querySelectorAll('section').forEach((section) => {
+      if (!section.textContent || !section.textContent.includes('LINE')) return;
+      if (!section.querySelector('[class*="#06C755"]')) return;
+      if (section.querySelector('a[href*="lin.ee"]')) return;
+
+      const card = Array.from(section.children).find((child) =>
+        child.matches('div') && child.textContent.includes('LINE')
+      );
+      if (!card) return;
+
+      const link = document.createElement('a');
+      link.href = LINE_URL;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.className = card.className;
+      link.setAttribute('aria-label', '公式LINEで相談する');
+      while (card.firstChild) link.appendChild(card.firstChild);
+      card.replaceWith(link);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', enhanceLineCtas);
+  } else {
+    enhanceLineCtas();
+  }
 })();
