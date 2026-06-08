@@ -25,6 +25,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .btn-primary:disabled { background: #cbd5e1; cursor: not-allowed }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
+<script src="../assets/storage.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
 
@@ -88,9 +89,11 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const errEl = document.getElementById('error-msg');
+  errEl.classList.add('hidden');
 
-  const users = JSON.parse(localStorage.getItem('stepnavi_users') || '[]');
-  const user = users.find(u => u.email === email && u.password === password);
+  const users = StepNaviStorage.getUsers();
+  const normalizedEmail = email.toLowerCase();
+  const user = users.find(u => String(u.email || '').toLowerCase() === normalizedEmail && u.password === password);
 
   if (!user) {
     errEl.textContent = 'メールアドレスまたはパスワードが正しくありません';
@@ -99,11 +102,9 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
   }
 
   // セッション保存
-  localStorage.setItem('stepnavi_session', JSON.stringify({
-    email: user.email,
-    nickname: user.nickname,
-    loginAt: new Date().toISOString()
-  }));
+  StepNaviStorage.ensureUserId(user);
+  StepNaviStorage.saveUsers(users);
+  StepNaviStorage.createSession(user);
   localStorage.removeItem('stepnavi_guest');
 
   window.location.href = 'mypage.html';

@@ -31,6 +31,7 @@ select.input-field { appearance: none; background-image: url("data:image/svg+xml
 .chip input:checked + .chip-label { background: #0f172a; color: white; border-color: #0f172a }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
+<script src="../assets/storage.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-900 min-h-screen">
 
@@ -124,52 +125,86 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
+async function sendRegistrationToSheets(payload) {
+  const endpoint = window.STEPNAVI_CONFIG && window.STEPNAVI_CONFIG.SHEETS_ENDPOINT;
+  if (!endpoint) return;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+  try {
+    await fetch(endpoint, {
+      method: 'POST',
+      mode: 'no-cors',
+      cache: 'no-store',
+      credentials: 'omit',
+      keepalive: true,
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 // 簡易登録処理
 document.getElementById('register-form').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const form = e.currentTarget;
+  const submitBtn = form.querySelector('button[type="submit"]');
   const nickname = document.getElementById('nickname').value.trim();
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const jobType = document.getElementById('job-type').value;
   const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(i => i.value);
   const errEl = document.getElementById('error-msg');
+  errEl.classList.add('hidden');
 
-  const users = JSON.parse(localStorage.getItem('stepnavi_users') || '[]');
+  const users = StepNaviStorage.getUsers();
+  const normalizedEmail = email.toLowerCase();
 
-  if (users.some(u => u.email === email)) {
+  if (users.some(u => String(u.email || '').toLowerCase() === normalizedEmail)) {
     errEl.textContent = 'このメールアドレスは既に登録されています';
     errEl.classList.remove('hidden');
     return;
   }
 
   const registeredAt = new Date().toISOString();
-  const user = { email, password, nickname, jobType, interests, registeredAt };
-  users.push(user);
-  localStorage.setItem('stepnavi_users', JSON.stringify(users));
-  localStorage.setItem('stepnavi_session', JSON.stringify({
-    email: user.email,
-    nickname: user.nickname,
-    loginAt: registeredAt
-  }));
-  // ゲストフラグはクリア
-  localStorage.removeItem('stepnavi_guest');
+  const user = {
+    userId: StepNaviStorage.makeUserId(email),
+    email,
+    password,
+    nickname,
+    jobType,
+    interests,
+    registeredAt
+  };
 
-  // スプレッドシートに送信（設定済みの場合のみ）
+  submitBtn.disabled = true;
+  submitBtn.textContent = '登録中...';
+
   try {
-    if (window.STEPNAVI_CONFIG && window.STEPNAVI_CONFIG.SHEETS_ENDPOINT) {
-      const payload = {
-        registeredAt, nickname, email,
-        jobType, interests: interests.join(',')
-      };
-      // no-cors mode: 応答は読めないが Apps Script に届く
-      fetch(window.STEPNAVI_CONFIG.SHEETS_ENDPOINT, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
-      }).catch(()=>{});
-    }
-  } catch(_) {}
+    await sendRegistrationToSheets({
+      userId: user.userId,
+      registeredAt,
+      nickname,
+      email,
+      jobType,
+      interests: interests.join(','),
+      sourceUrl: location.href
+    });
+  } catch(_) {
+    errEl.textContent = 'スプレッドシートへの登録送信に失敗しました。通信環境を確認してもう一度お試しください。';
+    errEl.classList.remove('hidden');
+    submitBtn.disabled = false;
+    submitBtn.textContent = '登録する';
+    return;
+  }
+
+  users.push(user);
+  StepNaviStorage.saveUsers(users);
+  StepNaviStorage.createSession(user, registeredAt);
+  localStorage.removeItem('stepnavi_guest');
 
   window.location.href = 'mypage.html';
 });

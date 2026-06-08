@@ -24,6 +24,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
+<script src="../assets/storage.js"></script>
 </head>
 <body class="bg-white text-slate-900 pb-16 cat-main">
 <!-- DESKTOP SIDEBAR -->
@@ -177,15 +178,14 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 // セッションチェック
-const session = JSON.parse(localStorage.getItem('stepnavi_session') || 'null');
+const session = StepNaviStorage.getSession();
 if (!session) {
   window.location.href = 'login.html';
 }
 
 // ユーザー情報表示
 if (session) {
-  const users = JSON.parse(localStorage.getItem('stepnavi_users') || '[]');
-  const user = users.find(u => u.email === session.email);
+  const user = StepNaviStorage.getCurrentUser();
   if (user) {
     document.getElementById('nickname-display').textContent = user.nickname + ' さん';
     document.getElementById('avatar').textContent = user.nickname.charAt(0).toUpperCase();

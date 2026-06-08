@@ -11,11 +11,11 @@
 1. https://sheets.google.com/ にアクセス
 2. 「空白のスプレッドシート」をクリック
 3. ファイル名を **STEP NAVI 登録リスト** などに変更
-4. 1行目に以下のヘッダーを入力（A1〜F1）：
+4. 1行目に以下のヘッダーを入力（A1〜G1）：
 
-| A | B | C | D | E | F |
-|---|---|---|---|---|---|
-| 登録日時 | ニックネーム | メールアドレス | 希望職種 | 興味のある分野 | 登録URL |
+| A | B | C | D | E | F | G |
+|---|---|---|---|---|---|---|
+| ユーザーID | 登録日時 | ニックネーム | メールアドレス | 希望職種 | 興味のある分野 | 登録URL |
 
 ---
 
@@ -31,12 +31,13 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
     sheet.appendRow([
+      data.userId || '',
       data.registeredAt || new Date().toISOString(),
       data.nickname || '',
       data.email || '',
       data.jobType || '',
       data.interests || '',
-      'https://ogaignbr.github.io/stepnavi/'
+      data.sourceUrl || 'https://ogaignbr.github.io/stepnavi/'
     ]);
     return ContentService
       .createTextOutput(JSON.stringify({ status: 'ok' }))
