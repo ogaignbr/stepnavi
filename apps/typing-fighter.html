@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>タイピング・ファイター 3D - STEP NAVI</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config = { theme: { extend: { colors: { brand: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534' } },  fontFamily: { sans: ['Noto Sans JP','Inter','system-ui','sans-serif'] } } } }
+</script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent }
+body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
+.fade-up { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease }
+.fade-up.visible { opacity: 1; transform: none }
+.bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
+
+/* ===== タイピング・ファイター 3D ===== */
+.tf-hero { background: linear-gradient(135deg, #0f172a 0%, #312e81 60%, #7c2d12 100%); padding: 28px 20px; border-bottom: 1px solid #1e293b }
+.tf-hero h1 { font-size: 23px; font-weight: 900; color: #fff; letter-spacing: -0.01em; text-shadow: 0 2px 12px rgba(124,45,18,.6) }
+.tf-hero p { font-size: 12px; color: #cbd5e1; line-height: 1.8; margin-top: 6px }
+.tf-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #fbbf24; background: rgba(0,0,0,.35); border: 1px solid #92400e; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px }
+
+.tf-card { border: 1px solid #f1f5f9; border-radius: 14px; padding: 18px; background: #fff }
+.tf-section-label { font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em; margin-bottom: 10px }
+.tf-hidden { display: none !important }
+
+.tf-btn-primary { width: 100%; background: linear-gradient(135deg, #dc2626, #b91c1c); color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .15s; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35) }
+.tf-btn-primary:active { opacity: 0.85; transform: scale(0.99) }
+.tf-btn-secondary { width: 100%; background: #fff; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600; cursor: pointer }
+.tf-btn-secondary:active { background: #f8fafc }
+
+/* プレイヤーステータス帯 */
+.tf-status-bar { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 12px; margin-bottom: 14px }
+.tf-status-bar .tf-st-emoji { font-size: 26px; line-height: 1 }
+.tf-status-bar .tf-st-main { flex: 1; min-width: 0 }
+.tf-status-bar .tf-st-name { font-size: 12px; font-weight: 700; color: #92400e }
+.tf-status-bar .tf-st-sub { font-size: 10.5px; color: #b45309; margin-top: 2px }
+.tf-status-bar .tf-st-lv { font-size: 18px; font-weight: 800; color: #92400e; white-space: nowrap }
+.tf-xp-track { height: 5px; background: #fde68a; border-radius: 999px; overflow: hidden; margin-top: 5px }
+.tf-xp-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #dc2626); border-radius: 999px; transition: width .4s }
+
+/* キャラ選択 */
+.tf-char { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 13px 14px; background: #fff; border: 2px solid #e2e8f0; border-radius: 14px; cursor: pointer; transition: all .15s; margin-bottom: 10px }
+.tf-char:active { transform: scale(0.98) }
+.tf-char.selected { border-color: #dc2626; background: #fff7ed; box-shadow: 0 2px 10px rgba(220,38,38,0.12) }
+.tf-char-emoji { font-size: 34px; line-height: 1; flex-shrink: 0 }
+.tf-char-name { font-size: 14px; font-weight: 800; color: #0f172a }
+.tf-char-type { display: inline-block; font-size: 9.5px; font-weight: 700; color: #dc2626; background: #fee2e2; border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 1px }
+.tf-char-desc { font-size: 10.5px; color: #64748b; line-height: 1.5; margin-top: 3px }
+.tf-char-stats { display: flex; gap: 8px; margin-top: 5px }
+.tf-char-stat { font-size: 9.5px; font-weight: 700; color: #475569; background: #f1f5f9; border-radius: 6px; padding: 2px 7px }
+
+/* ===== 3D ゲーム領域 ===== */
+.tf-game-shell { position: relative; border-radius: 16px; overflow: hidden; background: #0b1120; box-shadow: 0 10px 40px rgba(2,6,23,.45) }
+.tf-canvas-wrap { position: relative; width: 100%; height: clamp(340px, 58vh, 620px) }
+.tf-canvas-wrap canvas { display: block; width: 100% !important; height: 100% !important }
+.tf-vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 58%, rgba(2,6,23,.42) 100%); z-index: 3 }
+.tf-letterbox { position: absolute; left: 0; right: 0; height: 0; background: #000; z-index: 4; transition: height .6s ease; pointer-events: none }
+.tf-letterbox.top { top: 0 } .tf-letterbox.bottom { bottom: 0 }
+.tf-game-shell.cinema .tf-letterbox { height: 7.5% }
+
+/* HUD */
+.tf-hud { position: absolute; inset: 0; z-index: 5; pointer-events: none; font-family: 'Noto Sans JP', sans-serif }
+.tf-hud-player { position: absolute; top: 10px; left: 12px; background: rgba(2,6,23,.55); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 8px 12px; color: #fff; display: flex; align-items: center; gap: 9px }
+.tf-hud-emoji { font-size: 22px; line-height: 1 }
+.tf-hud-name { font-size: 11px; font-weight: 800 }
+.tf-hud-lv { font-size: 9.5px; color: #fbbf24; font-weight: 700 }
+.tf-hud-xp { width: 90px; height: 4px; background: rgba(255,255,255,.2); border-radius: 99px; overflow: hidden; margin-top: 3px }
+.tf-hud-xp > div { height: 100%; background: linear-gradient(90deg,#f59e0b,#ef4444) }
+.tf-quest { position: absolute; top: 10px; right: 12px; max-width: 46%; background: rgba(2,6,23,.55); backdrop-filter: blur(6px); border: 1px solid rgba(251,191,36,.35); border-radius: 12px; padding: 7px 11px; color: #fde68a; font-size: 10px; font-weight: 700; line-height: 1.5; text-align: right }
+.tf-hint { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(2,6,23,.5); border-radius: 999px; padding: 5px 14px; color: #cbd5e1; font-size: 10.5px; font-weight: 600; white-space: nowrap }
+.tf-alert { position: absolute; top: 22%; left: 50%; transform: translate(-50%,-50%) scale(.9); color: #fff; font-size: 24px; font-weight: 900; letter-spacing: .12em; text-shadow: 0 3px 16px rgba(220,38,38,.9), 0 1px 2px #000; opacity: 0; transition: all .25s }
+.tf-alert.show { opacity: 1; transform: translate(-50%,-50%) scale(1) }
+
+/* バトルHPバー(ストファイ風) */
+.tf-bhud { position: absolute; top: 8px; left: 10px; right: 10px; display: none; gap: 14px; align-items: flex-start }
+.tf-game-shell.battle .tf-bhud { display: flex }
+.tf-game-shell.battle .tf-hud-player, .tf-game-shell.battle .tf-quest, .tf-game-shell.battle .tf-hint { display: none }
+.tf-bhp { flex: 1; min-width: 0 }
+.tf-bhp-name { font-size: 11px; font-weight: 900; color: #fff; text-shadow: 0 1px 3px #000; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.tf-bhp.right .tf-bhp-name { text-align: right }
+.tf-bhp-track { height: 14px; margin-top: 3px; background: rgba(0,0,0,.6); border: 2px solid rgba(255,255,255,.75); border-radius: 4px; overflow: hidden; transform: skewX(-12deg) }
+.tf-bhp-fill { height: 100%; width: 100%; background: linear-gradient(180deg, #fef08a 0%, #facc15 45%, #16a34a 46%, #15803d 100%); transition: width .3s }
+.tf-bhp-fill.low { background: linear-gradient(180deg, #fca5a5, #dc2626) }
+.tf-bhp.right .tf-bhp-fill { margin-left: auto }
+.tf-bhp-val { font-size: 9px; font-weight: 700; color: #fde68a; text-shadow: 0 1px 2px #000; margin-top: 2px }
+.tf-bhp.right .tf-bhp-val { text-align: right }
+.tf-bvs { font-size: 16px; font-weight: 900; color: #fbbf24; text-shadow: 0 2px 6px #000; padding-top: 8px }
+
+/* ダメージポップ(3D投影) */
+.tf-pop { position: absolute; z-index: 7; font-size: 19px; font-weight: 900; color: #fbbf24; text-shadow: 0 2px 4px #000, 0 0 14px rgba(251,191,36,.6); pointer-events: none; transform: translate(-50%,-50%); animation: tfPop3d .9s ease forwards; white-space: nowrap }
+.tf-pop.self { color: #f87171; text-shadow: 0 2px 4px #000, 0 0 14px rgba(248,113,113,.6) }
+.tf-pop.guard { color: #4ade80; text-shadow: 0 2px 4px #000, 0 0 14px rgba(74,222,128,.6) }
+.tf-pop.crit { font-size: 26px; color: #fb923c }
+@keyframes tfPop3d { 0% { opacity: 0; margin-top: 8px; scale: .6 } 18% { opacity: 1; margin-top: 0; scale: 1.15 } 100% { opacity: 0; margin-top: -44px; scale: 1 } }
+
+/* ジョイスティック */
+.tf-joy { position: absolute; left: 18px; bottom: 18px; width: 104px; height: 104px; border-radius: 50%; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.22); z-index: 6; touch-action: none; display: none }
+.tf-joy-knob { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.32); border: 2px solid rgba(255,255,255,.55); transform: translate(-50%,-50%) }
+@media (hover: none) and (pointer: coarse) { .tf-game-shell:not(.battle) .tf-joy { display: block } }
+
+/* ローディング / 結果オーバーレイ */
+.tf-overlay { position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; background: rgba(2,6,23,.72); backdrop-filter: blur(4px) }
+.tf-load-box { text-align: center; color: #e2e8f0 }
+.tf-load-spin { width: 44px; height: 44px; margin: 0 auto 14px; border: 4px solid rgba(255,255,255,.15); border-top-color: #f59e0b; border-radius: 50%; animation: tfSpin 1s linear infinite }
+@keyframes tfSpin { to { transform: rotate(360deg) } }
+.tf-result-card { width: min(86%, 380px); background: #fff; border-radius: 18px; padding: 22px 20px; text-align: center; box-shadow: 0 18px 60px rgba(0,0,0,.5) }
+.tf-result-emoji { font-size: 50px; line-height: 1 }
+.tf-result-title { font-size: 25px; font-weight: 900; margin-top: 8px; letter-spacing: 0.04em }
+.tf-result-title.win { color: #b45309 } .tf-result-title.lose { color: #475569 }
+.tf-result-sub { font-size: 11.5px; color: #78716c; margin-top: 6px; font-weight: 600; line-height: 1.6 }
+.tf-levelup-banner { font-size: 12.5px; font-weight: 800; color: #dc2626; background: #fee2e2; border: 1px solid #fecaca; border-radius: 12px; padding: 9px; margin-top: 12px; animation: tfPulse 1.2s ease infinite }
+@keyframes tfPulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.02) } }
+.tf-result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; margin-bottom: 14px }
+.tf-rstat { background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 12px; padding: 10px 6px }
+.tf-rstat-label { font-size: 9.5px; color: #94a3b8; font-weight: 600; margin-bottom: 3px }
+.tf-rstat-value { font-size: 16px; font-weight: 800; color: #0f172a }
+
+/* ゲーム下部 操作ボタン列 */
+.tf-game-tools { display: flex; gap: 8px; margin-top: 10px }
+.tf-tool-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 9px; font-size: 11.5px; font-weight: 700; cursor: pointer }
+.tf-tool-btn:active { background: #f8fafc }
+
+/* ターンパネル */
+.tf-turn-panel { margin-top: 12px }
+.tf-phase-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 800; border-radius: 999px; padding: 4px 12px; margin-bottom: 8px }
+.tf-phase-chip.attack { color: #dc2626; background: #fee2e2 }
+.tf-phase-chip.defend { color: #2563eb; background: #dbeafe }
+.tf-timer-track { height: 8px; background: #f1f5f9; border-radius: 999px; margin-bottom: 4px; position: relative }
+.tf-timer-track .tf-timer-fill { border-radius: 999px }
+.tf-timer-mark { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 2.5px; background: #f59e0b; border-radius: 2px; box-shadow: 0 0 5px rgba(245,158,11,.7) }
+.tf-timer-note { font-size: 10px; color: #b45309; font-weight: 700; text-align: right; margin-bottom: 8px }
+.tf-timer-fill { height: 100%; background: linear-gradient(90deg, #4ade80, #16a34a); border-radius: 999px }
+.tf-timer-fill.danger { background: linear-gradient(90deg, #f97316, #dc2626) }
+.tf-prompt-wrap { background: #f8fafc; border-radius: 12px; padding: 14px; margin-bottom: 10px; min-height: 64px }
+.tf-prompt-text { font-size: 16px; line-height: 1.9; color: #0f172a; font-weight: 500; word-break: break-all }
+.tf-prompt-text .typed-ok { color: #16a34a; background: #dcfce7; border-radius: 2px }
+.tf-prompt-text .typed-bad { color: #dc2626; background: #fee2e2; border-radius: 2px; text-decoration: line-through }
+.tf-prompt-text .caret { display: inline-block; width: 1.5px; background: #dc2626; animation: blink 1s steps(1) infinite; height: 20px; vertical-align: middle; margin: 0 1px }
+@keyframes blink { 50% { opacity: 0 } }
+.tf-input { width: 100%; padding: 12px 14px; font-size: 16px; line-height: 1.6; font-family: inherit; border: 2px solid #e2e8f0; border-radius: 12px; resize: none; box-sizing: border-box; transition: border-color .15s; -webkit-appearance: none }
+.tf-input:focus { outline: none; border-color: #dc2626; background: #fffafa }
+.tf-input:disabled { background: #f8fafc; color: #94a3b8 }
+.tf-input.shake { animation: shake .3s }
+@keyframes shake { 0%, 100% { transform: translateX(0) } 25% { transform: translateX(-4px) } 75% { transform: translateX(4px) } }
+.tf-feedback { font-size: 11.5px; color: #64748b; margin-top: 7px; min-height: 17px; text-align: center }
+.tf-feedback.ok { color: #16a34a }
+.tf-feedback.bad { color: #dc2626 }
+</style>
+<link rel="stylesheet" href="../assets/desktop.css">
+<script src="../assets/storage.js"></script>
+</head>
+<body class="bg-white text-slate-900 pb-16 cat-apps">
+
+<!-- DESKTOP SIDEBAR -->
+<aside class="desktop-sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <i data-lucide="footprints" class="w-[15px] h-[15px] text-white"></i>
+    </div>
+    <span>STEP NAVI</span>
+  </div>
+  <div class="sidebar-section sidebar-section--main">メイン</div>
+  <a href="../index.html"><i data-lucide="home"></i>ホーム</a>
+  <a href="../auth/mypage.html"><i data-lucide="user"></i>マイページ</a>
+  <div class="sidebar-section sidebar-section--interview">面接対策</div>
+  <a href="../guides/index.html"><i data-lucide="target"></i>面接対策一覧</a>
+  <a href="../guides/interview-questions.html"><i data-lucide="messages-square"></i>よくある質問</a>
+  <a href="../prompts/interview.html"><i data-lucide="wand-2"></i>AI面接練習</a>
+  <a href="../guides/resume.html"><i data-lucide="file-text"></i>履歴書の書き方</a>
+  <a href="../guides/interview-checklist.html"><i data-lucide="list-checks"></i>チェックリスト</a>
+  <div class="sidebar-section sidebar-section--apps">レベルアップアプリ</div>
+  <a href="../certification/pc-basic.html#shortcut-run"><i data-lucide="gamepad-2"></i>ショートカット・ラン</a>
+  <a href="typing-fighter.html"><i data-lucide="swords"></i>タイピング・ファイター</a>
+  <a href="../certification/excel-challenge.html"><i data-lucide="sigma"></i>Excel関数チャレンジ</a>
+  <div class="sidebar-section sidebar-section--content">コンテンツ</div>
+  <a href="../content/index.html"><i data-lucide="layout-grid"></i>コンテンツ一覧</a>
+  <a href="../manners/index.html"><i data-lucide="briefcase"></i>ビジネスマナー</a>
+  <a href="../certification/index.html"><i data-lucide="award"></i>資格取得ガイド</a>
+  <a href="../ai/index.html"><i data-lucide="sparkles"></i>AI活用入門</a>
+  <a href="../careers/index.html"><i data-lucide="library"></i>職種図鑑</a>
+  <a href="../prompts/index.html"><i data-lucide="wand-2"></i>プロンプト集</a>
+  <a href="../future/index.html"><i data-lucide="compass"></i>AI時代のキャリア</a>
+  <div class="sidebar-section sidebar-section--support">各種サポート</div>
+  <a href="../links/index.html"><i data-lucide="external-link"></i>各種サポート一覧</a>
+  <a href="../links/jobs.html"><i data-lucide="briefcase"></i>求人情報</a>
+  <a href="../links/resignation.html"><i data-lucide="shield-check"></i>退職サポート</a>
+  <a href="../links/ai-reskilling.html"><i data-lucide="brain-circuit"></i>AIリスキリング</a>
+  <a href="../links/living-cost.html"><i data-lucide="piggy-bank"></i>生活費見直し</a>
+</aside>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 bg-white border-b border-slate-100">
+  <div class="flex items-center h-12 px-4">
+    <a href="index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
+      <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
+    </a>
+    <span class="text-[13px] text-slate-400 truncate">タイピング・ファイター 3D</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="tf-hero fade-up">
+  <span class="tf-badge inline-flex items-center gap-1"><i data-lucide="swords" class="w-3 h-3"></i>3D オープンワールド・タイピングRPG</span>
+  <h1>タイピング・ファイター 3D</h1>
+  <p>広大な3Dフィールドを自由に探索。荒野をうろつく敵に近づくとバトル開始！<br>制限時間内のタイピングで攻撃＆防御。北の黒城にひそむ<b>ドラゴン社長</b>を倒せ。</p>
+</section>
+
+<!-- ============ SELECT VIEW ============ -->
+<section id="tf-view-select" class="px-5 pt-5 pb-6 fade-up">
+  <div class="tf-status-bar" id="tf-status-bar">
+    <span class="tf-st-emoji" id="tf-st-emoji">🥷</span>
+    <div class="tf-st-main">
+      <p class="tf-st-name" id="tf-st-name">ファイター</p>
+      <p class="tf-st-sub" id="tf-st-sub">勝利数 0 ／ ボス討伐 0</p>
+      <div class="tf-xp-track"><div class="tf-xp-fill" id="tf-xp-fill" style="width:0%"></div></div>
+    </div>
+    <span class="tf-st-lv">Lv.<span id="tf-st-lv">1</span></span>
+  </div>
+
+  <!-- タイピング記録（旧タイピング・ジョブの計測機能を統合） -->
+  <div class="tf-card mb-4">
+    <p class="tf-section-label">タイピング記録</p>
+    <div class="tf-result-stats" style="margin-bottom:10px">
+      <div class="tf-rstat">
+        <p class="tf-rstat-label">自己ベスト</p>
+        <p class="tf-rstat-value" id="tf-rec-best">—</p>
+        <p class="tf-rstat-label">文字/分</p>
+      </div>
+      <div class="tf-rstat">
+        <p class="tf-rstat-label">平均速度</p>
+        <p class="tf-rstat-value" id="tf-rec-avg">—</p>
+        <p class="tf-rstat-label">文字/分</p>
+      </div>
+      <div class="tf-rstat">
+        <p class="tf-rstat-label">正確率</p>
+        <p class="tf-rstat-value" id="tf-rec-acc">—</p>
+        <p class="tf-rstat-label">%</p>
+      </div>
+    </div>
+    <p class="text-[10.5px] text-slate-400 leading-relaxed">累計 <b id="tf-rec-chars">0</b> 文字 ／ ミス <b id="tf-rec-miss">0</b> 回。<span id="tf-rec-bench">バトル中のタイピングから自動で記録されます。</span></p>
+  </div>
+
+  <div class="tf-card mb-4">
+    <p class="tf-section-label">ファイターを選ぶ</p>
+    <div id="tf-char-list"><!-- JSで描画 --></div>
+    <p class="text-[10.5px] text-slate-400 mt-1 leading-relaxed">レベルはアカウント共通。どのファイターでも同じレベルで戦えます。</p>
+  </div>
+
+  <button class="tf-btn-primary" id="tf-go-field-btn" disabled>3Dエンジンを読み込み中…</button>
+
+  <div class="mt-5 p-4 bg-slate-50 rounded-xl">
+    <p class="text-[11px] font-bold text-slate-700 mb-1">遊び方</p>
+    <ul class="text-[11px] text-slate-500 leading-relaxed pl-4 list-disc space-y-1">
+      <li>移動: <b>W/↑</b> 前進、<b>S/↓</b> 後退、<b>A/D/←/→</b> 旋回（スマホは左下のスティック）</li>
+      <li>フィールドの敵に近づくと追いかけてくる。接触でバトル！</li>
+      <li><b>攻撃ターン</b>：制限時間内にお題を打ち切ると攻撃。<b>残り時間半分より速く</b>打ち切ると<b>クリティカル2倍ダメージ！</b></li>
+      <li><b>防御ターン</b>：敵のお題を時間内に打ち返すとガード成功。<b>速く打ち返すとカウンター反撃</b>が発動！</li>
+      <li>ミスタイプすると少しだけ自分にダメージ</li>
+      <li>勝つと経験値ゲット。レベルが上がるとHPと攻撃力アップ（アカウントに保存）</li>
+      <li>北の丘の黒城には<b>ボス：ブラック社長ドラゴン</b>が。長文ビジネス文を打ち切って倒そう</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ GAME VIEW ============ -->
+<section id="tf-view-game" class="px-5 pt-5 pb-6 tf-hidden">
+  <div class="tf-game-shell" id="tf-shell">
+    <div class="tf-canvas-wrap" id="tf-canvas-wrap"></div>
+    <div class="tf-vignette"></div>
+    <div class="tf-letterbox top"></div>
+    <div class="tf-letterbox bottom"></div>
+
+    <!-- HUD -->
+    <div class="tf-hud">
+      <div class="tf-hud-player">
+        <span class="tf-hud-emoji" id="tf-hud-emoji">🥷</span>
+        <div>
+          <p class="tf-hud-name" id="tf-hud-name">ハヤテ</p>
+          <p class="tf-hud-lv" id="tf-hud-lv">Lv.1 ／ 勝利 0</p>
+          <div class="tf-hud-xp"><div id="tf-hud-xp" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="tf-quest" id="tf-quest">クエスト：北の黒城にひそむ<br>ブラック社長ドラゴンを たおせ！</div>
+      <p class="tf-hint" id="tf-hint">W/↑ 前進 ・ A D / ← → 旋回 ・ 敵にふれるとバトル！</p>
+      <p class="tf-alert" id="tf-alert">バトル！</p>
+
+      <!-- バトル用HPバー -->
+      <div class="tf-bhud">
+        <div class="tf-bhp">
+          <p class="tf-bhp-name" id="tf-bhp-pname">あなた</p>
+          <div class="tf-bhp-track"><div class="tf-bhp-fill" id="tf-bhp-pfill"></div></div>
+          <p class="tf-bhp-val" id="tf-bhp-pval"></p>
+        </div>
+        <span class="tf-bvs">VS</span>
+        <div class="tf-bhp right">
+          <p class="tf-bhp-name" id="tf-bhp-ename">てき</p>
+          <div class="tf-bhp-track"><div class="tf-bhp-fill" id="tf-bhp-efill"></div></div>
+          <p class="tf-bhp-val" id="tf-bhp-eval"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 仮想ジョイスティック -->
+    <div class="tf-joy" id="tf-joy"><div class="tf-joy-knob" id="tf-joy-knob"></div></div>
+
+    <!-- ローディング -->
+    <div class="tf-overlay" id="tf-loading">
+      <div class="tf-load-box">
+        <div class="tf-load-spin"></div>
+        <p class="text-[13px] font-bold">ワールドを生成中…</p>
+        <p class="text-[10.5px] text-slate-400 mt-1">山・森・湖をつくっています</p>
+      </div>
+    </div>
+
+    <!-- 結果オーバーレイ -->
+    <div class="tf-overlay tf-hidden" id="tf-result-overlay">
+      <div class="tf-result-card">
+        <div class="tf-result-emoji" id="tf-r-emoji">🏆</div>
+        <p class="tf-result-title win" id="tf-r-title">YOU WIN!</p>
+        <p class="tf-result-sub" id="tf-r-sub"></p>
+        <div class="tf-levelup-banner tf-hidden" id="tf-r-levelup">🎉 レベルアップ！ Lv.<span id="tf-r-newlv">2</span> になった！</div>
+        <div class="tf-result-stats">
+          <div class="tf-rstat"><p class="tf-rstat-label">獲得XP</p><p class="tf-rstat-value" id="tf-r-xp">0</p></div>
+          <div class="tf-rstat"><p class="tf-rstat-label">現在レベル</p><p class="tf-rstat-value" id="tf-r-lv">1</p></div>
+          <div class="tf-rstat"><p class="tf-rstat-label">通算勝利</p><p class="tf-rstat-value" id="tf-r-wins">0</p></div>
+          <div class="tf-rstat"><p class="tf-rstat-label">今回の速度</p><p class="tf-rstat-value" id="tf-r-cpm">—</p><p class="tf-rstat-label">文字/分</p></div>
+          <div class="tf-rstat"><p class="tf-rstat-label">正確率</p><p class="tf-rstat-value" id="tf-r-acc">—</p><p class="tf-rstat-label">%</p></div>
+          <div class="tf-rstat"><p class="tf-rstat-label">ミス</p><p class="tf-rstat-value" id="tf-r-miss">0</p><p class="tf-rstat-label">回</p></div>
+        </div>
+        <p class="text-[10.5px] font-bold text-amber-600 mb-3 tf-hidden" id="tf-r-bestline">🏆 タイピング自己ベスト更新！</p>
+        <button class="tf-btn-primary mb-2" id="tf-r-field-btn">フィールドに戻る</button>
+        <button class="tf-btn-secondary" id="tf-r-select-btn">ファイターを選び直す</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ツール列 -->
+  <div class="tf-game-tools">
+    <button class="tf-tool-btn" id="tf-full-btn"><i data-lucide="maximize" class="w-3.5 h-3.5"></i>フルスクリーン</button>
+    <button class="tf-tool-btn" id="tf-sound-btn"><i data-lucide="volume-2" class="w-3.5 h-3.5"></i>サウンドON</button>
+    <button class="tf-tool-btn" id="tf-exit-btn"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>キャラ選択へ</button>
+  </div>
+
+  <!-- ターンパネル（バトル中のみ） -->
+  <div class="tf-turn-panel tf-hidden" id="tf-turn-panel">
+    <div class="flex items-center justify-between">
+      <span class="tf-phase-chip attack" id="tf-phase-chip"><i data-lucide="sword" class="w-3.5 h-3.5"></i><span id="tf-phase-label">攻撃ターン</span></span>
+      <span class="text-[11px] font-bold text-slate-500">残り <b id="tf-timer-sec" class="text-slate-900 text-[14px]">--</b> 秒</span>
+    </div>
+    <div class="tf-timer-track"><div class="tf-timer-fill" id="tf-timer-fill" style="width:100%"></div><div class="tf-timer-mark"></div></div>
+    <p class="tf-timer-note" id="tf-timer-note">⚡金ラインより前に打ち切るとクリティカル！</p>
+
+    <div class="tf-prompt-wrap">
+      <div class="tf-prompt-text" id="tf-prompt">準備中…</div>
+    </div>
+
+    <textarea class="tf-input" id="tf-input" rows="2" placeholder="ここに入力" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>
+    <p class="tf-feedback" id="tf-feedback"></p>
+
+    <button class="tf-btn-secondary mt-3" id="tf-run-btn">にげる（フィールドに戻る）</button>
+  </div>
+</section>
+
+<!-- LINE CTA -->
+<section class="px-5 mt-2 mb-8">
+  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
+    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    </div>
+    <p class="text-[11px] text-slate-500">アプリのリクエスト・感想はLINEからどうぞ</p>
+  </div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav fixed bottom-0 inset-x-0 z-50 bg-white border-t border-slate-100">
+  <div class="flex items-center justify-around h-12">
+    <a href="../index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="home" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">ホーム</span></a>
+    <a href="../guides/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="target" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">面接対策</span></a>
+    <a href="index.html" class="flex flex-col items-center gap-0.5 text-slate-900"><i data-lucide="gamepad-2" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">アプリ</span></a>
+    <a href="../content/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="layout-grid" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">コンテンツ</span></a>
+    <a href="../links/index.html" class="flex flex-col items-center gap-0.5 text-slate-300"><i data-lucide="external-link" class="w-[18px] h-[18px]"></i><span class="text-[9px] font-medium">サポート</span></a>
+  </div>
+</nav>
+
+<!-- ===== ゲームデータ ===== -->
+<!-- お題はここを編集すれば増やせます。pools のキーをキャラ・敵が参照します。 -->
+<script id="tf-data" type="application/json">
+{
+  "characters": [
+    {
+      "id": "jimuin", "name": "事務員", "emoji": "🧑‍💼", "type": "スピード型",
+      "desc": "毎日のメール業務で鍛えたタイピング速度が武器。お題が短いが一撃はひかえめ。",
+      "hp": 60, "atk": 10, "pool": "short", "role": "office",
+      "colors": { "cloth": "#2b3447", "skin": "#e8b98c", "accent": "#b91c1c", "bulky": false }
+    },
+    {
+      "id": "hanbaiin", "name": "販売員", "emoji": "🛍️", "type": "バランス型",
+      "desc": "接客で鍛えた臨機応変さ。お題の長さも攻撃力もバランスのいい万能タイプ。",
+      "hp": 70, "atk": 15, "pool": "medium", "role": "sales",
+      "colors": { "cloth": "#f1f5f9", "skin": "#e8b98c", "accent": "#16a34a", "bulky": false }
+    },
+    {
+      "id": "sekokanri", "name": "施工管理", "emoji": "👷", "type": "パワー型",
+      "desc": "現場で鍛えた腕っぷし。お題は長いが一撃が重い。長文を打ち切れる上級者向け。",
+      "hp": 80, "atk": 24, "pool": "long", "role": "construction",
+      "colors": { "cloth": "#6b7041", "skin": "#d9a06b", "accent": "#f59e0b", "bulky": true }
+    }
+  ],
+  "enemies": [
+    { "id": "mailgoblin", "name": "メールゴブリン", "emoji": "👾", "hp": 35, "atk": 8,  "pool": "enemyEasy", "xp": 30, "kind": "goblin" },
+    { "id": "zangyon",    "name": "ザンギョーン",   "emoji": "🧟", "hp": 48, "atk": 11, "pool": "enemyEasy", "xp": 45, "kind": "zombie" },
+    { "id": "kaigien",    "name": "カイギエン",     "emoji": "👹", "hp": 60, "atk": 14, "pool": "enemyMid",  "xp": 60, "kind": "oni" }
+  ],
+  "boss": {
+    "id": "boss", "name": "ブラック社長ドラゴン", "emoji": "🐲", "hp": 130, "atk": 18, "pool": "boss", "xp": 150, "kind": "dragon"
+  },
+  "pools": {
+    "short": [
+      "お疲れ様です。", "承知しました。", "ありがとうございます。", "失礼いたします。",
+      "かしこまりました。", "よろしくお願いします。", "お先に失礼します。", "少々お待ちください。",
+      "確認いたします。", "助かります。"
+    ],
+    "medium": [
+      "お世話になっております。", "本日はありがとうございました。", "ご連絡いただきありがとうございます。",
+      "会議の資料を添付いたします。", "内容を確認して折り返しご連絡します。", "お手数ですがご対応をお願いします。",
+      "明日の打ち合わせの件でご連絡しました。", "ご確認のほどよろしくお願いいたします。"
+    ],
+    "long": [
+      "お忙しいところ恐れ入りますが、ご確認をお願いいたします。",
+      "ご不明な点がございましたら、お気軽にお問い合わせください。",
+      "お手数をおかけしますが、何卒よろしくお願い申し上げます。",
+      "添付の資料をご確認のうえ、ご返信いただけますと幸いです。",
+      "先日はお打ち合わせのお時間をいただきありがとうございました。"
+    ],
+    "enemyEasy": [
+      "メールを送ります。", "電話に出ます。", "資料を作ります。", "席を外します。",
+      "予定を確認します。", "上司に報告します。", "会議に参加します。", "データを入力します。"
+    ],
+    "enemyMid": [
+      "担当者におつなぎいたします。", "折り返しご連絡いたします。", "少々お待ちくださいませ。",
+      "ご伝言を承りました。", "確認のため復唱いたします。", "改めてお電話差し上げます。"
+    ],
+    "boss": [
+      "お世話になっております。先日の件についてご確認のほどよろしくお願いいたします。",
+      "ご多用のところ恐れ入りますが、添付資料をご確認いただけますと幸いです。",
+      "お手数をおかけして大変恐縮ですが、ご検討のうえお返事いただけますでしょうか。",
+      "株式会社サンプルの田中です。お打ち合わせの日程についてご相談がありご連絡いたしました。",
+      "本日は貴重なお時間をいただき、誠にありがとうございました。引き続きよろしくお願いいたします。"
+    ]
+  }
+}
+</script>
+
+<script>
+lucide.createIcons();
+const _obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); _obs.unobserve(entry.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => _obs.observe(el));
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { Sky } from 'three/addons/objects/Sky.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+/* ================================================================
+   タイピング・ファイター 3D
+   - オープンワールド(プロシージャル地形) + 徘徊する敵 + タイピングバトル
+   ================================================================ */
+const DATA = JSON.parse(document.getElementById('tf-data').textContent);
+const SAVE_KEY = 'stepnavi.fighter.save';
+const MISTAKE_DMG = 2;
+const CRIT_TIME_RATIO = 0.5;  // 制限時間の半分より速く打ち切るとクリティカル/カウンター
+const CRIT_MULT = 2;          // 高速タイピングのクリティカル倍率
+const COUNTER_RATIO = 0.6;    // カウンター時に与えるダメージ（攻撃力に対する割合）
+const WORLD = 260;            // ワールドの一辺
+const WATER_Y = -2.0;         // 水面の高さ
+const ENEMY_COUNT = 9;
+
+const $ = (id) => document.getElementById(id);
+const inputEl = $('tf-input');
+const feedbackEl = $('tf-feedback');
+const promptEl = $('tf-prompt');
+const shell = $('tf-shell');
+
+/* ---------------- セーブ（storage.js がアカウント別に分離） ---------------- */
+function defaultStats() {
+  return { bestCpm: 0, totalChars: 0, totalTimeMs: 0, totalMistakes: 0, totalPrompts: 0 };
+}
+function loadSave() {
+  let s = {};
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    s = raw ? JSON.parse(raw) : {};
+  } catch (_) { s = {}; }
+  const st = { ...defaultStats(), ...(s.stats || {}) };
+  // 旧タイピング・ジョブの自己ベスト(1分あたり文字数)を引き継ぐ
+  if (!st.bestCpm) {
+    const legacy = parseInt(localStorage.getItem('stepnavi.typing.best_cpm') || '0', 10);
+    if (legacy > 0) st.bestCpm = legacy;
+  }
+  return { level: s.level || 1, xp: s.xp || 0, wins: s.wins || 0, bossWins: s.bossWins || 0, charId: s.charId || 'jimuin', stats: st };
+}
+function persistSave() { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); }
+function xpToNext(lv) { return 60 + (lv - 1) * 40; }
+
+let save = loadSave();
+let selectedChar = DATA.characters.find(c => c.id === save.charId) || DATA.characters[0];
+function playerStats() {
+  return { hp: selectedChar.hp + (save.level - 1) * 6, atk: selectedChar.atk + (save.level - 1) * 2 };
+}
+function scaledEnemy(def, isBoss) {
+  const lvBonus = save.level - 1;
+  const loopBonus = isBoss ? save.bossWins : Math.floor(save.bossWins / 2);
+  return { ...def, hp: def.hp + lvBonus * 5 + loopBonus * 15, atk: def.atk + lvBonus + loopBonus * 2, xp: def.xp + lvBonus * 5 };
+}
+
+/* ---------------- タイピング記録（旧タイピング・ジョブの計測を引き継ぎ） ---------------- */
+let battleStats = null; // 今回のバトル分 { chars, timeMs, mistakes, newBest }
+function recordPrompt(chars, timeMs, mistakes) {
+  const st = save.stats;
+  st.totalChars += chars;
+  st.totalTimeMs += timeMs;
+  st.totalMistakes += mistakes;
+  st.totalPrompts++;
+  const cpm = Math.round(chars / (timeMs / 60000));
+  if (battleStats) {
+    battleStats.chars += chars;
+    battleStats.timeMs += timeMs;
+    battleStats.mistakes += mistakes;
+    if (cpm > st.bestCpm) battleStats.newBest = true;
+  }
+  if (cpm > st.bestCpm) st.bestCpm = cpm;
+  persistSave();
+}
+function recordMistakesOnly(mistakes) {
+  if (mistakes <= 0) return;
+  save.stats.totalMistakes += mistakes;
+  if (battleStats) battleStats.mistakes += mistakes;
+  persistSave();
+}
+function cpmOf(chars, timeMs) { return timeMs > 0 ? Math.round(chars / (timeMs / 60000)) : 0; }
+function accuracyOf(chars, mistakes) {
+  const total = chars + mistakes;
+  return total > 0 ? Math.round(chars / total * 100) : 100;
+}
+function benchText(cpm) {
+  if (cpm >= 200) return '1分200文字超は上級レベル。タイピング検定2級相当も狙えます';
+  if (cpm >= 120) return '1分120文字超は事務職の平均ラインを超えています';
+  if (cpm >= 80) return '1分80文字超で応募条件「1分80文字以上」をクリア';
+  return '事務職の応募条件は「1分80文字以上」が目安。続けるほど確実に上がります';
+}
+
+/* ---------------- サウンド（WebAudio 簡易シンセ） ---------------- */
+let audioCtx = null, soundOn = true;
+function ac() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
+function beep(freq, dur, type = 'sine', vol = 0.18, slide = 0) {
+  if (!soundOn) return;
+  try {
+    const ctx = ac(), o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.setValueAtTime(freq, ctx.currentTime);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(30, freq + slide), ctx.currentTime + dur);
+    g.gain.setValueAtTime(vol, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+    o.connect(g).connect(ctx.destination); o.start(); o.stop(ctx.currentTime + dur);
+  } catch (_) {}
+}
+const sfx = {
+  hit:     () => { beep(150, 0.15, 'square', 0.22, -90); beep(70, 0.2, 'sawtooth', 0.18, -30); },
+  crit:    () => { beep(220, 0.2, 'square', 0.25, -140); beep(440, 0.12, 'sawtooth', 0.15, 200); },
+  guard:   () => { beep(880, 0.1, 'sine', 0.15); beep(1320, 0.14, 'sine', 0.1); },
+  miss:    () => beep(140, 0.09, 'sawtooth', 0.12, -40),
+  hurt:    () => beep(110, 0.22, 'sawtooth', 0.2, -60),
+  step:    () => beep(2200, 0.015, 'sine', 0.02),
+  alert:   () => { beep(660, 0.1, 'square', 0.14); setTimeout(() => beep(520, 0.16, 'square', 0.14), 110); },
+  win:     () => [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => beep(f, 0.22, 'triangle', 0.16), i * 130)),
+  lose:    () => [392, 330, 262, 196].forEach((f, i) => setTimeout(() => beep(f, 0.3, 'triangle', 0.14), i * 170)),
+  levelup: () => [523, 659, 784, 1047, 1319].forEach((f, i) => setTimeout(() => beep(f, 0.18, 'square', 0.1), i * 90))
+};
+
+/* ---------------- 地形ノイズ（決定的 = 毎回同じワールド） ---------------- */
+function hash2(x, y) { const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); }
+function smoothT(t) { return t * t * (3 - 2 * t); }
+function vnoise(x, y) {
+  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+  const a = hash2(xi, yi), b = hash2(xi + 1, yi), c = hash2(xi, yi + 1), d = hash2(xi + 1, yi + 1);
+  const u = smoothT(xf), v = smoothT(yf);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+function fbm(x, y) { let v = 0, a = 0.5, f = 1; for (let i = 0; i < 4; i++) { v += a * vnoise(x * f, y * f); a *= 0.5; f *= 2; } return v; }
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+function lerp(a, b, t) { return a + (b - a) * t; }
+function smoothstep(e0, e1, x) { const t = clamp((x - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); }
+
+const SPAWN = { x: 0, z: 78 };
+const BOSS_POS = { x: 0, z: -78 };
+function pathCenter(z) { return Math.sin(z * 0.045) * 10; } // 蛇行する道
+
+function heightAt(x, z) {
+  let h = fbm(x / 52 + 10, z / 52 + 10) * 16 - 5; // なだらかな丘
+  // 外周の山脈
+  const edge = Math.max(Math.abs(x), Math.abs(z)) / (WORLD / 2);
+  if (edge > 0.72) h += Math.pow((edge - 0.72) / 0.28, 1.7) * 46;
+  // 湖（西側）
+  const ld = Math.hypot(x + 52, z - 28);
+  if (ld < 30) h -= (1 - ld / 30) * 11;
+  // スポーン平地
+  h = lerp(h, 0.6, smoothstep(26, 8, Math.hypot(x - SPAWN.x, z - SPAWN.z)));
+  // ボスの丘（高台の平地）
+  h = lerp(h, 9, smoothstep(34, 16, Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z)));
+  // 道はならす
+  const pd = Math.abs(x - pathCenter(z));
+  if (Math.abs(z) < 72) h = lerp(h, lerp(0.6, 9, smoothstep(60, -60, z)) , smoothstep(7, 2.5, pd) * 0.85);
+  return h;
+}
+
+/* ---------------- Three.js セットアップ ---------------- */
+let scene, camera, renderer, clock, sunLight, composer;
+let player = null;            // { group, parts, heading, walkT }
+let enemies = [];             // { def, group, parts, state, home, tgt, speed, dead, respawnAt, cooldownUntil, isBoss, baseY }
+let treeCols = [];            // 木の当たり判定 [{x,z,r}]
+let particles = [];           // {pts, vels, life, maxLife, gravity}
+let tweens = [];
+let mode = 'select';          // select | field | battle
+let battle = null;
+let turnTimer = null;
+let composing = false;
+let worldBuilt = false;
+let camShake = 0;
+
+const keys = {};
+const joy = { active: false, x: 0, y: 0 };
+
+function initThree() {
+  const wrap = $('tf-canvas-wrap');
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.72;
+  wrap.appendChild(renderer.domElement);
+
+  scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0xb8d2e6, 80, 260);
+
+  camera = new THREE.PerspectiveCamera(55, wrap.clientWidth / wrap.clientHeight, 0.1, 600);
+  camera.position.set(0, 8, 95);
+
+  // 空と太陽
+  const sky = new Sky();
+  sky.scale.setScalar(4500);
+  const sunPos = new THREE.Vector3();
+  const elev = 26, azim = 145;
+  const phi = THREE.MathUtils.degToRad(90 - elev), theta = THREE.MathUtils.degToRad(azim);
+  sunPos.setFromSphericalCoords(1, phi, theta);
+  const u = sky.material.uniforms;
+  u.sunPosition.value.copy(sunPos);
+  u.turbidity.value = 4; u.rayleigh.value = 2.2;
+  u.mieCoefficient.value = 0.004; u.mieDirectionalG.value = 0.8;
+
+  // 空をIBL(環境光)として焼き込む → マテリアルの質感が大幅に向上
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const envScene = new THREE.Scene();
+  envScene.add(sky);
+  scene.environment = pmrem.fromScene(envScene).texture;
+  scene.environmentIntensity = 0.32;
+  pmrem.dispose();
+  scene.add(sky);
+
+  sunLight = new THREE.DirectionalLight(0xffe9c4, 2.8);
+  sunLight.position.copy(sunPos).multiplyScalar(180);
+  sunLight.castShadow = true;
+  sunLight.shadow.mapSize.set(2048, 2048);
+  const sc = sunLight.shadow.camera;
+  sc.near = 20; sc.far = 420; sc.left = -70; sc.right = 70; sc.top = 70; sc.bottom = -70;
+  sunLight.shadow.bias = -0.0008;
+  scene.add(sunLight); scene.add(sunLight.target);
+
+  scene.add(new THREE.HemisphereLight(0xa8c8e8, 0x4a6b35, 0.55));
+
+  // ポストプロセス: ブルームでハイライトを柔らかく発光させる
+  composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(wrap.clientWidth, wrap.clientHeight), 0.12, 0.3, 0.95);
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+
+  clock = new THREE.Clock();
+  window.addEventListener('resize', onResize);
+  new ResizeObserver(onResize).observe(wrap);
+  renderer.setAnimationLoop(animate);
+}
+
+function onResize() {
+  const wrap = $('tf-canvas-wrap');
+  if (!renderer || !wrap.clientWidth) return;
+  camera.aspect = wrap.clientWidth / wrap.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  if (composer) composer.setSize(wrap.clientWidth, wrap.clientHeight);
+}
+
+/* ---------------- ワールド生成 ---------------- */
+function buildWorld() {
+  // --- 地形 ---
+  const seg = 110;
+  const geo = new THREE.PlaneGeometry(WORLD, WORLD, seg, seg);
+  geo.rotateX(-Math.PI / 2);
+  const pos = geo.attributes.position;
+  const colors = new Float32Array(pos.count * 3);
+  const cGrassA = new THREE.Color(0x55872e), cGrassB = new THREE.Color(0x6da33a);
+  const cDirt = new THREE.Color(0x9c7b4f), cRock = new THREE.Color(0x7d7468);
+  const cSnow = new THREE.Color(0xf2f4f7), cSand = new THREE.Color(0xc8b888);
+  const col = new THREE.Color();
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i), z = pos.getZ(i);
+    const h = heightAt(x, z);
+    pos.setY(i, h);
+    // 頂点カラー
+    const n = fbm(x / 14 + 99, z / 14 + 99);
+    if (h < WATER_Y + 0.7) col.copy(cSand);
+    else if (h > 30) col.copy(cSnow);
+    else if (h > 17) col.copy(cRock).lerp(cSnow, smoothstep(17, 30, h) * 0.5);
+    else {
+      col.copy(cGrassA).lerp(cGrassB, n);
+      const pd = Math.abs(x - pathCenter(z));
+      if (Math.abs(z) < 72 && pd < 2.6 + n * 1.2) col.lerp(cDirt, 0.85);
+      if (h > 12) col.lerp(cRock, smoothstep(12, 17, h));
+    }
+    colors[i * 3] = col.r; colors[i * 3 + 1] = col.g; colors[i * 3 + 2] = col.b;
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geo.computeVertexNormals();
+  // 地面のディテール: ノイズテクスチャを乗算して質感を出す
+  const texSize = 256;
+  const cvs = document.createElement('canvas');
+  cvs.width = cvs.height = texSize;
+  const ctx2d = cvs.getContext('2d');
+  const img = ctx2d.createImageData(texSize, texSize);
+  for (let i = 0; i < texSize * texSize; i++) {
+    const x = i % texSize, y = (i / texSize) | 0;
+    const n = vnoise(x * 0.18, y * 0.18) * 0.6 + vnoise(x * 0.045, y * 0.045) * 0.4;
+    const v = 205 + Math.round((n - 0.5) * 76);
+    img.data[i * 4] = v; img.data[i * 4 + 1] = v; img.data[i * 4 + 2] = v; img.data[i * 4 + 3] = 255;
+  }
+  ctx2d.putImageData(img, 0, 0);
+  const groundTex = new THREE.CanvasTexture(cvs);
+  groundTex.wrapS = groundTex.wrapT = THREE.RepeatWrapping;
+  groundTex.repeat.set(56, 56);
+  const ground = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, map: groundTex, roughness: 0.95, metalness: 0 }));
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  // --- 水面 ---
+  const water = new THREE.Mesh(
+    new THREE.CircleGeometry(34, 40).rotateX(-Math.PI / 2),
+    new THREE.MeshStandardMaterial({ color: 0x2d6f9e, transparent: true, opacity: 0.82, roughness: 0.15, metalness: 0.5 })
+  );
+  water.position.set(-52, WATER_Y, 28);
+  scene.add(water);
+
+  // --- 木（インスタンス） ---
+  const trunkGeo = new THREE.CylinderGeometry(0.22, 0.34, 2.2, 6);
+  const folGeo = new THREE.ConeGeometry(1.7, 3.4, 7);
+  const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b4a2a, roughness: 0.9 });
+  const folMat = new THREE.MeshStandardMaterial({ color: 0x2f6b27, roughness: 0.9 });
+  const N_TREE = 220;
+  const trunks = new THREE.InstancedMesh(trunkGeo, trunkMat, N_TREE);
+  const fol1 = new THREE.InstancedMesh(folGeo, folMat, N_TREE);
+  const fol2 = new THREE.InstancedMesh(folGeo, folMat, N_TREE);
+  trunks.castShadow = fol1.castShadow = fol2.castShadow = true;
+  const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), sc3 = new THREE.Vector3(), p3 = new THREE.Vector3();
+  const cTmp = new THREE.Color();
+  let placed = 0, tries = 0;
+  while (placed < N_TREE && tries < 4000) {
+    tries++;
+    const x = (hash2(tries, 7) - 0.5) * (WORLD - 40);
+    const z = (hash2(tries, 13) - 0.5) * (WORLD - 40);
+    const h = heightAt(x, z);
+    if (h < WATER_Y + 1 || h > 14) continue;
+    if (Math.abs(x - pathCenter(z)) < 5 && Math.abs(z) < 72) continue;
+    if (Math.hypot(x - SPAWN.x, z - SPAWN.z) < 14) continue;
+    if (Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z) < 22) continue;
+    const s = 0.8 + hash2(tries, 21) * 0.9;
+    q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), hash2(tries, 31) * 6.28);
+    p3.set(x, h + 1.1 * s, z); sc3.set(s, s, s);
+    m4.compose(p3, q, sc3); trunks.setMatrixAt(placed, m4);
+    p3.set(x, h + (2.2 + 1.4) * s, z); m4.compose(p3, q, sc3); fol1.setMatrixAt(placed, m4);
+    p3.set(x, h + (2.2 + 2.6) * s, z); sc3.set(s * 0.72, s * 0.8, s * 0.72); m4.compose(p3, q, sc3); fol2.setMatrixAt(placed, m4);
+    cTmp.setHSL(0.31 + hash2(tries, 41) * 0.05, 0.5, 0.26 + hash2(tries, 43) * 0.1);
+    fol1.setColorAt(placed, cTmp); fol2.setColorAt(placed, cTmp);
+    treeCols.push({ x, z, r: 1.0 * s });
+    placed++;
+  }
+  trunks.count = fol1.count = fol2.count = placed;
+  scene.add(trunks, fol1, fol2);
+
+  // --- 広葉樹（丸い樹冠でシルエットに変化を） ---
+  const bTrunkGeo = new THREE.CylinderGeometry(0.26, 0.4, 2.6, 7);
+  const bLeafGeo = new THREE.IcosahedronGeometry(1.7, 1);
+  const bTrunks = new THREE.InstancedMesh(bTrunkGeo, trunkMat, 90);
+  const bLeaf1 = new THREE.InstancedMesh(bLeafGeo, new THREE.MeshStandardMaterial({ color: 0x4a8a32, roughness: 0.9, flatShading: true }), 90);
+  const bLeaf2 = new THREE.InstancedMesh(bLeafGeo, new THREE.MeshStandardMaterial({ color: 0x4a8a32, roughness: 0.9, flatShading: true }), 90);
+  bTrunks.castShadow = bLeaf1.castShadow = bLeaf2.castShadow = true;
+  let bp = 0; tries = 0;
+  while (bp < 90 && tries < 2500) {
+    tries++;
+    const x = (hash2(tries, 207) - 0.5) * (WORLD - 50);
+    const z = (hash2(tries, 211) - 0.5) * (WORLD - 50);
+    const h = heightAt(x, z);
+    if (h < WATER_Y + 1 || h > 12) continue;
+    if (Math.abs(x - pathCenter(z)) < 5.5 && Math.abs(z) < 72) continue;
+    if (Math.hypot(x - SPAWN.x, z - SPAWN.z) < 14) continue;
+    if (Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z) < 22) continue;
+    const s = 0.75 + hash2(tries, 223) * 0.8;
+    q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), hash2(tries, 227) * 6.28);
+    p3.set(x, h + 1.3 * s, z); sc3.set(s, s, s);
+    m4.compose(p3, q, sc3); bTrunks.setMatrixAt(bp, m4);
+    p3.set(x, h + 3.3 * s, z); sc3.set(s, s * 0.85, s);
+    m4.compose(p3, q, sc3); bLeaf1.setMatrixAt(bp, m4);
+    p3.set(x + 0.8 * s, h + 2.7 * s, z + 0.4 * s); sc3.set(s * 0.62, s * 0.55, s * 0.62);
+    m4.compose(p3, q, sc3); bLeaf2.setMatrixAt(bp, m4);
+    cTmp.setHSL(0.26 + hash2(tries, 229) * 0.06, 0.52, 0.3 + hash2(tries, 233) * 0.1);
+    bLeaf1.setColorAt(bp, cTmp);
+    cTmp.offsetHSL(0.01, 0, 0.04);
+    bLeaf2.setColorAt(bp, cTmp);
+    treeCols.push({ x, z, r: 1.1 * s });
+    bp++;
+  }
+  bTrunks.count = bLeaf1.count = bLeaf2.count = bp;
+  scene.add(bTrunks, bLeaf1, bLeaf2);
+
+  // --- 草（とんがり房をインスタンスで散らす） ---
+  const grassGeo = new THREE.ConeGeometry(0.32, 0.85, 4);
+  grassGeo.translate(0, 0.42, 0);
+  const grassMat = new THREE.MeshStandardMaterial({ color: 0x67a03c, roughness: 1, flatShading: true });
+  const N_GRASS = 1300;
+  const grass = new THREE.InstancedMesh(grassGeo, grassMat, N_GRASS);
+  let gi = 0; tries = 0;
+  while (gi < N_GRASS && tries < 8000) {
+    tries++;
+    const x = (hash2(tries, 53) - 0.5) * (WORLD - 60);
+    const z = (hash2(tries, 59) - 0.5) * (WORLD - 60);
+    const h = heightAt(x, z);
+    if (h < WATER_Y + 0.8 || h > 12) continue;
+    q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), hash2(tries, 61) * 6.28);
+    const s = 0.7 + hash2(tries, 67) * 0.8;
+    p3.set(x, h, z); sc3.set(s, s, s);
+    m4.compose(p3, q, sc3); grass.setMatrixAt(gi, m4);
+    cTmp.setHSL(0.26 + hash2(tries, 71) * 0.07, 0.6, 0.26 + hash2(tries, 73) * 0.1);
+    grass.setColorAt(gi, cTmp);
+    gi++;
+  }
+  grass.count = gi;
+  scene.add(grass);
+
+  // --- 岩 ---
+  const rockGeo = new THREE.DodecahedronGeometry(0.9, 0);
+  const rockMat = new THREE.MeshStandardMaterial({ color: 0x8a8378, roughness: 0.95, flatShading: true });
+  const rocks = new THREE.InstancedMesh(rockGeo, rockMat, 50);
+  let ri = 0; tries = 0;
+  while (ri < 50 && tries < 1200) {
+    tries++;
+    const x = (hash2(tries, 83) - 0.5) * (WORLD - 50);
+    const z = (hash2(tries, 89) - 0.5) * (WORLD - 50);
+    const h = heightAt(x, z);
+    if (h < WATER_Y + 0.5) continue;
+    const s = 0.5 + hash2(tries, 97) * 1.6;
+    q.setFromAxisAngle(new THREE.Vector3(hash2(tries,1), 1, hash2(tries,2)).normalize(), hash2(tries, 3) * 6.28);
+    p3.set(x, h + s * 0.3, z); sc3.set(s, s * (0.6 + hash2(tries, 5) * 0.5), s);
+    m4.compose(p3, q, sc3); rocks.setMatrixAt(ri, m4);
+    if (s > 1.1) treeCols.push({ x, z, r: s * 0.8 });
+    ri++;
+  }
+  rocks.count = ri; rocks.castShadow = true; rocks.receiveShadow = true;
+  scene.add(rocks);
+
+  // --- 雲 ---
+  const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.85, roughness: 1 });
+  for (let i = 0; i < 7; i++) {
+    const g = new THREE.Group();
+    const n = 3 + Math.floor(hash2(i, 7) * 3);
+    for (let j = 0; j < n; j++) {
+      const s = 4 + hash2(i, j + 10) * 6;
+      const b = new THREE.Mesh(new THREE.SphereGeometry(s, 8, 6), cloudMat);
+      b.position.set(j * 6 - n * 3 + hash2(i, j) * 4, hash2(j, i) * 2, hash2(i, j + 30) * 5);
+      b.scale.y = 0.45;
+      g.add(b);
+    }
+    g.position.set((hash2(i, 99) - 0.5) * WORLD, 52 + hash2(i, 101) * 18, (hash2(i, 103) - 0.5) * WORLD);
+    g.userData.speed = 0.6 + hash2(i, 107) * 0.8;
+    g.userData.cloud = true;
+    scene.add(g);
+  }
+
+  // --- ボスの黒城 ---
+  buildCastle();
+
+  worldBuilt = true;
+}
+
+function buildCastle() {
+  const g = new THREE.Group();
+  const baseH = heightAt(BOSS_POS.x, BOSS_POS.z);
+  const stone = new THREE.MeshStandardMaterial({ color: 0x2b2b33, roughness: 0.85 });
+  const darkRoof = new THREE.MeshStandardMaterial({ color: 0x551111, roughness: 0.6 });
+  // 本丸
+  const keep = new THREE.Mesh(new THREE.BoxGeometry(14, 11, 10), stone);
+  keep.position.set(0, 5.5, -10);
+  g.add(keep);
+  const roof = new THREE.Mesh(new THREE.ConeGeometry(10.5, 5, 4), darkRoof);
+  roof.position.set(0, 13.4, -10); roof.rotation.y = Math.PI / 4;
+  g.add(roof);
+  // 塔
+  for (const sx of [-9, 9]) {
+    const tower = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.6, 13, 8), stone);
+    tower.position.set(sx, 6.5, -5);
+    g.add(tower);
+    const tr = new THREE.Mesh(new THREE.ConeGeometry(3, 3.6, 8), darkRoof);
+    tr.position.set(sx, 14.8, -5);
+    g.add(tr);
+  }
+  // 門壁
+  for (const sx of [-5.6, 5.6]) {
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(6.5, 6, 1.6), stone);
+    wall.position.set(sx, 3, 0);
+    g.add(wall);
+  }
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(18, 1.6, 1.6), stone);
+  lintel.position.set(0, 6.6, 0);
+  g.add(lintel);
+  // 赤い社旗
+  const flagMat = new THREE.MeshStandardMaterial({ color: 0xb91c1c, side: THREE.DoubleSide, roughness: 0.7 });
+  for (const sx of [-9, 9]) {
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 4, 5), stone);
+    pole.position.set(sx, 18.4, -5);
+    g.add(pole);
+    const flag = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.4), flagMat);
+    flag.position.set(sx + 1.2, 19.4, -5);
+    g.add(flag);
+  }
+  g.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+  g.position.set(BOSS_POS.x, baseH, BOSS_POS.z - 8);
+  scene.add(g);
+  treeCols.push({ x: BOSS_POS.x, z: BOSS_POS.z - 18, r: 9 });
+  treeCols.push({ x: BOSS_POS.x - 9, z: BOSS_POS.z - 13, r: 3 });
+  treeCols.push({ x: BOSS_POS.x + 9, z: BOSS_POS.z - 13, r: 3 });
+}
+
+/* ---------------- キャラクターモデル（プリミティブ人形＋プロシージャルアニメ） ---------------- */
+function limb(mat, r, len) {
+  const g = new THREE.Group();
+  const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 4, 8), mat);
+  m.position.y = -(len / 2 + r);
+  m.castShadow = true;
+  g.add(m);
+  return g;
+}
+function stdMat(c, rough = 0.75) { return new THREE.MeshStandardMaterial({ color: c, roughness: rough }); }
+
+function buildHumanoid(colors) {
+  const g = new THREE.Group();
+  const parts = {};
+  const cloth = stdMat(colors.cloth), skin = stdMat(colors.skin), accent = stdMat(colors.accent, 0.45);
+  const w = colors.bulky ? 1.28 : 1;
+  const role = colors.role || null;
+  // 胴体
+  const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.26 * w, 0.42, 4, 12), cloth);
+  torso.position.y = 1.06; torso.castShadow = true;
+  g.add(torso); parts.torso = torso;
+  // ベルト
+  const belt = new THREE.Mesh(new THREE.CylinderGeometry(0.27 * w, 0.27 * w, 0.09, 12), stdMat(0x26262e, 0.5));
+  belt.position.y = 0.86; g.add(belt);
+  // 頭
+  const headG = new THREE.Group(); headG.position.y = 1.62;
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.21, 16, 14), skin);
+  head.castShadow = true; headG.add(head);
+  // 目
+  for (const s of [-1, 1]) {
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.028, 6, 6), stdMat(0x111111, 0.3));
+    eye.position.set(0.075 * s, 0.04, 0.18);
+    headG.add(eye);
+  }
+  g.add(headG); parts.head = headG;
+  // 腕・脚（先端に手と靴）
+  const handMat = skin;
+  const shoeMat = stdMat(0x1f2227, 0.4);
+  const makeArm = () => {
+    const a = limb(cloth, 0.085 * w, 0.34);
+    const hand = new THREE.Mesh(new THREE.SphereGeometry(0.075 * w, 8, 8), handMat);
+    hand.position.y = -(0.34 / 2 + 0.085 + 0.05); hand.castShadow = true;
+    a.add(hand);
+    return a;
+  };
+  const makeLeg = (pantsMat) => {
+    const l = limb(pantsMat, 0.1 * w, 0.38);
+    const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.16 * w, 0.09, 0.26), shoeMat);
+    shoe.position.set(0, -(0.38 / 2 + 0.1 + 0.03), 0.05); shoe.castShadow = true;
+    l.add(shoe);
+    return l;
+  };
+  const pantsMat = stdMat(colors.pants || colors.cloth);
+  parts.armL = makeArm(); parts.armL.position.set(0.33 * w, 1.34, 0);
+  parts.armR = makeArm(); parts.armR.position.set(-0.33 * w, 1.34, 0);
+  parts.legL = makeLeg(pantsMat); parts.legL.position.set(0.14 * w, 0.74, 0);
+  parts.legR = makeLeg(pantsMat); parts.legR.position.set(-0.14 * w, 0.74, 0);
+  g.add(parts.armL, parts.armR, parts.legL, parts.legR);
+
+  /* --- 職業ごとの装い --- */
+  if (role === 'office') {
+    // スーツ: 白シャツの胸元 + ネクタイ + 黒髪
+    const shirt = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.34, 0.06), stdMat(0xf8fafc, 0.7));
+    shirt.position.set(0, 1.16, 0.225); g.add(shirt);
+    const tie = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.3, 4), accent);
+    tie.rotation.x = Math.PI; tie.rotation.y = Math.PI / 4;
+    tie.position.set(0, 1.14, 0.265); g.add(tie);
+    const knot = new THREE.Mesh(new THREE.SphereGeometry(0.04, 6, 6), accent);
+    knot.position.set(0, 1.31, 0.26); g.add(knot);
+    const hair = new THREE.Mesh(new THREE.SphereGeometry(0.215, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2.1), stdMat(0x26221f, 0.85));
+    hair.position.set(0, 0.04, -0.03); headG.add(hair);
+  } else if (role === 'construction') {
+    // 作業着: 黄色ヘルメット + オレンジ安全ベスト + 反射ライン
+    const helm = new THREE.Mesh(new THREE.SphereGeometry(0.235, 14, 10, 0, Math.PI * 2, 0, Math.PI / 1.9), stdMat(0xfacc15, 0.45));
+    helm.position.set(0, 0.05, 0); headG.add(helm);
+    const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.03, 14), stdMat(0xfacc15, 0.45));
+    brim.position.set(0, 0.05, 0); headG.add(brim);
+    const vest = new THREE.Mesh(new THREE.CylinderGeometry(0.285 * w, 0.295 * w, 0.34, 12), stdMat(0xea580c, 0.7));
+    vest.position.y = 1.12; g.add(vest);
+    for (const yy of [1.2, 1.04]) {
+      const stripe = new THREE.Mesh(new THREE.CylinderGeometry(0.3 * w, 0.3 * w, 0.035, 12),
+        new THREE.MeshStandardMaterial({ color: 0xd9f99d, roughness: 0.3, emissive: 0x65a30d, emissiveIntensity: 0.35 }));
+      stripe.position.y = yy; g.add(stripe);
+    }
+  } else if (role === 'sales') {
+    // 販売員: 緑エプロン + キャップ
+    const apron = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.5, 0.05), accent);
+    apron.position.set(0, 1.02, 0.235); g.add(apron);
+    const strapL = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.3, 0.04), accent);
+    strapL.position.set(0.1, 1.32, 0.24); strapL.rotation.z = 0.18; g.add(strapL);
+    const strapR = strapL.clone(); strapR.position.x = -0.1; strapR.rotation.z = -0.18; g.add(strapR);
+    const cap = new THREE.Mesh(new THREE.SphereGeometry(0.22, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2.2), accent);
+    cap.position.set(0, 0.05, 0); headG.add(cap);
+    const capBrim = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.16, 0.025, 10), accent);
+    capBrim.position.set(0, 0.08, 0.24); capBrim.rotation.x = 0.15; headG.add(capBrim);
+    const tag = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.05, 0.02), stdMat(0xf8fafc, 0.5));
+    tag.position.set(0.12, 1.26, 0.25); g.add(tag);
+  }
+  g.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  return { group: g, parts };
+}
+
+function buildGoblin() {
+  const g = new THREE.Group(); const parts = {};
+  const body = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), stdMat(0x4f8a2f));
+  body.scale.y = 0.85; body.position.y = 0.55; body.castShadow = true;
+  g.add(body); parts.torso = body;
+  const headG = new THREE.Group(); headG.position.y = 1.2;
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.34, 12, 10), stdMat(0x5d9c39));
+  head.castShadow = true; headG.add(head);
+  for (const s of [-1, 1]) {
+    const ear = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.42, 6), stdMat(0x5d9c39));
+    ear.position.set(0.34 * s, 0.12, 0); ear.rotation.z = -s * 1.25;
+    headG.add(ear);
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.05, 6, 6), stdMat(0xdc2626, 0.3));
+    eye.position.set(0.13 * s, 0.05, 0.29);
+    headG.add(eye);
+  }
+  // 封筒(メールゴブリンの証)
+  const env = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.24, 0.04), stdMat(0xf8fafc, 0.6));
+  env.position.set(0, 0.62, 0.46); env.rotation.x = -0.2;
+  g.add(env);
+  g.add(headG); parts.head = headG;
+  for (const s of [-1, 1]) {
+    const leg = limb(stdMat(0x3f6f25), 0.08, 0.16); leg.position.set(0.2 * s, 0.3, 0);
+    g.add(leg); parts['leg' + (s > 0 ? 'L' : 'R')] = leg;
+    const arm = limb(stdMat(0x4f8a2f), 0.07, 0.22); arm.position.set(0.48 * s, 0.8, 0);
+    g.add(arm); parts['arm' + (s > 0 ? 'L' : 'R')] = arm;
+  }
+  return { group: g, parts };
+}
+
+function buildZombie() {
+  const h = buildHumanoid({ cloth: 0x57606f, skin: 0x9fb38a, accent: 0x2f3542, bulky: false });
+  h.parts.armL.rotation.x = -1.35; h.parts.armR.rotation.x = -1.35;
+  h.parts.head.rotation.z = 0.16;
+  h.parts.zombie = true;
+  return h;
+}
+
+function buildOni() {
+  const h = buildHumanoid({ cloth: 0xb33939, skin: 0xcd6133, accent: 0x222222, bulky: true });
+  for (const s of [-1, 1]) {
+    const horn = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.26, 6), stdMat(0xf7f1e3, 0.4));
+    horn.position.set(0.11 * s, 0.2, 0);
+    horn.rotation.z = -s * 0.3;
+    h.parts.head.add(horn);
+  }
+  return h;
+}
+
+function buildDragon() {
+  const g = new THREE.Group(); const parts = {};
+  const black = stdMat(0x363644, 0.55), red = stdMat(0xb91c1c, 0.5);
+  // 胴体
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.95, 1.7, 6, 12), black);
+  body.rotation.x = Math.PI / 2.3; body.position.y = 1.6; body.castShadow = true;
+  g.add(body); parts.torso = body;
+  // 首+頭
+  const neck = new THREE.Group(); neck.position.set(0, 2.45, 0.95);
+  for (let i = 0; i < 3; i++) {
+    const seg = new THREE.Mesh(new THREE.SphereGeometry(0.42 - i * 0.06, 10, 8), black);
+    seg.position.set(0, i * 0.42, i * 0.3); seg.castShadow = true;
+    neck.add(seg);
+  }
+  const headG = new THREE.Group(); headG.position.set(0, 1.32, 1.1);
+  const skull = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.5, 0.95), black);
+  skull.castShadow = true; headG.add(skull);
+  const jaw = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.16, 0.7), stdMat(0x32323e, 0.6));
+  jaw.position.set(0, -0.3, 0.18); headG.add(jaw);
+  for (const s of [-1, 1]) {
+    const horn = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.55, 6), red);
+    horn.position.set(0.2 * s, 0.35, -0.3); horn.rotation.x = -0.6;
+    headG.add(horn);
+    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.07, 6, 6), new THREE.MeshStandardMaterial({ color: 0xfbbf24, emissive: 0xb45309, emissiveIntensity: 1.4 }));
+    eye.position.set(0.24 * s, 0.1, 0.34);
+    headG.add(eye);
+  }
+  neck.add(headG); parts.head = headG;
+  g.add(neck); parts.neck = neck;
+  // ネクタイ（社長の証）
+  const tie = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.7, 4), red);
+  tie.position.set(0, 1.7, 1.18); tie.rotation.x = Math.PI;
+  g.add(tie);
+  // 翼
+  for (const s of [-1, 1]) {
+    const wing = new THREE.Group();
+    const memb = new THREE.Mesh(new THREE.ConeGeometry(1.5, 3.2, 3), new THREE.MeshStandardMaterial({ color: 0x701a1a, side: THREE.DoubleSide, roughness: 0.7 }));
+    memb.rotation.z = s * Math.PI / 2; memb.position.x = s * 1.6;
+    memb.scale.set(0.25, 1, 1.6);
+    wing.add(memb);
+    wing.position.set(s * 0.5, 2.4, 0);
+    g.add(wing); parts['wing' + (s > 0 ? 'L' : 'R')] = wing;
+  }
+  // 尻尾
+  const tail = new THREE.Group(); tail.position.set(0, 1.4, -1.3);
+  for (let i = 0; i < 4; i++) {
+    const seg = new THREE.Mesh(new THREE.ConeGeometry(0.3 - i * 0.06, 0.7, 7), black);
+    seg.rotation.x = -Math.PI / 2.4;
+    seg.position.set(0, -i * 0.12, -i * 0.55);
+    seg.castShadow = true;
+    tail.add(seg);
+  }
+  g.add(tail); parts.tail = tail;
+  // 脚
+  for (const s of [-1, 1]) {
+    const leg = limb(black, 0.18, 0.45); leg.position.set(0.55 * s, 1.05, -0.2);
+    g.add(leg); parts['leg' + (s > 0 ? 'L' : 'R')] = leg;
+  }
+  g.children.forEach(c => c.position.y -= 0.45); // 足が接地するよう全体を下げる
+  g.scale.setScalar(1.6);
+  return { group: g, parts };
+}
+
+function buildEnemyModel(kind) {
+  if (kind === 'goblin') return buildGoblin();
+  if (kind === 'zombie') return buildZombie();
+  if (kind === 'oni') return buildOni();
+  return buildDragon();
+}
+
+/* ---------------- プレイヤー＆敵スポーン ---------------- */
+function spawnPlayer() {
+  if (player) scene.remove(player.group);
+  const model = buildHumanoid({
+    cloth: new THREE.Color(selectedChar.colors.cloth).getHex(),
+    skin: new THREE.Color(selectedChar.colors.skin).getHex(),
+    accent: new THREE.Color(selectedChar.colors.accent).getHex(),
+    bulky: selectedChar.colors.bulky,
+    role: selectedChar.role
+  });
+  player = { ...model, heading: Math.PI, walkT: 0, moving: false };
+  player.group.position.set(SPAWN.x, heightAt(SPAWN.x, SPAWN.z), SPAWN.z);
+  scene.add(player.group);
+  // カメラ初期位置
+  camera.position.set(SPAWN.x, heightAt(SPAWN.x, SPAWN.z + 8) + 4, SPAWN.z + 9);
+}
+
+function spawnEnemies() {
+  enemies.forEach(e => scene.remove(e.group));
+  enemies = [];
+  let tries = 0;
+  while (enemies.length < ENEMY_COUNT && tries < 800) {
+    tries++;
+    const x = (hash2(tries, 333) - 0.5) * (WORLD - 90);
+    const z = (hash2(tries, 337) - 0.5) * (WORLD - 90);
+    const h = heightAt(x, z);
+    if (h < WATER_Y + 1 || h > 12) continue;
+    if (Math.hypot(x - SPAWN.x, z - SPAWN.z) < 22) continue;
+    if (Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z) < 26) continue;
+    const def = DATA.enemies[enemies.length % DATA.enemies.length];
+    addEnemy(def, x, z, false);
+  }
+  // ボス：城門の前
+  addEnemy(DATA.boss, BOSS_POS.x, BOSS_POS.z + 6, true);
+}
+
+function addEnemy(def, x, z, isBoss) {
+  const model = buildEnemyModel(def.kind);
+  model.group.position.set(x, heightAt(x, z), z);
+  scene.add(model.group);
+  enemies.push({
+    def, ...model, isBoss,
+    home: { x, z }, tgt: { x, z }, state: 'wander',
+    speed: isBoss ? 2.2 : 2.6 + hash2(x, z) * 1.2,
+    nextThink: 0, dead: false, respawnAt: 0, cooldownUntil: 0, animT: hash2(x, z) * 10
+  });
+}
+
+/* ---------------- 入力 ---------------- */
+document.addEventListener('keydown', (e) => {
+  if (mode !== 'field') return;
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d','W','A','S','D'].includes(e.key)) {
+    keys[e.key.toLowerCase()] = true;
+    if (e.key.startsWith('Arrow')) e.preventDefault();
+  }
+});
+document.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+
+// 仮想ジョイスティック
+(function setupJoy() {
+  const joyEl = $('tf-joy'), knob = $('tf-joy-knob');
+  const R = 38;
+  function setKnob(dx, dy) { knob.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`; }
+  joyEl.addEventListener('touchstart', (e) => { joy.active = true; e.preventDefault(); }, { passive: false });
+  joyEl.addEventListener('touchmove', (e) => {
+    if (!joy.active) return;
+    e.preventDefault();
+    const t = e.touches[0], r = joyEl.getBoundingClientRect();
+    let dx = t.clientX - (r.left + r.width / 2), dy = t.clientY - (r.top + r.height / 2);
+    const len = Math.hypot(dx, dy);
+    if (len > R) { dx = dx / len * R; dy = dy / len * R; }
+    joy.x = dx / R; joy.y = dy / R;
+    setKnob(dx, dy);
+  }, { passive: false });
+  const end = () => { joy.active = false; joy.x = 0; joy.y = 0; setKnob(0, 0); };
+  joyEl.addEventListener('touchend', end);
+  joyEl.addEventListener('touchcancel', end);
+})();
+
+/* ---------------- フィールド更新 ---------------- */
+const _fwd = new THREE.Vector3(), _camTgt = new THREE.Vector3(), _camPos = new THREE.Vector3();
+let stepAcc = 0;
+
+function updateField(dt, t) {
+  const p = player;
+  // 入力 → 旋回/前進（タンク式）
+  let turn = 0, move = 0;
+  if (keys['a'] || keys['arrowleft']) turn += 1;
+  if (keys['d'] || keys['arrowright']) turn -= 1;
+  if (keys['w'] || keys['arrowup']) move += 1;
+  if (keys['s'] || keys['arrowdown']) move -= 0.6;
+  if (joy.active) { turn -= joy.x * 1.2; move += -joy.y; }
+  p.heading += turn * 2.4 * dt;
+  const speed = 9;
+  let nx = p.group.position.x + Math.sin(p.heading) * move * speed * dt;
+  let nz = p.group.position.z + Math.cos(p.heading) * move * speed * dt;
+  // 境界・水・崖・木の当たり判定
+  const lim = WORLD / 2 - 12;
+  nx = clamp(nx, -lim, lim); nz = clamp(nz, -lim, lim);
+  const nh = heightAt(nx, nz);
+  const ch = p.group.position.y;
+  let blocked = nh < WATER_Y + 0.35 || (nh - ch) > 2.2;
+  if (!blocked) {
+    for (const c of treeCols) {
+      if (Math.hypot(nx - c.x, nz - c.z) < c.r + 0.45) { blocked = true; break; }
+    }
+  }
+  p.moving = Math.abs(move) > 0.05 && !blocked;
+  if (p.moving) {
+    p.group.position.x = nx; p.group.position.z = nz;
+    stepAcc += dt;
+    if (stepAcc > 0.32) { stepAcc = 0; sfx.step(); }
+  }
+  p.group.position.y = lerp(p.group.position.y, heightAt(p.group.position.x, p.group.position.z), Math.min(1, dt * 12));
+  p.group.rotation.y = p.heading;
+  animateWalk(p, dt, p.moving ? 9 : 0);
+
+  // 敵 AI
+  const pp = p.group.position;
+  for (const e of enemies) {
+    if (e.dead) {
+      if (e.respawnAt && t > e.respawnAt) respawnEnemy(e);
+      continue;
+    }
+    e.animT += dt;
+    const ep = e.group.position;
+    const dist = Math.hypot(pp.x - ep.x, pp.z - ep.z);
+    const onCooldown = t < e.cooldownUntil;
+    if (!onCooldown && dist < (e.isBoss ? 7 : 11)) e.state = 'chase';
+    else if (e.state === 'chase' && (dist > 18 || onCooldown)) e.state = 'wander';
+    let mvx = 0, mvz = 0, eSpeed = 0;
+    if (e.state === 'chase') {
+      eSpeed = e.speed + 1.2;
+      mvx = (pp.x - ep.x) / dist; mvz = (pp.z - ep.z) / dist;
+      if (dist < 1.7 && !onCooldown) { startBattle(e); return; }
+    } else {
+      if (t > e.nextThink) {
+        e.nextThink = t + 2 + hash2(ep.x + t, ep.z) * 3;
+        const a = hash2(t, ep.x) * 6.28, r = e.isBoss ? 4 : 9;
+        e.tgt = { x: e.home.x + Math.cos(a) * r, z: e.home.z + Math.sin(a) * r };
+      }
+      const dx = e.tgt.x - ep.x, dz = e.tgt.z - ep.z, d = Math.hypot(dx, dz);
+      if (d > 0.6) { eSpeed = e.speed * 0.45; mvx = dx / d; mvz = dz / d; }
+    }
+    if (eSpeed > 0) {
+      const ex = ep.x + mvx * eSpeed * dt, ez = ep.z + mvz * eSpeed * dt;
+      const eh = heightAt(ex, ez);
+      if (eh > WATER_Y + 0.35 && Math.abs(eh - ep.y) < 2.4) { ep.x = ex; ep.z = ez; }
+      e.group.rotation.y = Math.atan2(mvx, mvz);
+    }
+    ep.y = lerp(ep.y, heightAt(ep.x, ep.z), Math.min(1, dt * 10));
+    animateEnemy(e, dt, eSpeed > 0 ? 7 : 0);
+  }
+
+  // カメラ追従（三人称）
+  _fwd.set(Math.sin(p.heading), 0, Math.cos(p.heading));
+  _camPos.copy(pp).addScaledVector(_fwd, -7.4); _camPos.y = pp.y + 3.6;
+  const cg = heightAt(_camPos.x, _camPos.z);
+  if (_camPos.y < cg + 1.2) _camPos.y = cg + 1.2;
+  camera.position.lerp(_camPos, Math.min(1, dt * 4.2));
+  _camTgt.copy(pp); _camTgt.y += 1.6;
+  _camTgt.x += Math.sin(p.heading) * 2; _camTgt.z += Math.cos(p.heading) * 2;
+  camera.lookAt(_camTgt);
+
+  // 影カメラをプレイヤー周辺に追従
+  sunLight.target.position.copy(pp);
+  sunLight.position.copy(pp).add(new THREE.Vector3(60, 110, 50));
+}
+
+function animateWalk(ch, dt, freq) {
+  ch.walkT = (ch.walkT || 0) + dt * freq;
+  const s = freq > 0 ? Math.sin(ch.walkT) : 0;
+  const pt = ch.parts;
+  if (pt.armL && !pt.zombie) { pt.armL.rotation.x = s * 0.75; pt.armR.rotation.x = -s * 0.75; }
+  if (pt.legL) { pt.legL.rotation.x = -s * 0.85; pt.legR.rotation.x = s * 0.85; }
+  if (pt.torso) pt.torso.position.y = (pt.torso.userData.baseY ??= pt.torso.position.y) + Math.abs(Math.cos(ch.walkT)) * (freq > 0 ? 0.05 : 0);
+  if (pt.scarf) pt.scarf.rotation.x = 0.5 + s * 0.18;
+}
+function animateEnemy(e, dt, freq) {
+  const pt = e.parts;
+  e.walkT = (e.walkT || 0) + dt * (freq || 2);
+  const s = Math.sin(e.walkT);
+  if (e.def.kind === 'dragon') {
+    if (pt.wingL) { pt.wingL.rotation.z = Math.sin(e.animT * 2.6) * 0.45; pt.wingR.rotation.z = -Math.sin(e.animT * 2.6) * 0.45; }
+    if (pt.neck) pt.neck.rotation.x = Math.sin(e.animT * 1.3) * 0.08;
+    if (pt.tail) pt.tail.rotation.y = Math.sin(e.animT * 1.7) * 0.3;
+    e.group.position.y += Math.sin(e.animT * 2.6) * 0.004;
+  } else {
+    if (pt.legL) { pt.legL.rotation.x = -s * 0.7; pt.legR.rotation.x = s * 0.7; }
+    if (pt.armL && !pt.zombie) { pt.armL.rotation.x = s * 0.5; pt.armR.rotation.x = -s * 0.5; }
+    if (pt.torso) pt.torso.rotation.z = Math.sin(e.animT * 3) * 0.04;
+  }
+}
+
+function respawnEnemy(e) {
+  let tries = 0;
+  while (tries < 200) {
+    tries++;
+    const x = (Math.random() - 0.5) * (WORLD - 90);
+    const z = (Math.random() - 0.5) * (WORLD - 90);
+    const h = heightAt(x, z);
+    if (h < WATER_Y + 1 || h > 12) continue;
+    if (Math.hypot(x - player.group.position.x, z - player.group.position.z) < 30) continue;
+    e.home = { x, z }; e.tgt = { x, z };
+    e.group.position.set(x, h, z);
+    break;
+  }
+  if (e.isBoss) {
+    e.home = { x: BOSS_POS.x, z: BOSS_POS.z + 6 };
+    e.group.position.set(BOSS_POS.x, heightAt(BOSS_POS.x, BOSS_POS.z + 6), BOSS_POS.z + 6);
+  }
+  e.dead = false; e.group.visible = true; e.group.scale.setScalar(e.isBoss ? 1.9 : 1);
+  e.state = 'wander'; e.cooldownUntil = clock.elapsedTime + 2;
+}
+
+/* ---------------- パーティクル＆ツイーン ---------------- */
+function burst(pos, color, n = 26, speed = 6, size = 0.16, gravity = -9) {
+  const geo = new THREE.BufferGeometry();
+  const arr = new Float32Array(n * 3), vels = [];
+  for (let i = 0; i < n; i++) {
+    arr[i * 3] = pos.x; arr[i * 3 + 1] = pos.y; arr[i * 3 + 2] = pos.z;
+    const a = Math.random() * 6.28, b = Math.random() * 3.14;
+    const sp = speed * (0.4 + Math.random() * 0.6);
+    vels.push(new THREE.Vector3(Math.sin(b) * Math.cos(a) * sp, Math.cos(b) * sp * 0.9 + 2, Math.sin(b) * Math.sin(a) * sp));
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(arr, 3));
+  const mat = new THREE.PointsMaterial({ color, size, transparent: true, opacity: 1 });
+  const pts = new THREE.Points(geo, mat);
+  scene.add(pts);
+  particles.push({ pts, vels, life: 0, maxLife: 0.8, gravity });
+}
+function updateParticles(dt) {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.life += dt;
+    const arr = p.pts.geometry.attributes.position;
+    for (let j = 0; j < p.vels.length; j++) {
+      p.vels[j].y += p.gravity * dt;
+      arr.setX(j, arr.getX(j) + p.vels[j].x * dt);
+      arr.setY(j, arr.getY(j) + p.vels[j].y * dt);
+      arr.setZ(j, arr.getZ(j) + p.vels[j].z * dt);
+    }
+    arr.needsUpdate = true;
+    p.pts.material.opacity = 1 - p.life / p.maxLife;
+    if (p.life > p.maxLife) { scene.remove(p.pts); p.pts.geometry.dispose(); p.pts.material.dispose(); particles.splice(i, 1); }
+  }
+}
+function addTween(obj, prop, to, dur, ease, onDone) {
+  tweens.push({ obj, prop, from: obj[prop].clone ? obj[prop].clone() : obj[prop], to, dur, t: 0, ease: ease || ((x) => x), onDone });
+}
+function updateTweens(dt) {
+  for (let i = tweens.length - 1; i >= 0; i--) {
+    const tw = tweens[i];
+    tw.t += dt;
+    const k = tw.ease(clamp(tw.t / tw.dur, 0, 1));
+    if (tw.obj[tw.prop].lerpVectors) tw.obj[tw.prop].lerpVectors(tw.from, tw.to, k);
+    else tw.obj[tw.prop] = lerp(tw.from, tw.to, k);
+    if (tw.t >= tw.dur) { tweens.splice(i, 1); if (tw.onDone) tw.onDone(); }
+  }
+}
+function flashModel(model, color = 0xff3333, dur = 300) {
+  // フラッシュが重なっても元の色へ戻せるよう、最初の1回だけ元値を保存する
+  model.group.traverse(o => {
+    if (o.isMesh && o.material && o.material.emissive) {
+      const m = o.material;
+      if (m.userData.origEmissive === undefined) {
+        m.userData.origEmissive = m.emissive.getHex();
+        m.userData.origIntensity = m.emissiveIntensity;
+      }
+      m.emissive.setHex(color); m.emissiveIntensity = 0.9;
+    }
+  });
+  clearTimeout(model._flashTimer);
+  model._flashTimer = setTimeout(() => {
+    model.group.traverse(o => {
+      if (o.isMesh && o.material && o.material.userData.origEmissive !== undefined) {
+        o.material.emissive.setHex(o.material.userData.origEmissive);
+        o.material.emissiveIntensity = o.material.userData.origIntensity;
+        delete o.material.userData.origEmissive;
+        delete o.material.userData.origIntensity;
+      }
+    });
+  }, dur);
+}
+
+/* ---------------- ダメージポップ（3D→2D投影） ---------------- */
+function popAt(worldPos, text, cls) {
+  const r = renderer.domElement.getBoundingClientRect();
+  const v = worldPos.clone().project(camera);
+  const el = document.createElement('span');
+  el.className = 'tf-pop' + (cls ? ' ' + cls : '');
+  el.textContent = text;
+  el.style.left = ((v.x * 0.5 + 0.5) * 100) + '%';
+  el.style.top = ((-v.y * 0.5 + 0.5) * 100) + '%';
+  shell.appendChild(el);
+  setTimeout(() => el.remove(), 920);
+}
+
+/* ---------------- バトル ---------------- */
+const battleCam = { center: new THREE.Vector3(), side: new THREE.Vector3(), t: 0 };
+
+function startBattle(enemyObj) {
+  const def = scaledEnemy(enemyObj.def, enemyObj.isBoss);
+  const stats = playerStats();
+  mode = 'battle';
+  keys.w = keys.a = keys.s = keys.d = false;
+  sfx.alert();
+
+  // 立ち位置を整える（プレイヤーと敵を向かい合わせる）
+  const pp = player.group.position, ep = enemyObj.group.position;
+  const dir = new THREE.Vector3(ep.x - pp.x, 0, ep.z - pp.z).normalize();
+  const center = new THREE.Vector3((pp.x + ep.x) / 2, 0, (pp.z + ep.z) / 2);
+  const gap = enemyObj.isBoss ? 4.6 : 2.6;
+  pp.set(center.x - dir.x * gap, 0, center.z - dir.z * gap);
+  ep.set(center.x + dir.x * gap, 0, center.z + dir.z * gap);
+  // 木にめり込んだ立ち位置は外へ押し出す
+  const pushOut = (p) => {
+    for (const c of treeCols) {
+      const d = Math.hypot(p.x - c.x, p.z - c.z);
+      const min = c.r + 0.9;
+      if (d < min && d > 0.01) {
+        p.x = c.x + (p.x - c.x) / d * min;
+        p.z = c.z + (p.z - c.z) / d * min;
+      }
+    }
+  };
+  pushOut(pp); pushOut(ep);
+  pp.y = heightAt(pp.x, pp.z); ep.y = heightAt(ep.x, ep.z);
+  player.group.rotation.y = Math.atan2(dir.x, dir.z);
+  player.heading = Math.atan2(dir.x, dir.z);
+  enemyObj.group.rotation.y = Math.atan2(-dir.x, -dir.z);
+  center.y = (pp.y + ep.y) / 2 + (enemyObj.isBoss ? 2.8 : 1.3);
+  // カメラは左右のうち木に遮られにくい側へ
+  const side = new THREE.Vector3(-dir.z, 0, dir.x);
+  const camDist = enemyObj.isBoss ? 15 : 7.6;
+  const scoreFor = (s) => {
+    const cx = center.x + s.x * camDist, cz = center.z + s.z * camDist;
+    let score = 0;
+    for (const c of treeCols) {
+      const dx = center.x - cx, dz = center.z - cz;
+      const len2 = dx * dx + dz * dz || 1;
+      let t = ((c.x - cx) * dx + (c.z - cz) * dz) / len2;
+      t = clamp(t, 0, 1);
+      const d = Math.hypot(c.x - (cx + dx * t), c.z - (cz + dz * t));
+      if (d < c.r + 1.4) score += (c.r + 1.4 - d);
+    }
+    score += Math.max(0, heightAt(cx, cz) - center.y + 1) * 2; // 高台に埋まる側も避ける
+    return score;
+  };
+  if (scoreFor(side.clone().negate()) < scoreFor(side)) side.negate();
+  battleCam.center.copy(center);
+  battleCam.side.copy(side);
+  battleCam.t = 0;
+
+  battle = {
+    enemyObj, enemy: def, isBoss: enemyObj.isBoss,
+    playerMaxHp: stats.hp, playerHp: stats.hp, playerAtk: stats.atk,
+    enemyMaxHp: def.hp, enemyHp: def.hp,
+    basePP: pp.clone(), baseEP: ep.clone(), dir: dir.clone(),
+    phase: null, target: '', mistakes: 0, mistakeActive: false, resolved: true
+  };
+  battleStats = { chars: 0, timeMs: 0, mistakes: 0, newBest: false };
+
+  // UI
+  shell.classList.add('battle', 'cinema');
+  $('tf-turn-panel').classList.remove('tf-hidden');
+  $('tf-bhp-pname').textContent = `${selectedChar.emoji} ${selectedChar.name} Lv.${save.level}`;
+  $('tf-bhp-ename').textContent = `${def.name}${enemyObj.isBoss ? '【BOSS】' : ''} ${def.emoji}`;
+  promptEl.textContent = '…';
+  inputEl.value = ''; inputEl.disabled = true;
+  feedbackEl.textContent = enemyObj.isBoss ? 'ボス戦！ 長文に そなえろ！' : '';
+  feedbackEl.className = 'tf-feedback';
+  updateHpBars();
+  showAlert(enemyObj.isBoss ? 'BOSS BATTLE!!' : 'バトル！');
+  const bRef = battle;
+  setTimeout(() => { if (battle === bRef) startTurn('attack'); }, 1300);
+}
+
+function showAlert(text) {
+  const el = $('tf-alert');
+  el.textContent = text;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1100);
+}
+
+function updateHpBars() {
+  if (!battle) return;
+  const pPct = Math.max(0, battle.playerHp / battle.playerMaxHp * 100);
+  const ePct = Math.max(0, battle.enemyHp / battle.enemyMaxHp * 100);
+  $('tf-bhp-pfill').style.width = pPct + '%';
+  $('tf-bhp-efill').style.width = ePct + '%';
+  $('tf-bhp-pfill').classList.toggle('low', pPct <= 30);
+  $('tf-bhp-efill').classList.toggle('low', ePct <= 30);
+  $('tf-bhp-pval').textContent = `${Math.max(0, battle.playerHp)} / ${battle.playerMaxHp}`;
+  $('tf-bhp-eval').textContent = `${Math.max(0, battle.enemyHp)} / ${battle.enemyMaxHp}`;
+}
+
+function pickPrompt(poolKey) {
+  const pool = DATA.pools[poolKey] || DATA.pools.medium;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+function timeLimitFor(chars) { return Math.ceil(4 + chars * 0.85); }
+
+function startTurn(phase) {
+  if (!battle) return;
+  battle.phase = phase;
+  battle.mistakes = 0;
+  battle.mistakeActive = false;
+  battle.resolved = false;
+  battle.target = pickPrompt(phase === 'attack' ? selectedChar.pool : battle.enemy.pool);
+
+  const chip = $('tf-phase-chip');
+  if (phase === 'attack') {
+    chip.className = 'tf-phase-chip attack';
+    $('tf-phase-label').textContent = '攻撃ターン：打ち切れば攻撃成功！';
+    $('tf-timer-note').textContent = '⚡金ラインより前に打ち切るとクリティカル2倍！';
+  } else {
+    chip.className = 'tf-phase-chip defend';
+    $('tf-phase-label').textContent = '防御ターン：打ち返してガード！';
+    $('tf-timer-note').textContent = '⚡金ラインより前に打ち返すとカウンター反撃！';
+    showAlert('敵の攻撃！');
+  }
+  renderPromptHighlight(battle.target, '');
+  inputEl.value = '';
+  inputEl.disabled = false;
+  feedbackEl.textContent = phase === 'attack' ? '時間内に打ち切ろう。速いほど強い！' : '時間内に打てればノーダメージ。速ければ反撃！';
+  feedbackEl.className = 'tf-feedback';
+
+  battle.limitMs = timeLimitFor(battle.target.length) * 1000;
+  battle.deadline = Date.now() + battle.limitMs;
+  startTurnTimer();
+  setTimeout(() => inputEl.focus({ preventScroll: true }), 60);
+}
+
+function startTurnTimer() {
+  stopTurnTimer();
+  turnTimer = setInterval(() => {
+    if (!battle || battle.resolved) return;
+    const remain = battle.deadline - Date.now();
+    const pct = Math.max(0, remain / battle.limitMs * 100);
+    const fill = $('tf-timer-fill');
+    fill.style.width = pct + '%';
+    fill.classList.toggle('danger', pct <= 30);
+    $('tf-timer-sec').textContent = String(Math.max(0, Math.ceil(remain / 1000)));
+    if (remain <= 0) onTimeUp();
+  }, 100);
+}
+function stopTurnTimer() { if (turnTimer) { clearInterval(turnTimer); turnTimer = null; } }
+
+function onTimeUp() {
+  if (!battle || battle.resolved) return;
+  battle.resolved = true;
+  inputEl.disabled = true;
+  recordMistakesOnly(battle.mistakes); // 打ち切れなかったお題もミスは記録する
+  const b = battle; // 古いバトルの遅延処理が新しいバトルに作用しないよう同一性を確認する
+  if (battle.phase === 'attack') {
+    feedbackEl.textContent = '時間切れ！ 攻撃失敗… 次は防御ターン';
+    feedbackEl.className = 'tf-feedback bad';
+    sfx.miss();
+    setTimeout(() => { if (battle === b) startTurn('defend'); }, 1200);
+  } else {
+    enemyAttackAnim(() => {
+      if (battle !== b) return;
+      const dmg = b.enemy.atk;
+      b.playerHp -= dmg;
+      flashModel(player, 0xff2222);
+      burst(player.group.position.clone().add(new THREE.Vector3(0, 1.3, 0)), 0xff5544, 24, 5);
+      popAt(player.group.position.clone().add(new THREE.Vector3(0, 2.1, 0)), '-' + dmg, 'self');
+      camShake = 0.5;
+      sfx.hurt();
+      feedbackEl.textContent = `ガード失敗！ ${dmg}のダメージ！`;
+      feedbackEl.className = 'tf-feedback bad';
+      updateHpBars();
+      if (b.playerHp <= 0) setTimeout(() => { if (battle === b) endBattle(false); }, 900);
+      else setTimeout(() => { if (battle === b) startTurn('attack'); }, 1300);
+    });
+  }
+}
+
+function handleBattleInput() {
+  if (!battle || battle.resolved) return;
+  const target = battle.target;
+  const val = inputEl.value;
+  const okLen = commonPrefixLen(target, val);
+  renderPromptHighlight(target, val);
+
+  if (val.length > okLen) {
+    if (!battle.mistakeActive) {
+      battle.mistakeActive = true;
+      battle.mistakes++;
+      battle.playerHp -= MISTAKE_DMG;
+      popAt(player.group.position.clone().add(new THREE.Vector3(0, 2.1, 0)), '-' + MISTAKE_DMG, 'self');
+      flashModel(player, 0xff8866, 160);
+      sfx.miss();
+      updateHpBars();
+      inputEl.classList.remove('shake'); void inputEl.offsetWidth; inputEl.classList.add('shake');
+      if (battle.playerHp <= 0) {
+        battle.resolved = true;
+        inputEl.disabled = true;
+        const b = battle;
+        setTimeout(() => { if (battle === b) endBattle(false); }, 700);
+        return;
+      }
+    }
+    feedbackEl.textContent = `ミスタイプ！ -${MISTAKE_DMG} ダメージ`;
+    feedbackEl.className = 'tf-feedback bad';
+  } else {
+    battle.mistakeActive = false;
+    if (val.length > 0) {
+      feedbackEl.textContent = 'いい調子！';
+      feedbackEl.className = 'tf-feedback ok';
+    }
+  }
+
+  if (val === target) {
+    battle.resolved = true;
+    inputEl.disabled = true;
+    // タイピング記録（文字数・所要時間・ミス数）
+    recordPrompt(target.length, Date.now() - (battle.deadline - battle.limitMs), battle.mistakes);
+    if (battle.phase === 'attack') resolveAttackSuccess();
+    else resolveDefendSuccess();
+  }
+}
+
+// 打ち切るまでにかかった時間が制限時間に占める割合（0=瞬殺, 1=ぎりぎり）
+function elapsedRatio() {
+  return (Date.now() - (battle.deadline - battle.limitMs)) / battle.limitMs;
+}
+
+function resolveAttackSuccess() {
+  const crit = elapsedRatio() <= CRIT_TIME_RATIO;
+  const dmg = Math.round(battle.playerAtk * (crit ? CRIT_MULT : 1));
+  battle.enemyHp -= dmg;
+  const b = battle;
+  // 突進 → ヒット → 戻る
+  const hitPos = b.baseEP.clone().addScaledVector(b.dir, -0.9);
+  addTween(player.group, 'position', hitPos, 0.16, (x) => x * x, () => {
+    if (battle !== b) return;
+    flashModel(b.enemyObj, 0xff3333);
+    burst(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 2.4 : 1.1, 0)), crit ? 0xffa726 : 0xffe082, crit ? 46 : 26, crit ? 9 : 6);
+    popAt(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 4.4 : 2.3, 0)), '-' + dmg, crit ? 'crit' : '');
+    camShake = crit ? 0.8 : 0.4;
+    crit ? sfx.crit() : sfx.hit();
+    // ノックバック
+    const kb = b.baseEP.clone().addScaledVector(b.dir, 0.5);
+    addTween(b.enemyObj.group, 'position', kb, 0.12);
+    setTimeout(() => { if (b.enemyObj && !b.enemyObj.dead) addTween(b.enemyObj.group, 'position', b.baseEP.clone(), 0.25); }, 160);
+    feedbackEl.textContent = crit ? `高速タイピング！クリティカル2倍！ ${dmg}ダメージ！` : `攻撃ヒット！ ${dmg}ダメージ！`;
+    feedbackEl.className = 'tf-feedback ok';
+    if (crit) showAlert('CRITICAL!!');
+    addTween(player.group, 'position', b.basePP.clone(), 0.3);
+    updateHpBars();
+    if (b.enemyHp <= 0) setTimeout(() => { if (battle === b) endBattle(true); }, 800);
+    else setTimeout(() => { if (battle === b) startTurn('defend'); }, 1300);
+  });
+}
+
+function enemyAttackAnim(onHit) {
+  const b = battle;
+  const hitPos = b.basePP.clone().addScaledVector(b.dir, 0.9);
+  addTween(b.enemyObj.group, 'position', hitPos, 0.18, (x) => x * x, () => {
+    if (battle !== b) return;
+    onHit();
+    addTween(b.enemyObj.group, 'position', b.baseEP.clone(), 0.32);
+  });
+}
+
+function resolveDefendSuccess() {
+  const counter = elapsedRatio() <= CRIT_TIME_RATIO;
+  const b = battle;
+  enemyAttackAnim(() => {
+    if (battle !== b) return;
+    burst(player.group.position.clone().add(new THREE.Vector3(0, 1.3, 0.4)), 0x4ade80, 22, 5, 0.14, -4);
+    popAt(player.group.position.clone().add(new THREE.Vector3(0, 2.2, 0)), 'ガード!', 'guard');
+    sfx.guard();
+    if (!counter) {
+      feedbackEl.textContent = '完璧なガード！ ダメージ 0！';
+      feedbackEl.className = 'tf-feedback ok';
+      setTimeout(() => { if (battle === b) startTurn('attack'); }, 1200);
+      return;
+    }
+    // 高速ガード → カウンター発動！ そのまま反撃する
+    feedbackEl.textContent = '高速ガード！ カウンター発動！';
+    feedbackEl.className = 'tf-feedback ok';
+    showAlert('COUNTER!!');
+    setTimeout(() => {
+      if (battle !== b) return;
+      const dmg = Math.max(1, Math.round(b.playerAtk * COUNTER_RATIO));
+      b.enemyHp -= dmg;
+      const hitPos = b.baseEP.clone().addScaledVector(b.dir, -0.9);
+      addTween(player.group, 'position', hitPos, 0.14, (x) => x * x, () => {
+        if (battle !== b) return;
+        flashModel(b.enemyObj, 0xff3333);
+        burst(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 2.4 : 1.1, 0)), 0x60a5fa, 32, 7);
+        popAt(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 4.4 : 2.3, 0)), '-' + dmg, 'crit');
+        camShake = 0.6;
+        sfx.crit();
+        feedbackEl.textContent = `カウンターヒット！ ${dmg}ダメージ！`;
+        addTween(player.group, 'position', b.basePP.clone(), 0.3);
+        updateHpBars();
+        if (b.enemyHp <= 0) setTimeout(() => { if (battle === b) endBattle(true); }, 800);
+        else setTimeout(() => { if (battle === b) startTurn('attack'); }, 1300);
+      });
+    }, 500);
+  });
+}
+
+function updateBattleCam(dt) {
+  battleCam.t += dt;
+  const orbit = Math.sin(battleCam.t * 0.4) * 0.6;
+  const dist = battle && battle.isBoss ? 15 : 7.6;
+  _camPos.copy(battleCam.center)
+    .addScaledVector(battleCam.side, dist)
+    .add(new THREE.Vector3(orbit, 1.6 + Math.sin(battleCam.t * 0.3) * 0.3, orbit * 0.5));
+  if (camShake > 0) {
+    camShake = Math.max(0, camShake - dt * 3);
+    _camPos.x += (Math.random() - 0.5) * camShake * 0.5;
+    _camPos.y += (Math.random() - 0.5) * camShake * 0.5;
+  }
+  const floor = heightAt(_camPos.x, _camPos.z) + 0.8;
+  if (_camPos.y < floor) _camPos.y = floor;
+  camera.position.lerp(_camPos, Math.min(1, dt * 3.2));
+  camera.lookAt(battleCam.center);
+}
+
+/* ---------------- 勝敗 ---------------- */
+function endBattle(won) {
+  stopTurnTimer();
+  if (!battle) return;
+  const enemy = battle.enemy;
+  const enemyObj = battle.enemyObj;
+  const isBoss = battle.isBoss;
+
+  let gained = 0, leveledTo = 0;
+  if (won) {
+    // 撃破演出
+    burst(enemyObj.group.position.clone().add(new THREE.Vector3(0, 1.5, 0)), 0xffd54f, 60, 9, 0.2);
+    burst(enemyObj.group.position.clone().add(new THREE.Vector3(0, 1.5, 0)), 0xff7043, 40, 7, 0.18);
+    const g = enemyObj.group;
+    addTween(g, 'scale', new THREE.Vector3(0.01, 0.01, 0.01), 0.5, (x) => x * x);
+    setTimeout(() => { g.visible = false; g.scale.setScalar(enemyObj.isBoss ? 1.9 : 1); }, 520);
+    enemyObj.dead = true;
+    enemyObj.respawnAt = clock.elapsedTime + (isBoss ? 12 : 18);
+    sfx.win();
+
+    gained = enemy.xp;
+    save.wins++;
+    if (isBoss) save.bossWins++;
+    save.xp += gained;
+    while (save.xp >= xpToNext(save.level)) {
+      save.xp -= xpToNext(save.level);
+      save.level++;
+      leveledTo = save.level;
+    }
+    persistSave();
+    if (leveledTo) setTimeout(() => sfx.levelup(), 800);
+  } else {
+    flashModel(player, 0x222222, 600);
+    sfx.lose();
+  }
+  battle = null;
+
+  // 結果カード（カメラはバトル位置のまま背景に）
+  setTimeout(() => {
+    $('tf-r-emoji').textContent = won ? (isBoss ? '👑' : '🏆') : '😵';
+    $('tf-r-title').textContent = won ? (isBoss ? 'BOSS CLEAR!' : 'YOU WIN!') : 'YOU LOSE...';
+    $('tf-r-title').className = 'tf-result-title ' + (won ? 'win' : 'lose');
+    $('tf-r-sub').textContent = won
+      ? (isBoss ? `${enemy.name}を たおした！ 次の周回は さらに強くなるぞ` : `${enemy.name}を たおした！`)
+      : `${enemy.name}に やられてしまった… HPは回復したので再挑戦しよう`;
+    const lvB = $('tf-r-levelup');
+    lvB.classList.toggle('tf-hidden', !leveledTo);
+    if (leveledTo) $('tf-r-newlv').textContent = String(leveledTo);
+    $('tf-r-xp').textContent = won ? '+' + gained : '0';
+    $('tf-r-lv').textContent = String(save.level);
+    $('tf-r-wins').textContent = String(save.wins);
+    // 今回のバトルのタイピング記録
+    const bs = battleStats || { chars: 0, timeMs: 0, mistakes: 0, newBest: false };
+    $('tf-r-cpm').textContent = bs.chars > 0 ? String(cpmOf(bs.chars, bs.timeMs)) : '—';
+    $('tf-r-acc').textContent = bs.chars > 0 || bs.mistakes > 0 ? String(accuracyOf(bs.chars, bs.mistakes)) : '—';
+    $('tf-r-miss').textContent = String(bs.mistakes);
+    $('tf-r-bestline').classList.toggle('tf-hidden', !bs.newBest);
+    $('tf-result-overlay').classList.remove('tf-hidden');
+    $('tf-turn-panel').classList.add('tf-hidden');
+    if (!won && enemyObj) enemyObj.cooldownUntil = clock.elapsedTime + 6;
+  }, won ? 900 : 700);
+}
+
+function backToField() {
+  $('tf-result-overlay').classList.add('tf-hidden');
+  $('tf-turn-panel').classList.add('tf-hidden');
+  shell.classList.remove('battle', 'cinema');
+  stopTurnTimer();
+  battle = null;
+  mode = 'field';
+  refreshHud();
+}
+
+/* ---------------- お題ハイライト（タイピング・ジョブと同方式） ---------------- */
+function renderPromptHighlight(target, typed) {
+  const okLen = commonPrefixLen(target, typed);
+  const ok = escapeHtml(target.slice(0, okLen));
+  const restAll = target.slice(okLen);
+  const wrongLen = typed.length - okLen;
+  let badPart = '', remain = restAll;
+  if (wrongLen > 0) {
+    const wl = Math.min(wrongLen, restAll.length);
+    badPart = escapeHtml(restAll.slice(0, wl));
+    remain = restAll.slice(wl);
+  }
+  promptEl.innerHTML =
+    `<span class="typed-ok">${ok}</span>` +
+    (badPart ? `<span class="typed-bad">${badPart}</span>` : '') +
+    `<span class="caret"></span>` + escapeHtml(remain);
+}
+function commonPrefixLen(a, b) {
+  const n = Math.min(a.length, b.length);
+  let i = 0;
+  while (i < n && a[i] === b[i]) i++;
+  return i;
+}
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+/* ---------------- メインループ ---------------- */
+function animate() {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  const t = clock.elapsedTime;
+  if (!worldBuilt) return;
+  // 雲の流れ
+  scene.children.forEach(o => {
+    if (o.userData && o.userData.cloud) {
+      o.position.x += o.userData.speed * dt;
+      if (o.position.x > WORLD / 2 + 40) o.position.x = -WORLD / 2 - 40;
+    }
+  });
+  if (mode === 'field') updateField(dt, t);
+  else if (mode === 'battle' || $('tf-result-overlay').classList.contains('tf-hidden') === false) {
+    updateBattleCam(dt);
+    if (battle && battle.enemyObj) animateEnemy(battle.enemyObj, dt, 0);
+    if (player) animateWalk(player, dt, 0);
+  }
+  updateTweens(dt);
+  updateParticles(dt);
+  if (composer) composer.render();
+  else renderer.render(scene, camera);
+}
+
+/* ---------------- UI（選択画面・HUD・ボタン） ---------------- */
+function renderSelect() {
+  $('tf-st-emoji').textContent = selectedChar.emoji;
+  $('tf-st-name').textContent = selectedChar.name + '（' + selectedChar.type + '）';
+  $('tf-st-sub').textContent = `勝利数 ${save.wins} ／ ボス討伐 ${save.bossWins}`;
+  $('tf-st-lv').textContent = String(save.level);
+  $('tf-xp-fill').style.width = Math.min(100, save.xp / xpToNext(save.level) * 100) + '%';
+
+  // タイピング記録カード
+  const st = save.stats;
+  $('tf-rec-best').textContent = st.bestCpm > 0 ? String(st.bestCpm) : '—';
+  $('tf-rec-avg').textContent = st.totalPrompts > 0 ? String(cpmOf(st.totalChars, st.totalTimeMs)) : '—';
+  $('tf-rec-acc').textContent = st.totalPrompts > 0 ? String(accuracyOf(st.totalChars, st.totalMistakes)) : '—';
+  $('tf-rec-chars').textContent = String(st.totalChars);
+  $('tf-rec-miss').textContent = String(st.totalMistakes);
+  $('tf-rec-bench').textContent = st.bestCpm > 0 ? benchText(st.bestCpm) : 'バトル中のタイピングから自動で記録されます。';
+
+  const list = $('tf-char-list');
+  list.innerHTML = '';
+  DATA.characters.forEach(c => {
+    const st = { hp: c.hp + (save.level - 1) * 6, atk: c.atk + (save.level - 1) * 2 };
+    const btn = document.createElement('button');
+    btn.className = 'tf-char' + (c.id === selectedChar.id ? ' selected' : '');
+    btn.innerHTML = `
+      <span class="tf-char-emoji">${c.emoji}</span>
+      <span style="flex:1;min-width:0">
+        <span class="tf-char-name">${c.name}<span class="tf-char-type">${c.type}</span></span>
+        <span class="tf-char-desc" style="display:block">${c.desc}</span>
+        <span class="tf-char-stats">
+          <span class="tf-char-stat">HP ${st.hp}</span>
+          <span class="tf-char-stat">攻撃 ${st.atk}</span>
+          <span class="tf-char-stat">お題: ${c.pool === 'short' ? '短い' : c.pool === 'medium' ? 'ふつう' : '長い'}</span>
+        </span>
+      </span>`;
+    btn.addEventListener('click', () => {
+      selectedChar = c;
+      save.charId = c.id;
+      persistSave();
+      renderSelect();
+    });
+    list.appendChild(btn);
+  });
+}
+
+function refreshHud() {
+  $('tf-hud-emoji').textContent = selectedChar.emoji;
+  $('tf-hud-name').textContent = `${selectedChar.name}（${selectedChar.type}）`;
+  $('tf-hud-lv').textContent = `Lv.${save.level} ／ 勝利 ${save.wins}`;
+  $('tf-hud-xp').style.width = Math.min(100, save.xp / xpToNext(save.level) * 100) + '%';
+}
+
+function enterWorld() {
+  $('tf-view-select').classList.add('tf-hidden');
+  $('tf-view-game').classList.remove('tf-hidden');
+  refreshHud();
+  const start = () => {
+    if (!worldBuilt) buildWorld();
+    spawnPlayer();
+    spawnEnemies();
+    mode = 'field';
+    $('tf-loading').classList.add('tf-hidden');
+    onResize();
+  };
+  if (!renderer) {
+    initThree();
+    // 初回はローディングを見せてから生成（UIブロック軽減）
+    setTimeout(start, 120);
+  } else {
+    start();
+  }
+}
+
+function exitToSelect() {
+  backToField();
+  mode = 'select';
+  $('tf-view-game').classList.add('tf-hidden');
+  $('tf-view-select').classList.remove('tf-hidden');
+  renderSelect();
+}
+
+/* ---------------- イベント結線 ---------------- */
+inputEl.addEventListener('compositionstart', () => { composing = true; });
+inputEl.addEventListener('compositionend', () => { composing = false; handleBattleInput(); });
+inputEl.addEventListener('input', () => { if (!composing) handleBattleInput(); });
+
+$('tf-go-field-btn').addEventListener('click', () => { ac(); enterWorld(); });
+$('tf-exit-btn').addEventListener('click', exitToSelect);
+$('tf-run-btn').addEventListener('click', () => {
+  if (battle && battle.enemyObj) {
+    battle.enemyObj.cooldownUntil = clock.elapsedTime + 5;
+    battle.enemyObj.state = 'wander';
+  }
+  backToField();
+});
+$('tf-r-field-btn').addEventListener('click', backToField);
+$('tf-r-select-btn').addEventListener('click', exitToSelect);
+
+$('tf-full-btn').addEventListener('click', () => {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else shell.requestFullscreen && shell.requestFullscreen();
+  setTimeout(onResize, 300);
+});
+$('tf-sound-btn').addEventListener('click', () => {
+  soundOn = !soundOn;
+  $('tf-sound-btn').innerHTML = soundOn
+    ? '<i data-lucide="volume-2" class="w-3.5 h-3.5"></i>サウンドON'
+    : '<i data-lucide="volume-x" class="w-3.5 h-3.5"></i>サウンドOFF';
+  lucide.createIcons();
+});
+
+renderSelect();
+const goBtn = $('tf-go-field-btn');
+goBtn.disabled = false;
+goBtn.textContent = '⚔️ ワールドへ出発';
+
+// 検証用フック（rAFが停止する非表示環境でも手動でフレームを進められる）
+window.__tf = {
+  frame: (n = 1) => { for (let i = 0; i < n; i++) animate(); },
+  shot: (q = 0.65) => { animate(); return renderer ? renderer.domElement.toDataURL('image/jpeg', q) : null; },
+  state: () => ({
+    mode, built: worldBuilt,
+    player: player ? player.group.position.toArray().map(v => +v.toFixed(1)) : null,
+    aliveEnemies: enemies.filter(e => !e.dead).length,
+    battle: battle ? { phase: battle.phase, php: battle.playerHp, ehp: battle.enemyHp, target: battle.target, isBoss: battle.isBoss } : null
+  }),
+  keys, joy,
+  enemies: () => enemies.map(e => ({ id: e.def.id, boss: e.isBoss, dead: e.dead, pos: e.group.position.toArray().map(v => +v.toFixed(1)) })),
+  warpTo: (x, z) => { if (player) { player.group.position.set(x, heightAt(x, z), z); } }
+};
+</script>
+</body>
+</html>

@@ -16,6 +16,7 @@
     'stepnavi.typing.best_time',
     'stepnavi.typing.played_count',
     'stepnavi.typing.history',
+    'stepnavi.fighter.save',
     'stepnavi.excel.mastered',
     'stepnavi.excel.unlocked',
     'stepnavi.excel.total_solved',
