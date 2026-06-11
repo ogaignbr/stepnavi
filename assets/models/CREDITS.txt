@@ -1,0 +1,8 @@
+キャラクターモデル: KayKit (Kay Lousberg) - CC0
+  - KayKit Character Pack: Adventurers (Knight, Rogue, Mage)
+  - KayKit Character Pack: Skeletons (Minion, Rogue, Warrior, Mage)
+  https://kaylousberg.itch.io/ / https://github.com/KayKit-Game-Assets
+  ※使用アニメーションのみ残してmeshopt圧縮済み
+
+地面テクスチャ: ambientCG Grass001 - CC0
+  https://ambientcg.com/view?id=Grass001

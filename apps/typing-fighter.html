@@ -216,7 +216,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <section class="tf-hero fade-up">
   <span class="tf-badge inline-flex items-center gap-1"><i data-lucide="swords" class="w-3 h-3"></i>3D オープンワールド・タイピングRPG</span>
   <h1>タイピング・ファイター 3D</h1>
-  <p>広大な3Dフィールドを自由に探索。荒野をうろつく敵に近づくとバトル開始！<br>制限時間内のタイピングで攻撃＆防御。北の黒城にひそむ<b>ドラゴン社長</b>を倒せ。</p>
+  <p>広大な3Dフィールドを自由に探索。荒野をうろつく敵に近づくとバトル開始！<br>制限時間内のタイピングで攻撃＆防御。北の黒城にひそむ<b>ブラック魔王社長</b>を倒せ。</p>
 </section>
 
 <!-- ============ SELECT VIEW ============ -->
@@ -271,7 +271,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       <li><b>防御ターン</b>：敵のお題を時間内に打ち返すとガード成功。<b>速く打ち返すとカウンター反撃</b>が発動！</li>
       <li>ミスタイプすると少しだけ自分にダメージ</li>
       <li>勝つと経験値ゲット。レベルが上がるとHPと攻撃力アップ（アカウントに保存）</li>
-      <li>北の丘の黒城には<b>ボス：ブラック社長ドラゴン</b>が。長文ビジネス文を打ち切って倒そう</li>
+      <li>北の丘の黒城には<b>ボス：ブラック魔王社長</b>が。長文ビジネス文を打ち切って倒そう</li>
     </ul>
   </div>
 </section>
@@ -294,7 +294,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
           <div class="tf-hud-xp"><div id="tf-hud-xp" style="width:0%"></div></div>
         </div>
       </div>
-      <div class="tf-quest" id="tf-quest">クエスト：北の黒城にひそむ<br>ブラック社長ドラゴンを たおせ！</div>
+      <div class="tf-quest" id="tf-quest">クエスト：北の黒城にひそむ<br>ブラック魔王社長を たおせ！</div>
       <p class="tf-hint" id="tf-hint">W/↑ 前進 ・ A D / ← → 旋回 ・ 敵にふれるとバトル！</p>
       <p class="tf-alert" id="tf-alert">バトル！</p>
 
@@ -404,29 +404,26 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     {
       "id": "jimuin", "name": "事務員", "emoji": "🧑‍💼", "type": "スピード型",
       "desc": "毎日のメール業務で鍛えたタイピング速度が武器。お題が短いが一撃はひかえめ。",
-      "hp": 60, "atk": 10, "pool": "short", "role": "office",
-      "colors": { "cloth": "#2b3447", "skin": "#e8b98c", "accent": "#b91c1c", "bulky": false }
+      "hp": 60, "atk": 10, "pool": "short", "role": "office", "model": "rogue"
     },
     {
       "id": "hanbaiin", "name": "販売員", "emoji": "🛍️", "type": "バランス型",
       "desc": "接客で鍛えた臨機応変さ。お題の長さも攻撃力もバランスのいい万能タイプ。",
-      "hp": 70, "atk": 15, "pool": "medium", "role": "sales",
-      "colors": { "cloth": "#f1f5f9", "skin": "#e8b98c", "accent": "#16a34a", "bulky": false }
+      "hp": 70, "atk": 15, "pool": "medium", "role": "sales", "model": "mage"
     },
     {
       "id": "sekokanri", "name": "施工管理", "emoji": "👷", "type": "パワー型",
       "desc": "現場で鍛えた腕っぷし。お題は長いが一撃が重い。長文を打ち切れる上級者向け。",
-      "hp": 80, "atk": 24, "pool": "long", "role": "construction",
-      "colors": { "cloth": "#6b7041", "skin": "#d9a06b", "accent": "#f59e0b", "bulky": true }
+      "hp": 80, "atk": 24, "pool": "long", "role": "construction", "model": "knight"
     }
   ],
   "enemies": [
-    { "id": "mailgoblin", "name": "メールゴブリン", "emoji": "👾", "hp": 35, "atk": 8,  "pool": "enemyEasy", "xp": 30, "kind": "goblin" },
-    { "id": "zangyon",    "name": "ザンギョーン",   "emoji": "🧟", "hp": 48, "atk": 11, "pool": "enemyEasy", "xp": 45, "kind": "zombie" },
-    { "id": "kaigien",    "name": "カイギエン",     "emoji": "👹", "hp": 60, "atk": 14, "pool": "enemyMid",  "xp": 60, "kind": "oni" }
+    { "id": "mailgoblin", "name": "メールゴブリン", "emoji": "👾", "hp": 35, "atk": 8,  "pool": "enemyEasy", "xp": 30, "model": "skeleton_minion" },
+    { "id": "zangyon",    "name": "ザンギョーン",   "emoji": "🧟", "hp": 48, "atk": 11, "pool": "enemyEasy", "xp": 45, "model": "skeleton_rogue" },
+    { "id": "kaigien",    "name": "カイギエン",     "emoji": "👹", "hp": 60, "atk": 14, "pool": "enemyMid",  "xp": 60, "model": "skeleton_warrior" }
   ],
   "boss": {
-    "id": "boss", "name": "ブラック社長ドラゴン", "emoji": "🐲", "hp": 130, "atk": 18, "pool": "boss", "xp": 150, "kind": "dragon"
+    "id": "boss", "name": "ブラック魔王社長", "emoji": "💀", "hp": 130, "atk": 18, "pool": "boss", "xp": 150, "model": "skeleton_mage"
   },
   "pools": {
     "short": [
@@ -476,6 +473,9 @@ document.querySelectorAll('.fade-up').forEach(el => _obs.observe(el));
 <script type="module">
 import * as THREE from 'three';
 import { Sky } from 'three/addons/objects/Sky.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
@@ -634,7 +634,7 @@ function heightAt(x, z) {
 
 /* ---------------- Three.js セットアップ ---------------- */
 let scene, camera, renderer, clock, sunLight, composer;
-let player = null;            // { group, parts, heading, walkT }
+let player = null;            // { actor, group, heading, moving }
 let enemies = [];             // { def, group, parts, state, home, tgt, speed, dead, respawnAt, cooldownUntil, isBoss, baseY }
 let treeCols = [];            // 木の当たり判定 [{x,z,r}]
 let particles = [];           // {pts, vels, life, maxLife, gravity}
@@ -728,7 +728,7 @@ function buildWorld() {
   geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
   const colors = new Float32Array(pos.count * 3);
-  const cGrassA = new THREE.Color(0x55872e), cGrassB = new THREE.Color(0x6da33a);
+  const cGrassA = new THREE.Color(0x8cb95e), cGrassB = new THREE.Color(0xa9cc74); // テクスチャを乗算するため明るめに
   const cDirt = new THREE.Color(0x9c7b4f), cRock = new THREE.Color(0x7d7468);
   const cSnow = new THREE.Color(0xf2f4f7), cSand = new THREE.Color(0xc8b888);
   const col = new THREE.Color();
@@ -751,23 +751,19 @@ function buildWorld() {
   }
   geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   geo.computeVertexNormals();
-  // 地面のディテール: ノイズテクスチャを乗算して質感を出す
-  const texSize = 256;
-  const cvs = document.createElement('canvas');
-  cvs.width = cvs.height = texSize;
-  const ctx2d = cvs.getContext('2d');
-  const img = ctx2d.createImageData(texSize, texSize);
-  for (let i = 0; i < texSize * texSize; i++) {
-    const x = i % texSize, y = (i / texSize) | 0;
-    const n = vnoise(x * 0.18, y * 0.18) * 0.6 + vnoise(x * 0.045, y * 0.045) * 0.4;
-    const v = 205 + Math.round((n - 0.5) * 76);
-    img.data[i * 4] = v; img.data[i * 4 + 1] = v; img.data[i * 4 + 2] = v; img.data[i * 4 + 3] = 255;
-  }
-  ctx2d.putImageData(img, 0, 0);
-  const groundTex = new THREE.CanvasTexture(cvs);
-  groundTex.wrapS = groundTex.wrapT = THREE.RepeatWrapping;
-  groundTex.repeat.set(56, 56);
-  const ground = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, map: groundTex, roughness: 0.95, metalness: 0 }));
+  // 地面のディテール: 本物の芝生テクスチャ(CC0)＋ノーマルマップで質感を出す
+  const texLoader = new THREE.TextureLoader();
+  const grassColorTex = texLoader.load('../assets/textures/grass_color.jpg');
+  grassColorTex.wrapS = grassColorTex.wrapT = THREE.RepeatWrapping;
+  grassColorTex.repeat.set(90, 90);
+  grassColorTex.colorSpace = THREE.SRGBColorSpace;
+  const grassNormalTex = texLoader.load('../assets/textures/grass_normal.jpg');
+  grassNormalTex.wrapS = grassNormalTex.wrapT = THREE.RepeatWrapping;
+  grassNormalTex.repeat.set(90, 90);
+  const ground = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
+    vertexColors: true, map: grassColorTex, normalMap: grassNormalTex,
+    normalScale: new THREE.Vector2(0.7, 0.7), roughness: 0.95, metalness: 0
+  }));
   ground.receiveShadow = true;
   scene.add(ground);
 
@@ -967,238 +963,97 @@ function buildCastle() {
   treeCols.push({ x: BOSS_POS.x + 9, z: BOSS_POS.z - 13, r: 3 });
 }
 
-/* ---------------- キャラクターモデル（プリミティブ人形＋プロシージャルアニメ） ---------------- */
-function limb(mat, r, len) {
-  const g = new THREE.Group();
-  const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 4, 8), mat);
-  m.position.y = -(len / 2 + r);
-  m.castShadow = true;
-  g.add(m);
-  return g;
-}
-function stdMat(c, rough = 0.75) { return new THREE.MeshStandardMaterial({ color: c, roughness: rough }); }
+/* ---------------- キャラクターモデル（KayKit製GLB + スケルタルアニメーション） ---------------- */
+const MODEL_CONF = {
+  knight:           { file: 'knight.glb',           show: ['2H_Sword'],               attack: '2H_Melee_Attack_Slice',       critAttack: '2H_Melee_Attack_Spin' },
+  rogue:            { file: 'rogue.glb',            show: ['Knife', 'Knife_Offhand'], attack: 'Dualwield_Melee_Attack_Stab', critAttack: '1H_Melee_Attack_Slice_Diagonal' },
+  mage:             { file: 'mage.glb',             show: ['2H_Staff'],               attack: 'Spellcast_Shoot',             critAttack: 'Spellcast_Shoot' },
+  skeleton_minion:  { file: 'skeleton_minion.glb',  show: [], attack: 'Unarmed_Melee_Attack_Punch_A' },
+  skeleton_rogue:   { file: 'skeleton_rogue.glb',   show: [], attack: 'Unarmed_Melee_Attack_Punch_A' },
+  skeleton_warrior: { file: 'skeleton_warrior.glb', show: [], attack: 'Unarmed_Melee_Attack_Punch_A' },
+  skeleton_mage:    { file: 'skeleton_mage.glb',    show: [], attack: 'Spellcast_Shoot' }
+};
+// モデルに同梱されている武器バリエーション（使うものだけ表示する）
+const WEAPON_NODES = ['1H_Sword', '1H_Sword_Offhand', '2H_Sword', 'Badge_Shield', 'Rectangle_Shield', 'Round_Shield', 'Spike_Shield',
+  'Knife', 'Knife_Offhand', '1H_Crossbow', '2H_Crossbow', 'Throwable', '1H_Wand', '2H_Staff', 'Spellbook', 'Spellbook_open'];
 
-function buildHumanoid(colors) {
-  const g = new THREE.Group();
-  const parts = {};
-  const cloth = stdMat(colors.cloth), skin = stdMat(colors.skin), accent = stdMat(colors.accent, 0.45);
-  const w = colors.bulky ? 1.28 : 1;
-  const role = colors.role || null;
-  // 胴体
-  const torso = new THREE.Mesh(new THREE.CapsuleGeometry(0.26 * w, 0.42, 4, 12), cloth);
-  torso.position.y = 1.06; torso.castShadow = true;
-  g.add(torso); parts.torso = torso;
-  // ベルト
-  const belt = new THREE.Mesh(new THREE.CylinderGeometry(0.27 * w, 0.27 * w, 0.09, 12), stdMat(0x26262e, 0.5));
-  belt.position.y = 0.86; g.add(belt);
-  // 頭
-  const headG = new THREE.Group(); headG.position.y = 1.62;
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.21, 16, 14), skin);
-  head.castShadow = true; headG.add(head);
-  // 目
-  for (const s of [-1, 1]) {
-    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.028, 6, 6), stdMat(0x111111, 0.3));
-    eye.position.set(0.075 * s, 0.04, 0.18);
-    headG.add(eye);
+const gltfCache = {};
+let gltfLoader = null;
+const actors = new Set(); // AnimationMixer の更新が必要なキャラ一覧
+
+function loadModel(key) {
+  if (gltfCache[key]) return Promise.resolve(gltfCache[key]);
+  if (!gltfLoader) {
+    gltfLoader = new GLTFLoader();
+    gltfLoader.setMeshoptDecoder(MeshoptDecoder);
   }
-  g.add(headG); parts.head = headG;
-  // 腕・脚（先端に手と靴）
-  const handMat = skin;
-  const shoeMat = stdMat(0x1f2227, 0.4);
-  const makeArm = () => {
-    const a = limb(cloth, 0.085 * w, 0.34);
-    const hand = new THREE.Mesh(new THREE.SphereGeometry(0.075 * w, 8, 8), handMat);
-    hand.position.y = -(0.34 / 2 + 0.085 + 0.05); hand.castShadow = true;
-    a.add(hand);
-    return a;
-  };
-  const makeLeg = (pantsMat) => {
-    const l = limb(pantsMat, 0.1 * w, 0.38);
-    const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.16 * w, 0.09, 0.26), shoeMat);
-    shoe.position.set(0, -(0.38 / 2 + 0.1 + 0.03), 0.05); shoe.castShadow = true;
-    l.add(shoe);
-    return l;
-  };
-  const pantsMat = stdMat(colors.pants || colors.cloth);
-  parts.armL = makeArm(); parts.armL.position.set(0.33 * w, 1.34, 0);
-  parts.armR = makeArm(); parts.armR.position.set(-0.33 * w, 1.34, 0);
-  parts.legL = makeLeg(pantsMat); parts.legL.position.set(0.14 * w, 0.74, 0);
-  parts.legR = makeLeg(pantsMat); parts.legR.position.set(-0.14 * w, 0.74, 0);
-  g.add(parts.armL, parts.armR, parts.legL, parts.legR);
+  return new Promise((resolve, reject) => {
+    gltfLoader.load('../assets/models/' + MODEL_CONF[key].file,
+      (gltf) => { gltfCache[key] = gltf; resolve(gltf); }, undefined, reject);
+  });
+}
 
-  /* --- 職業ごとの装い --- */
-  if (role === 'office') {
-    // スーツ: 白シャツの胸元 + ネクタイ + 黒髪
-    const shirt = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.34, 0.06), stdMat(0xf8fafc, 0.7));
-    shirt.position.set(0, 1.16, 0.225); g.add(shirt);
-    const tie = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.3, 4), accent);
-    tie.rotation.x = Math.PI; tie.rotation.y = Math.PI / 4;
-    tie.position.set(0, 1.14, 0.265); g.add(tie);
-    const knot = new THREE.Mesh(new THREE.SphereGeometry(0.04, 6, 6), accent);
-    knot.position.set(0, 1.31, 0.26); g.add(knot);
-    const hair = new THREE.Mesh(new THREE.SphereGeometry(0.215, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2.1), stdMat(0x26221f, 0.85));
-    hair.position.set(0, 0.04, -0.03); headG.add(hair);
-  } else if (role === 'construction') {
-    // 作業着: 黄色ヘルメット + オレンジ安全ベスト + 反射ライン
-    const helm = new THREE.Mesh(new THREE.SphereGeometry(0.235, 14, 10, 0, Math.PI * 2, 0, Math.PI / 1.9), stdMat(0xfacc15, 0.45));
-    helm.position.set(0, 0.05, 0); headG.add(helm);
-    const brim = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.03, 14), stdMat(0xfacc15, 0.45));
-    brim.position.set(0, 0.05, 0); headG.add(brim);
-    const vest = new THREE.Mesh(new THREE.CylinderGeometry(0.285 * w, 0.295 * w, 0.34, 12), stdMat(0xea580c, 0.7));
-    vest.position.y = 1.12; g.add(vest);
-    for (const yy of [1.2, 1.04]) {
-      const stripe = new THREE.Mesh(new THREE.CylinderGeometry(0.3 * w, 0.3 * w, 0.035, 12),
-        new THREE.MeshStandardMaterial({ color: 0xd9f99d, roughness: 0.3, emissive: 0x65a30d, emissiveIntensity: 0.35 }));
-      stripe.position.y = yy; g.add(stripe);
+function makeActor(key) {
+  const gltf = gltfCache[key];
+  const conf = MODEL_CONF[key];
+  const model = SkeletonUtils.clone(gltf.scene);
+  model.traverse(o => {
+    if (o.isMesh) {
+      o.castShadow = true;
+      o.frustumCulled = false; // スキンメッシュのカリング誤判定対策
+      o.material = o.material.clone(); // 被弾フラッシュが他個体へ波及しないよう個別化
+      if (/_Eyes$/.test(o.name)) { // スケルトンの目を発光させる
+        o.material.emissive = new THREE.Color(0xff8822);
+        o.material.emissiveIntensity = 2.5;
+      }
     }
-  } else if (role === 'sales') {
-    // 販売員: 緑エプロン + キャップ
-    const apron = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.5, 0.05), accent);
-    apron.position.set(0, 1.02, 0.235); g.add(apron);
-    const strapL = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.3, 0.04), accent);
-    strapL.position.set(0.1, 1.32, 0.24); strapL.rotation.z = 0.18; g.add(strapL);
-    const strapR = strapL.clone(); strapR.position.x = -0.1; strapR.rotation.z = -0.18; g.add(strapR);
-    const cap = new THREE.Mesh(new THREE.SphereGeometry(0.22, 14, 10, 0, Math.PI * 2, 0, Math.PI / 2.2), accent);
-    cap.position.set(0, 0.05, 0); headG.add(cap);
-    const capBrim = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.16, 0.025, 10), accent);
-    capBrim.position.set(0, 0.08, 0.24); capBrim.rotation.x = 0.15; headG.add(capBrim);
-    const tag = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.05, 0.02), stdMat(0xf8fafc, 0.5));
-    tag.position.set(0.12, 1.26, 0.25); g.add(tag);
+    if (WEAPON_NODES.includes(o.name)) o.visible = conf.show.includes(o.name);
+  });
+  const group = new THREE.Group();
+  group.add(model);
+  const mixer = new THREE.AnimationMixer(model);
+  const actions = {};
+  gltf.animations.forEach(clip => { actions[clip.name] = mixer.clipAction(clip); });
+  let currentName = null;
+  function play(name, opts = {}) {
+    const action = actions[name];
+    if (!action) return;
+    const { once = false, fade = 0.25, timeScale = 1 } = opts;
+    if (currentName === name && !once) return;
+    const prev = currentName ? actions[currentName] : null;
+    action.reset();
+    action.setLoop(once ? THREE.LoopOnce : THREE.LoopRepeat, Infinity);
+    action.clampWhenFinished = once;
+    action.timeScale = timeScale;
+    action.play();
+    if (prev && prev !== action) prev.crossFadeTo(action, fade, false);
+    currentName = name;
   }
-  g.traverse(o => { if (o.isMesh) o.castShadow = true; });
-  return { group: g, parts };
-}
-
-function buildGoblin() {
-  const g = new THREE.Group(); const parts = {};
-  const body = new THREE.Mesh(new THREE.SphereGeometry(0.5, 12, 10), stdMat(0x4f8a2f));
-  body.scale.y = 0.85; body.position.y = 0.55; body.castShadow = true;
-  g.add(body); parts.torso = body;
-  const headG = new THREE.Group(); headG.position.y = 1.2;
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.34, 12, 10), stdMat(0x5d9c39));
-  head.castShadow = true; headG.add(head);
-  for (const s of [-1, 1]) {
-    const ear = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.42, 6), stdMat(0x5d9c39));
-    ear.position.set(0.34 * s, 0.12, 0); ear.rotation.z = -s * 1.25;
-    headG.add(ear);
-    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.05, 6, 6), stdMat(0xdc2626, 0.3));
-    eye.position.set(0.13 * s, 0.05, 0.29);
-    headG.add(eye);
+  function playOnce(name, onDone, timeScale = 1) {
+    const action = actions[name];
+    if (!action) { if (onDone) onDone(); return; }
+    if (actor._onFinished) { mixer.removeEventListener('finished', actor._onFinished); actor._onFinished = null; } // 中断された再生のリスナーを掃除
+    play(name, { once: true, timeScale });
+    const handler = (ev) => {
+      if (ev.action !== action) return;
+      mixer.removeEventListener('finished', handler);
+      if (actor._onFinished === handler) actor._onFinished = null;
+      if (onDone) onDone();
+    };
+    actor._onFinished = handler;
+    mixer.addEventListener('finished', handler);
   }
-  // 封筒(メールゴブリンの証)
-  const env = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.24, 0.04), stdMat(0xf8fafc, 0.6));
-  env.position.set(0, 0.62, 0.46); env.rotation.x = -0.2;
-  g.add(env);
-  g.add(headG); parts.head = headG;
-  for (const s of [-1, 1]) {
-    const leg = limb(stdMat(0x3f6f25), 0.08, 0.16); leg.position.set(0.2 * s, 0.3, 0);
-    g.add(leg); parts['leg' + (s > 0 ? 'L' : 'R')] = leg;
-    const arm = limb(stdMat(0x4f8a2f), 0.07, 0.22); arm.position.set(0.48 * s, 0.8, 0);
-    g.add(arm); parts['arm' + (s > 0 ? 'L' : 'R')] = arm;
-  }
-  return { group: g, parts };
-}
-
-function buildZombie() {
-  const h = buildHumanoid({ cloth: 0x57606f, skin: 0x9fb38a, accent: 0x2f3542, bulky: false });
-  h.parts.armL.rotation.x = -1.35; h.parts.armR.rotation.x = -1.35;
-  h.parts.head.rotation.z = 0.16;
-  h.parts.zombie = true;
-  return h;
-}
-
-function buildOni() {
-  const h = buildHumanoid({ cloth: 0xb33939, skin: 0xcd6133, accent: 0x222222, bulky: true });
-  for (const s of [-1, 1]) {
-    const horn = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.26, 6), stdMat(0xf7f1e3, 0.4));
-    horn.position.set(0.11 * s, 0.2, 0);
-    horn.rotation.z = -s * 0.3;
-    h.parts.head.add(horn);
-  }
-  return h;
-}
-
-function buildDragon() {
-  const g = new THREE.Group(); const parts = {};
-  const black = stdMat(0x363644, 0.55), red = stdMat(0xb91c1c, 0.5);
-  // 胴体
-  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.95, 1.7, 6, 12), black);
-  body.rotation.x = Math.PI / 2.3; body.position.y = 1.6; body.castShadow = true;
-  g.add(body); parts.torso = body;
-  // 首+頭
-  const neck = new THREE.Group(); neck.position.set(0, 2.45, 0.95);
-  for (let i = 0; i < 3; i++) {
-    const seg = new THREE.Mesh(new THREE.SphereGeometry(0.42 - i * 0.06, 10, 8), black);
-    seg.position.set(0, i * 0.42, i * 0.3); seg.castShadow = true;
-    neck.add(seg);
-  }
-  const headG = new THREE.Group(); headG.position.set(0, 1.32, 1.1);
-  const skull = new THREE.Mesh(new THREE.BoxGeometry(0.62, 0.5, 0.95), black);
-  skull.castShadow = true; headG.add(skull);
-  const jaw = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.16, 0.7), stdMat(0x32323e, 0.6));
-  jaw.position.set(0, -0.3, 0.18); headG.add(jaw);
-  for (const s of [-1, 1]) {
-    const horn = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.55, 6), red);
-    horn.position.set(0.2 * s, 0.35, -0.3); horn.rotation.x = -0.6;
-    headG.add(horn);
-    const eye = new THREE.Mesh(new THREE.SphereGeometry(0.07, 6, 6), new THREE.MeshStandardMaterial({ color: 0xfbbf24, emissive: 0xb45309, emissiveIntensity: 1.4 }));
-    eye.position.set(0.24 * s, 0.1, 0.34);
-    headG.add(eye);
-  }
-  neck.add(headG); parts.head = headG;
-  g.add(neck); parts.neck = neck;
-  // ネクタイ（社長の証）
-  const tie = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.7, 4), red);
-  tie.position.set(0, 1.7, 1.18); tie.rotation.x = Math.PI;
-  g.add(tie);
-  // 翼
-  for (const s of [-1, 1]) {
-    const wing = new THREE.Group();
-    const memb = new THREE.Mesh(new THREE.ConeGeometry(1.5, 3.2, 3), new THREE.MeshStandardMaterial({ color: 0x701a1a, side: THREE.DoubleSide, roughness: 0.7 }));
-    memb.rotation.z = s * Math.PI / 2; memb.position.x = s * 1.6;
-    memb.scale.set(0.25, 1, 1.6);
-    wing.add(memb);
-    wing.position.set(s * 0.5, 2.4, 0);
-    g.add(wing); parts['wing' + (s > 0 ? 'L' : 'R')] = wing;
-  }
-  // 尻尾
-  const tail = new THREE.Group(); tail.position.set(0, 1.4, -1.3);
-  for (let i = 0; i < 4; i++) {
-    const seg = new THREE.Mesh(new THREE.ConeGeometry(0.3 - i * 0.06, 0.7, 7), black);
-    seg.rotation.x = -Math.PI / 2.4;
-    seg.position.set(0, -i * 0.12, -i * 0.55);
-    seg.castShadow = true;
-    tail.add(seg);
-  }
-  g.add(tail); parts.tail = tail;
-  // 脚
-  for (const s of [-1, 1]) {
-    const leg = limb(black, 0.18, 0.45); leg.position.set(0.55 * s, 1.05, -0.2);
-    g.add(leg); parts['leg' + (s > 0 ? 'L' : 'R')] = leg;
-  }
-  g.children.forEach(c => c.position.y -= 0.45); // 足が接地するよう全体を下げる
-  g.scale.setScalar(1.6);
-  return { group: g, parts };
-}
-
-function buildEnemyModel(kind) {
-  if (kind === 'goblin') return buildGoblin();
-  if (kind === 'zombie') return buildZombie();
-  if (kind === 'oni') return buildOni();
-  return buildDragon();
+  const actor = { group, model, mixer, actions, play, playOnce, conf };
+  actors.add(actor);
+  return actor;
 }
 
 /* ---------------- プレイヤー＆敵スポーン ---------------- */
 function spawnPlayer() {
-  if (player) scene.remove(player.group);
-  const model = buildHumanoid({
-    cloth: new THREE.Color(selectedChar.colors.cloth).getHex(),
-    skin: new THREE.Color(selectedChar.colors.skin).getHex(),
-    accent: new THREE.Color(selectedChar.colors.accent).getHex(),
-    bulky: selectedChar.colors.bulky,
-    role: selectedChar.role
-  });
-  player = { ...model, heading: Math.PI, walkT: 0, moving: false };
+  if (player) { scene.remove(player.group); actors.delete(player.actor); }
+  const actor = makeActor(selectedChar.model);
+  actor.play('Idle');
+  player = { actor, group: actor.group, heading: Math.PI, moving: false };
   player.group.position.set(SPAWN.x, heightAt(SPAWN.x, SPAWN.z), SPAWN.z);
   scene.add(player.group);
   // カメラ初期位置
@@ -1206,7 +1061,7 @@ function spawnPlayer() {
 }
 
 function spawnEnemies() {
-  enemies.forEach(e => scene.remove(e.group));
+  enemies.forEach(e => { scene.remove(e.group); actors.delete(e.actor); });
   enemies = [];
   let tries = 0;
   while (enemies.length < ENEMY_COUNT && tries < 800) {
@@ -1225,14 +1080,16 @@ function spawnEnemies() {
 }
 
 function addEnemy(def, x, z, isBoss) {
-  const model = buildEnemyModel(def.kind);
-  model.group.position.set(x, heightAt(x, z), z);
-  scene.add(model.group);
+  const actor = makeActor(def.model);
+  if (isBoss) actor.group.scale.setScalar(2.1);
+  actor.play('Idle');
+  actor.group.position.set(x, heightAt(x, z), z);
+  scene.add(actor.group);
   enemies.push({
-    def, ...model, isBoss,
+    def, actor, group: actor.group, isBoss,
     home: { x, z }, tgt: { x, z }, state: 'wander',
     speed: isBoss ? 2.2 : 2.6 + hash2(x, z) * 1.2,
-    nextThink: 0, dead: false, respawnAt: 0, cooldownUntil: 0, animT: hash2(x, z) * 10
+    nextThink: 0, dead: false, respawnAt: 0, cooldownUntil: 0
   });
 }
 
@@ -1303,7 +1160,7 @@ function updateField(dt, t) {
   }
   p.group.position.y = lerp(p.group.position.y, heightAt(p.group.position.x, p.group.position.z), Math.min(1, dt * 12));
   p.group.rotation.y = p.heading;
-  animateWalk(p, dt, p.moving ? 9 : 0);
+  p.actor.play(p.moving ? 'Running_A' : 'Idle');
 
   // 敵 AI
   const pp = p.group.position;
@@ -1312,7 +1169,6 @@ function updateField(dt, t) {
       if (e.respawnAt && t > e.respawnAt) respawnEnemy(e);
       continue;
     }
-    e.animT += dt;
     const ep = e.group.position;
     const dist = Math.hypot(pp.x - ep.x, pp.z - ep.z);
     const onCooldown = t < e.cooldownUntil;
@@ -1339,7 +1195,7 @@ function updateField(dt, t) {
       e.group.rotation.y = Math.atan2(mvx, mvz);
     }
     ep.y = lerp(ep.y, heightAt(ep.x, ep.z), Math.min(1, dt * 10));
-    animateEnemy(e, dt, eSpeed > 0 ? 7 : 0);
+    e.actor.play(eSpeed > 0 ? (e.state === 'chase' ? 'Running_A' : 'Walking_A') : 'Idle');
   }
 
   // カメラ追従（三人称）
@@ -1355,31 +1211,6 @@ function updateField(dt, t) {
   // 影カメラをプレイヤー周辺に追従
   sunLight.target.position.copy(pp);
   sunLight.position.copy(pp).add(new THREE.Vector3(60, 110, 50));
-}
-
-function animateWalk(ch, dt, freq) {
-  ch.walkT = (ch.walkT || 0) + dt * freq;
-  const s = freq > 0 ? Math.sin(ch.walkT) : 0;
-  const pt = ch.parts;
-  if (pt.armL && !pt.zombie) { pt.armL.rotation.x = s * 0.75; pt.armR.rotation.x = -s * 0.75; }
-  if (pt.legL) { pt.legL.rotation.x = -s * 0.85; pt.legR.rotation.x = s * 0.85; }
-  if (pt.torso) pt.torso.position.y = (pt.torso.userData.baseY ??= pt.torso.position.y) + Math.abs(Math.cos(ch.walkT)) * (freq > 0 ? 0.05 : 0);
-  if (pt.scarf) pt.scarf.rotation.x = 0.5 + s * 0.18;
-}
-function animateEnemy(e, dt, freq) {
-  const pt = e.parts;
-  e.walkT = (e.walkT || 0) + dt * (freq || 2);
-  const s = Math.sin(e.walkT);
-  if (e.def.kind === 'dragon') {
-    if (pt.wingL) { pt.wingL.rotation.z = Math.sin(e.animT * 2.6) * 0.45; pt.wingR.rotation.z = -Math.sin(e.animT * 2.6) * 0.45; }
-    if (pt.neck) pt.neck.rotation.x = Math.sin(e.animT * 1.3) * 0.08;
-    if (pt.tail) pt.tail.rotation.y = Math.sin(e.animT * 1.7) * 0.3;
-    e.group.position.y += Math.sin(e.animT * 2.6) * 0.004;
-  } else {
-    if (pt.legL) { pt.legL.rotation.x = -s * 0.7; pt.legR.rotation.x = s * 0.7; }
-    if (pt.armL && !pt.zombie) { pt.armL.rotation.x = s * 0.5; pt.armR.rotation.x = -s * 0.5; }
-    if (pt.torso) pt.torso.rotation.z = Math.sin(e.animT * 3) * 0.04;
-  }
 }
 
 function respawnEnemy(e) {
@@ -1399,7 +1230,8 @@ function respawnEnemy(e) {
     e.home = { x: BOSS_POS.x, z: BOSS_POS.z + 6 };
     e.group.position.set(BOSS_POS.x, heightAt(BOSS_POS.x, BOSS_POS.z + 6), BOSS_POS.z + 6);
   }
-  e.dead = false; e.group.visible = true; e.group.scale.setScalar(e.isBoss ? 1.9 : 1);
+  e.dead = false; e.group.visible = true; e.group.scale.setScalar(e.isBoss ? 2.1 : 1);
+  e.actor.play('Idle', { fade: 0 });
   e.state = 'wander'; e.cooldownUntil = clock.elapsedTime + 2;
 }
 
@@ -1561,6 +1393,8 @@ function startBattle(enemyObj) {
   feedbackEl.textContent = enemyObj.isBoss ? 'ボス戦！ 長文に そなえろ！' : '';
   feedbackEl.className = 'tf-feedback';
   updateHpBars();
+  player.actor.play('Idle');
+  enemyObj.actor.playOnce('Taunt', () => { if (!enemyObj.dead) enemyObj.actor.play('Idle'); });
   showAlert(enemyObj.isBoss ? 'BOSS BATTLE!!' : 'バトル！');
   const bRef = battle;
   setTimeout(() => { if (battle === bRef) startTurn('attack'); }, 1300);
@@ -1654,6 +1488,7 @@ function onTimeUp() {
       const dmg = b.enemy.atk;
       b.playerHp -= dmg;
       flashModel(player, 0xff2222);
+      player.actor.playOnce('Hit_A', () => { if (battle === b) player.actor.play('Idle'); });
       burst(player.group.position.clone().add(new THREE.Vector3(0, 1.3, 0)), 0xff5544, 24, 5);
       popAt(player.group.position.clone().add(new THREE.Vector3(0, 2.1, 0)), '-' + dmg, 'self');
       camShake = 0.5;
@@ -1722,11 +1557,14 @@ function resolveAttackSuccess() {
   const dmg = Math.round(battle.playerAtk * (crit ? CRIT_MULT : 1));
   battle.enemyHp -= dmg;
   const b = battle;
-  // 突進 → ヒット → 戻る
+  // 攻撃モーション + 突進 → ヒット → 戻る
+  player.actor.playOnce(crit ? (player.actor.conf.critAttack || player.actor.conf.attack) : player.actor.conf.attack,
+    () => { if (battle === b) player.actor.play('Idle'); }, 1.25);
   const hitPos = b.baseEP.clone().addScaledVector(b.dir, -0.9);
   addTween(player.group, 'position', hitPos, 0.16, (x) => x * x, () => {
     if (battle !== b) return;
     flashModel(b.enemyObj, 0xff3333);
+    b.enemyObj.actor.playOnce('Hit_A', () => { if (battle === b && !b.enemyObj.dead) b.enemyObj.actor.play('Idle'); });
     burst(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 2.4 : 1.1, 0)), crit ? 0xffa726 : 0xffe082, crit ? 46 : 26, crit ? 9 : 6);
     popAt(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 4.4 : 2.3, 0)), '-' + dmg, crit ? 'crit' : '');
     camShake = crit ? 0.8 : 0.4;
@@ -1747,6 +1585,8 @@ function resolveAttackSuccess() {
 
 function enemyAttackAnim(onHit) {
   const b = battle;
+  b.enemyObj.actor.playOnce(b.enemyObj.actor.conf.attack,
+    () => { if (battle === b && !b.enemyObj.dead) b.enemyObj.actor.play('Idle'); }, 1.15);
   const hitPos = b.basePP.clone().addScaledVector(b.dir, 0.9);
   addTween(b.enemyObj.group, 'position', hitPos, 0.18, (x) => x * x, () => {
     if (battle !== b) return;
@@ -1763,6 +1603,7 @@ function resolveDefendSuccess() {
     burst(player.group.position.clone().add(new THREE.Vector3(0, 1.3, 0.4)), 0x4ade80, 22, 5, 0.14, -4);
     popAt(player.group.position.clone().add(new THREE.Vector3(0, 2.2, 0)), 'ガード!', 'guard');
     sfx.guard();
+    player.actor.playOnce('Block', () => { if (battle === b) player.actor.play('Idle'); }, 1.2);
     if (!counter) {
       feedbackEl.textContent = '完璧なガード！ ダメージ 0！';
       feedbackEl.className = 'tf-feedback ok';
@@ -1777,10 +1618,12 @@ function resolveDefendSuccess() {
       if (battle !== b) return;
       const dmg = Math.max(1, Math.round(b.playerAtk * COUNTER_RATIO));
       b.enemyHp -= dmg;
+      player.actor.playOnce(player.actor.conf.attack, () => { if (battle === b) player.actor.play('Idle'); }, 1.35);
       const hitPos = b.baseEP.clone().addScaledVector(b.dir, -0.9);
       addTween(player.group, 'position', hitPos, 0.14, (x) => x * x, () => {
         if (battle !== b) return;
         flashModel(b.enemyObj, 0xff3333);
+        b.enemyObj.actor.playOnce('Hit_A', () => { if (battle === b && !b.enemyObj.dead) b.enemyObj.actor.play('Idle'); });
         burst(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 2.4 : 1.1, 0)), 0x60a5fa, 32, 7);
         popAt(b.baseEP.clone().add(new THREE.Vector3(0, b.isBoss ? 4.4 : 2.3, 0)), '-' + dmg, 'crit');
         camShake = 0.6;
@@ -1827,8 +1670,12 @@ function endBattle(won) {
     burst(enemyObj.group.position.clone().add(new THREE.Vector3(0, 1.5, 0)), 0xffd54f, 60, 9, 0.2);
     burst(enemyObj.group.position.clone().add(new THREE.Vector3(0, 1.5, 0)), 0xff7043, 40, 7, 0.18);
     const g = enemyObj.group;
-    addTween(g, 'scale', new THREE.Vector3(0.01, 0.01, 0.01), 0.5, (x) => x * x);
-    setTimeout(() => { g.visible = false; g.scale.setScalar(enemyObj.isBoss ? 1.9 : 1); }, 520);
+    enemyObj.actor.playOnce('Death_A');               // 倒れるモーション
+    player.actor.playOnce('Cheer', () => player.actor.play('Idle')); // 勝利ポーズ
+    setTimeout(() => {
+      addTween(g, 'scale', new THREE.Vector3(0.01, 0.01, 0.01), 0.4, (x) => x * x);
+      setTimeout(() => { g.visible = false; g.scale.setScalar(enemyObj.isBoss ? 2.1 : 1); }, 420);
+    }, 1500);
     enemyObj.dead = true;
     enemyObj.respawnAt = clock.elapsedTime + (isBoss ? 12 : 18);
     sfx.win();
@@ -1846,6 +1693,8 @@ function endBattle(won) {
     if (leveledTo) setTimeout(() => sfx.levelup(), 800);
   } else {
     flashModel(player, 0x222222, 600);
+    player.actor.playOnce('Death_A');
+    enemyObj.actor.playOnce('Taunt', () => { if (!enemyObj.dead) enemyObj.actor.play('Idle'); });
     sfx.lose();
   }
   battle = null;
@@ -1883,6 +1732,7 @@ function backToField() {
   stopTurnTimer();
   battle = null;
   mode = 'field';
+  if (player) player.actor.play('Idle', { fade: 0.1 }); // 敗北ポーズ等から復帰
   refreshHud();
 }
 
@@ -1928,9 +1778,8 @@ function animate() {
   if (mode === 'field') updateField(dt, t);
   else if (mode === 'battle' || $('tf-result-overlay').classList.contains('tf-hidden') === false) {
     updateBattleCam(dt);
-    if (battle && battle.enemyObj) animateEnemy(battle.enemyObj, dt, 0);
-    if (player) animateWalk(player, dt, 0);
   }
+  for (const a of actors) a.mixer.update(dt);
   updateTweens(dt);
   updateParticles(dt);
   if (composer) composer.render();
@@ -1992,13 +1841,22 @@ function enterWorld() {
   $('tf-view-select').classList.add('tf-hidden');
   $('tf-view-game').classList.remove('tf-hidden');
   refreshHud();
-  const start = () => {
-    if (!worldBuilt) buildWorld();
-    spawnPlayer();
-    spawnEnemies();
-    mode = 'field';
-    $('tf-loading').classList.add('tf-hidden');
-    onResize();
+  $('tf-loading').classList.remove('tf-hidden');
+  const start = async () => {
+    try {
+      if (!worldBuilt) buildWorld();
+      // 必要なキャラモデル（GLB）を読み込む（2回目以降はキャッシュから即時）
+      const needed = [...new Set([selectedChar.model, ...DATA.enemies.map(e => e.model), DATA.boss.model])];
+      await Promise.all(needed.map(loadModel));
+      spawnPlayer();
+      spawnEnemies();
+      mode = 'field';
+      $('tf-loading').classList.add('tf-hidden');
+      onResize();
+    } catch (err) {
+      $('tf-loading').querySelector('.tf-load-box').innerHTML =
+        '<p class="text-[13px] font-bold">読み込みに失敗しました</p><p class="text-[10.5px] text-slate-400 mt-1">通信環境を確認してページを再読み込みしてください</p>';
+    }
   };
   if (!renderer) {
     initThree();
