@@ -22,6 +22,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .fade-up.d3 { transition-delay: .24s }
 .app-card { transition: transform .15s ease, box-shadow .15s ease }
 .app-card:active { transform: scale(0.98) }
+.app-cover { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; border-radius: 14px; margin-bottom: 12px; box-shadow: 0 10px 24px rgba(15,23,42,.08) }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
@@ -91,6 +92,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   <p class="text-[11px] font-semibold text-slate-400 tracking-wider mb-3">アプリ一覧</p>
 
   <a href="../certification/pc-basic.html#shortcut-run" class="app-card block mb-3 p-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 to-amber-50 fade-up d1" style="text-decoration:none;">
+    <img src="../assets/apps/shortcut-run-cover.jpg" alt="ショートカット・ランの表紙" class="app-cover" loading="lazy">
     <div class="flex items-center gap-3">
       <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm"><i data-lucide="zap" class="w-6 h-6 text-orange-500"></i></div>
       <div class="flex-1 min-w-0">
@@ -103,6 +105,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </a>
 
   <a href="typing-fighter.html" class="app-card block mb-3 p-4 rounded-2xl border border-rose-100 bg-gradient-to-br from-rose-50 to-red-50 fade-up d2" style="text-decoration:none;">
+    <img src="../assets/apps/typing-fighter-cover.jpg" alt="タイピング・ファイター 3Dの表紙" class="app-cover" loading="lazy">
     <div class="flex items-center gap-3">
       <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm"><i data-lucide="swords" class="w-6 h-6 text-rose-600"></i></div>
       <div class="flex-1 min-w-0">
@@ -115,6 +118,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </a>
 
   <a href="../certification/excel-challenge.html" class="app-card block mb-3 p-4 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 fade-up d3" style="text-decoration:none;">
+    <img src="../assets/apps/excel-challenge-cover.jpg" alt="Excel関数チャレンジの表紙" class="app-cover" loading="lazy">
     <div class="flex items-center gap-3">
       <div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center flex-shrink-0 shadow-sm"><i data-lucide="sigma" class="w-6 h-6 text-emerald-600"></i></div>
       <div class="flex-1 min-w-0">

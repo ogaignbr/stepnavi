@@ -32,6 +32,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tf-hero h1 { font-size: 23px; font-weight: 900; color: #fff; letter-spacing: -0.01em; text-shadow: 0 2px 12px rgba(124,45,18,.6) }
 .tf-hero p { font-size: 12px; color: #cbd5e1; line-height: 1.8; margin-top: 6px }
 .tf-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #fbbf24; background: rgba(0,0,0,.35); border: 1px solid #92400e; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px }
+.tf-cover { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; box-shadow: 0 18px 42px rgba(15,23,42,.16) }
 
 .tf-card { border: 1px solid #f1f5f9; border-radius: 14px; padding: 18px; background: #fff }
 .tf-section-label { font-size: 11px; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em; margin-bottom: 10px }
@@ -44,7 +45,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 /* プレイヤーステータス帯 */
 .tf-status-bar { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 12px; margin-bottom: 14px }
-.tf-status-bar .tf-st-emoji { font-size: 26px; line-height: 1 }
+.tf-st-avatar { width: 42px; height: 42px; object-fit: cover; border-radius: 13px; border: 2px solid rgba(255,255,255,.9); box-shadow: 0 5px 14px rgba(146,64,14,.18); flex-shrink: 0; background: #fff }
 .tf-status-bar .tf-st-main { flex: 1; min-width: 0 }
 .tf-status-bar .tf-st-name { font-size: 12px; font-weight: 700; color: #92400e }
 .tf-status-bar .tf-st-sub { font-size: 10.5px; color: #b45309; margin-top: 2px }
@@ -56,7 +57,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tf-char { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 13px 14px; background: #fff; border: 2px solid #e2e8f0; border-radius: 14px; cursor: pointer; transition: all .15s; margin-bottom: 10px }
 .tf-char:active { transform: scale(0.98) }
 .tf-char.selected { border-color: #dc2626; background: #fff7ed; box-shadow: 0 2px 10px rgba(220,38,38,0.12) }
-.tf-char-emoji { font-size: 34px; line-height: 1; flex-shrink: 0 }
+.tf-char-avatar { width: 56px; height: 56px; object-fit: cover; border-radius: 14px; flex-shrink: 0; border: 2px solid #fff; box-shadow: 0 5px 14px rgba(15,23,42,.13); background: #f8fafc }
 .tf-char-name { font-size: 14px; font-weight: 800; color: #0f172a }
 .tf-char-type { display: inline-block; font-size: 9.5px; font-weight: 700; color: #dc2626; background: #fee2e2; border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 1px }
 .tf-char-desc { font-size: 10.5px; color: #64748b; line-height: 1.5; margin-top: 3px }
@@ -77,7 +78,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 /* HUD */
 .tf-hud { position: absolute; inset: 0; z-index: 5; pointer-events: none; font-family: 'Noto Sans JP', sans-serif }
 .tf-hud-player { position: absolute; top: 10px; left: 12px; background: rgba(2,6,23,.55); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 8px 12px; color: #fff; display: flex; align-items: center; gap: 9px }
-.tf-hud-emoji { font-size: 22px; line-height: 1 }
+.tf-hud-avatar { width: 32px; height: 32px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,.45); box-shadow: 0 3px 10px rgba(0,0,0,.25); flex-shrink: 0 }
 .tf-hud-name { font-size: 11px; font-weight: 800 }
 .tf-hud-lv { font-size: 9.5px; color: #fbbf24; font-weight: 700 }
 .tf-hud-xp { width: 90px; height: 4px; background: rgba(255,255,255,.2); border-radius: 99px; overflow: hidden; margin-top: 3px }
@@ -233,10 +234,14 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   <p>3Dのオフィス街を自由に探索。街をうろつく敵に近づくとバトル開始！<br>制限時間内のタイピングで攻撃＆防御。北の本社ビルにひそむ<b>ブラック魔王社長</b>を倒せ。</p>
 </section>
 
+<section class="px-5 pt-5 fade-up">
+  <img src="../assets/apps/typing-fighter-cover.jpg" alt="タイピング・ファイター 3Dの表紙" class="tf-cover" loading="eager">
+</section>
+
 <!-- ============ SELECT VIEW ============ -->
 <section id="tf-view-select" class="px-5 pt-5 pb-6 fade-up">
   <div class="tf-status-bar" id="tf-status-bar">
-    <span class="tf-st-emoji" id="tf-st-emoji">🥷</span>
+    <img class="tf-st-avatar" id="tf-st-avatar" src="../assets/apps/typing-char-office.jpg" alt="選択中ファイターのアイコン">
     <div class="tf-st-main">
       <p class="tf-st-name" id="tf-st-name">ファイター</p>
       <p class="tf-st-sub" id="tf-st-sub">勝利数 0 ／ ボス討伐 0</p>
@@ -308,7 +313,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <!-- HUD -->
     <div class="tf-hud">
       <div class="tf-hud-player">
-        <span class="tf-hud-emoji" id="tf-hud-emoji">🥷</span>
+        <img class="tf-hud-avatar" id="tf-hud-avatar" src="../assets/apps/typing-char-office.jpg" alt="ファイターのアイコン">
         <div>
           <p class="tf-hud-name" id="tf-hud-name">ハヤテ</p>
           <p class="tf-hud-lv" id="tf-hud-lv">Lv.1 ／ 勝利 0</p>
@@ -414,17 +419,17 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 {
   "characters": [
     {
-      "id": "jimuin", "name": "事務員", "emoji": "🧑‍💼", "type": "スピード型",
+      "id": "jimuin", "name": "事務員", "emoji": "🧑‍💼", "avatar": "../assets/apps/typing-char-office.jpg", "type": "スピード型",
       "desc": "毎日のメール業務で鍛えたタイピング速度が武器。お題が短いが一撃はひかえめ。",
       "hp": 60, "atk": 10, "pool": "short", "role": "office", "model": "rogue"
     },
     {
-      "id": "hanbaiin", "name": "販売員", "emoji": "🛍️", "type": "バランス型",
+      "id": "hanbaiin", "name": "販売員", "emoji": "🛍️", "avatar": "../assets/apps/typing-char-sales.jpg", "type": "バランス型",
       "desc": "接客で鍛えた臨機応変さ。お題の長さも攻撃力もバランスのいい万能タイプ。",
       "hp": 70, "atk": 15, "pool": "medium", "role": "sales", "model": "mage"
     },
     {
-      "id": "sekokanri", "name": "施工管理", "emoji": "👷", "type": "パワー型",
+      "id": "sekokanri", "name": "施工管理", "emoji": "👷", "avatar": "../assets/apps/typing-char-construction.jpg", "type": "パワー型",
       "desc": "現場で鍛えた腕っぷし。お題は長いが一撃が重い。長文を打ち切れる上級者向け。",
       "hp": 80, "atk": 24, "pool": "long", "role": "construction", "model": "knight"
     }
@@ -579,6 +584,14 @@ function benchText(cpm) {
   if (cpm >= 120) return '1分120文字超は事務職の平均ラインを超えています';
   if (cpm >= 80) return '1分80文字超で応募条件「1分80文字以上」をクリア';
   return '事務職の応募条件は「1分80文字以上」が目安。続けるほど確実に上がります';
+}
+function avatarHtml(c, cls) {
+  return `<img class="${cls}" src="${c.avatar}" alt="${c.name}のアイコン" loading="lazy" onerror="this.replaceWith(document.createTextNode('${c.emoji}'))">`;
+}
+function setAvatar(id, c) {
+  const el = $(id);
+  el.src = c.avatar;
+  el.alt = c.name + 'のアイコン';
 }
 
 /* ---------------- サウンド（WebAudio 簡易シンセ） ---------------- */
@@ -1921,7 +1934,7 @@ function animate() {
 
 /* ---------------- UI（選択画面・HUD・ボタン） ---------------- */
 function renderSelect() {
-  $('tf-st-emoji').textContent = selectedChar.emoji;
+  setAvatar('tf-st-avatar', selectedChar);
   $('tf-st-name').textContent = selectedChar.name + '（' + selectedChar.type + '）';
   $('tf-st-sub').textContent = `勝利数 ${save.wins} ／ ボス討伐 ${save.bossWins}`;
   $('tf-st-lv').textContent = String(save.level);
@@ -1943,7 +1956,7 @@ function renderSelect() {
     const btn = document.createElement('button');
     btn.className = 'tf-char' + (c.id === selectedChar.id ? ' selected' : '');
     btn.innerHTML = `
-      <span class="tf-char-emoji">${c.emoji}</span>
+      ${avatarHtml(c, 'tf-char-avatar')}
       <span style="flex:1;min-width:0">
         <span class="tf-char-name">${c.name}<span class="tf-char-type">${c.type}</span></span>
         <span class="tf-char-desc" style="display:block">${c.desc}</span>
@@ -1964,7 +1977,7 @@ function renderSelect() {
 }
 
 function refreshHud() {
-  $('tf-hud-emoji').textContent = selectedChar.emoji;
+  setAvatar('tf-hud-avatar', selectedChar);
   $('tf-hud-name').textContent = `${selectedChar.name}（${selectedChar.type}）`;
   $('tf-hud-lv').textContent = `Lv.${save.level} ／ 勝利 ${save.wins}`;
   $('tf-hud-xp').style.width = Math.min(100, save.xp / xpToNext(save.level) * 100) + '%';

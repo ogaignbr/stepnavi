@@ -24,6 +24,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .ec-hero h1 { font-size: 22px; font-weight: 800; color: #065f46; letter-spacing: -0.01em }
 .ec-hero p { font-size: 12px; color: #047857; line-height: 1.8; margin-top: 6px }
 .ec-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #047857; background: #fff; border: 1px solid #a7f3d0; padding: 3px 10px; border-radius: 999px; margin-bottom: 8px }
+.ec-cover { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; box-shadow: 0 18px 42px rgba(6,95,70,.13) }
 
 /* レベル選択 */
 .ec-level-card { display: block; width: 100%; padding: 16px; border-radius: 14px; border: 1.5px solid #e2e8f0; background: #fff; cursor: pointer; margin-bottom: 10px; text-align: left; transition: all .15s }
@@ -170,6 +171,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   <span class="ec-badge inline-flex items-center gap-1"><i data-lucide="sigma" class="w-3 h-3"></i>関数を覚える</span>
   <h1>Excel関数チャレンジ</h1>
   <p>初級・中級・上級に分かれた15の関数を、お題に答えながら段階的に覚えよう。<br>3問連続で正解すれば <b>習得バッジ</b> が手に入ります。</p>
+</section>
+
+<section class="px-5 pt-5 fade-up">
+  <img src="../assets/apps/excel-challenge-cover.jpg" alt="Excel関数チャレンジの表紙" class="ec-cover" loading="eager">
 </section>
 
 <!-- ============ LEVEL VIEW ============ -->
