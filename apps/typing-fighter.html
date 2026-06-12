@@ -65,7 +65,9 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 /* ===== 3D ゲーム領域 ===== */
 .tf-game-shell { position: relative; border-radius: 16px; overflow: hidden; background: #0b1120; box-shadow: 0 10px 40px rgba(2,6,23,.45) }
-.tf-canvas-wrap { position: relative; width: 100%; height: clamp(340px, 58vh, 620px) }
+.tf-canvas-wrap { position: relative; width: 100%; height: clamp(340px, 58vh, 620px); transition: height .35s ease }
+/* バトル中は3D画面を少し低くして、お題と入力欄がスクロールなしで見えるようにする */
+.tf-game-shell.battle .tf-canvas-wrap { height: clamp(260px, 40vh, 440px) }
 .tf-canvas-wrap canvas { display: block; width: 100% !important; height: 100% !important }
 .tf-vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 58%, rgba(2,6,23,.42) 100%); z-index: 3 }
 .tf-letterbox { position: absolute; left: 0; right: 0; height: 0; background: #000; z-index: 4; transition: height .6s ease; pointer-events: none }
@@ -129,42 +131,48 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tf-rstat-label { font-size: 9.5px; color: #94a3b8; font-weight: 600; margin-bottom: 3px }
 .tf-rstat-value { font-size: 16px; font-weight: 800; color: #0f172a }
 
-/* ゲーム下部 操作ボタン列 */
-.tf-game-tools { display: flex; gap: 8px; margin-top: 10px }
-.tf-tool-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 9px; font-size: 11.5px; font-weight: 700; cursor: pointer }
+/* ゲーム上部 操作ボタン列（コンパクト・右寄せ） */
+.tf-game-tools { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 8px }
+.tf-tool-btn { display: flex; align-items: center; gap: 5px; background: #fff; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 9px; padding: 5px 11px; font-size: 10.5px; font-weight: 700; cursor: pointer }
 .tf-tool-btn:active { background: #f8fafc }
 
-/* ターンパネル */
-.tf-turn-panel { margin-top: 12px }
-.tf-phase-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 800; border-radius: 999px; padding: 4px 12px; margin-bottom: 8px }
+/* ターンパネル（1画面に収まるコンパクト設計） */
+.tf-turn-panel { margin-top: 8px }
+.tf-turn-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px }
+.tf-phase-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 800; border-radius: 999px; padding: 3px 10px; flex-shrink: 0 }
 .tf-phase-chip.attack { color: #dc2626; background: #fee2e2 }
 .tf-phase-chip.defend { color: #2563eb; background: #dbeafe }
-.tf-timer-track { height: 8px; background: #f1f5f9; border-radius: 999px; margin-bottom: 4px; position: relative }
+.tf-timer-track { flex: 1; height: 7px; background: #f1f5f9; border-radius: 999px; position: relative }
 .tf-timer-track .tf-timer-fill { border-radius: 999px }
 .tf-timer-mark { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 2.5px; background: #f59e0b; border-radius: 2px; box-shadow: 0 0 5px rgba(245,158,11,.7) }
-.tf-timer-note { font-size: 10px; color: #b45309; font-weight: 700; text-align: right; margin-bottom: 8px }
+.tf-timer-secs { font-size: 11px; font-weight: 700; color: #64748b; flex-shrink: 0; min-width: 36px; text-align: right }
+.tf-timer-secs b { font-size: 14px; color: #0f172a }
+.tf-run-mini { flex-shrink: 0; background: #fff; color: #64748b; border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 3px 10px; font-size: 10.5px; font-weight: 700; cursor: pointer }
+.tf-run-mini:active { background: #f8fafc }
 .tf-timer-fill { height: 100%; background: linear-gradient(90deg, #4ade80, #16a34a); border-radius: 999px }
 .tf-timer-fill.danger { background: linear-gradient(90deg, #f97316, #dc2626) }
-.tf-prompt-wrap { background: #f8fafc; border-radius: 12px; padding: 14px; margin-bottom: 10px; min-height: 64px }
-.tf-prompt-text { font-size: 16px; line-height: 1.9; color: #0f172a; font-weight: 500; word-break: break-all }
+.tf-prompt-wrap { background: #f8fafc; border-radius: 10px; padding: 9px 12px; margin-bottom: 7px }
+.tf-prompt-text { font-size: 15px; line-height: 1.8; color: #0f172a; font-weight: 500; word-break: break-all }
 .tf-prompt-text .typed-ok { color: #16a34a; background: #dcfce7; border-radius: 2px }
 .tf-prompt-text .typed-bad { color: #dc2626; background: #fee2e2; border-radius: 2px; text-decoration: line-through }
 .tf-prompt-text .caret { display: inline-block; width: 1.5px; background: #dc2626; animation: blink 1s steps(1) infinite; height: 20px; vertical-align: middle; margin: 0 1px }
 @keyframes blink { 50% { opacity: 0 } }
-.tf-input { width: 100%; padding: 12px 14px; font-size: 16px; line-height: 1.6; font-family: inherit; border: 2px solid #e2e8f0; border-radius: 12px; resize: none; box-sizing: border-box; transition: border-color .15s; -webkit-appearance: none }
+.tf-input { width: 100%; padding: 8px 12px; font-size: 15px; line-height: 1.6; font-family: inherit; border: 2px solid #e2e8f0; border-radius: 10px; resize: none; box-sizing: border-box; transition: border-color .15s; -webkit-appearance: none }
 .tf-input:focus { outline: none; border-color: #dc2626; background: #fffafa }
 .tf-input:disabled { background: #f8fafc; color: #94a3b8 }
 .tf-input.shake { animation: shake .3s }
 @keyframes shake { 0%, 100% { transform: translateX(0) } 25% { transform: translateX(-4px) } 75% { transform: translateX(4px) } }
-.tf-feedback { font-size: 11.5px; color: #64748b; margin-top: 7px; min-height: 17px; text-align: center }
+.tf-feedback { font-size: 11px; color: #64748b; margin-top: 4px; min-height: 15px; text-align: center }
 .tf-feedback.ok { color: #16a34a }
 .tf-feedback.bad { color: #dc2626 }
 
-/* フルスクリーン時: ゲーム画面の下にタイピングパネルも表示する */
-#tf-view-game:fullscreen { background: linear-gradient(180deg, #0b1120 0%, #1e293b 100%); overflow-y: auto; padding: 14px 18px calc(16px + env(safe-area-inset-bottom, 0px)) }
-#tf-view-game:fullscreen .tf-canvas-wrap { height: clamp(340px, 58vh, 900px) }
-#tf-view-game:fullscreen .tf-turn-panel { background: #fff; border-radius: 14px; padding: 14px 16px; margin-top: 12px }
-#tf-view-game:fullscreen .tf-tool-btn { background: rgba(255, 255, 255, 0.92) }
+/* フルスクリーン時: 画面下に中央寄せのコンパクトなタイピングパネルを表示 */
+#tf-view-game:fullscreen { background: linear-gradient(180deg, #0b1120 0%, #1e293b 100%); overflow-y: auto; padding: 10px 18px calc(12px + env(safe-area-inset-bottom, 0px)) }
+#tf-view-game:fullscreen .tf-game-shell { max-width: 1280px; margin: 0 auto }
+#tf-view-game:fullscreen .tf-game-tools { max-width: 1280px; margin: 0 auto 8px }
+#tf-view-game:fullscreen .tf-canvas-wrap { height: clamp(340px, 66vh, 1100px) }
+#tf-view-game:fullscreen .tf-game-shell.battle .tf-canvas-wrap { height: clamp(300px, 58vh, 900px) }
+#tf-view-game:fullscreen .tf-turn-panel { background: #fff; border-radius: 12px; padding: 10px 14px; margin: 10px auto 0; max-width: 720px }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
 <script src="../assets/storage.js"></script>
@@ -284,6 +292,13 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 <!-- ============ GAME VIEW ============ -->
 <section id="tf-view-game" class="px-5 pt-5 pb-6 tf-hidden">
+  <!-- ツール列（画面の上に配置） -->
+  <div class="tf-game-tools">
+    <button class="tf-tool-btn" id="tf-full-btn"><i data-lucide="maximize" class="w-3.5 h-3.5"></i>フルスクリーン</button>
+    <button class="tf-tool-btn" id="tf-sound-btn"><i data-lucide="volume-2" class="w-3.5 h-3.5"></i>サウンドON</button>
+    <button class="tf-tool-btn" id="tf-exit-btn"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>キャラ選択へ</button>
+  </div>
+
   <div class="tf-game-shell" id="tf-shell">
     <div class="tf-canvas-wrap" id="tf-canvas-wrap"></div>
     <div class="tf-vignette"></div>
@@ -354,30 +369,21 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </div>
   </div>
 
-  <!-- ツール列 -->
-  <div class="tf-game-tools">
-    <button class="tf-tool-btn" id="tf-full-btn"><i data-lucide="maximize" class="w-3.5 h-3.5"></i>フルスクリーン</button>
-    <button class="tf-tool-btn" id="tf-sound-btn"><i data-lucide="volume-2" class="w-3.5 h-3.5"></i>サウンドON</button>
-    <button class="tf-tool-btn" id="tf-exit-btn"><i data-lucide="log-out" class="w-3.5 h-3.5"></i>キャラ選択へ</button>
-  </div>
-
-  <!-- ターンパネル（バトル中のみ） -->
+  <!-- ターンパネル（バトル中のみ・コンパクト1画面表示） -->
   <div class="tf-turn-panel tf-hidden" id="tf-turn-panel">
-    <div class="flex items-center justify-between">
-      <span class="tf-phase-chip attack" id="tf-phase-chip"><i data-lucide="sword" class="w-3.5 h-3.5"></i><span id="tf-phase-label">攻撃ターン</span></span>
-      <span class="text-[11px] font-bold text-slate-500">残り <b id="tf-timer-sec" class="text-slate-900 text-[14px]">--</b> 秒</span>
+    <div class="tf-turn-row">
+      <span class="tf-phase-chip attack" id="tf-phase-chip"><i data-lucide="sword" class="w-3.5 h-3.5"></i><span id="tf-phase-label">攻撃</span></span>
+      <div class="tf-timer-track"><div class="tf-timer-fill" id="tf-timer-fill" style="width:100%"></div><div class="tf-timer-mark"></div></div>
+      <span class="tf-timer-secs"><b id="tf-timer-sec">--</b>秒</span>
+      <button class="tf-run-mini" id="tf-run-btn">にげる</button>
     </div>
-    <div class="tf-timer-track"><div class="tf-timer-fill" id="tf-timer-fill" style="width:100%"></div><div class="tf-timer-mark"></div></div>
-    <p class="tf-timer-note" id="tf-timer-note">⚡金ラインより前に打ち切るとクリティカル！</p>
 
     <div class="tf-prompt-wrap">
       <div class="tf-prompt-text" id="tf-prompt">準備中…</div>
     </div>
 
-    <textarea class="tf-input" id="tf-input" rows="2" placeholder="ここに入力" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>
+    <textarea class="tf-input" id="tf-input" rows="1" placeholder="ここに入力" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>
     <p class="tf-feedback" id="tf-feedback"></p>
-
-    <button class="tf-btn-secondary mt-3" id="tf-run-btn">にげる（フィールドに戻る）</button>
   </div>
 </section>
 
@@ -1513,6 +1519,8 @@ function startBattle(enemyObj) {
   // UI
   shell.classList.add('battle', 'cinema');
   $('tf-turn-panel').classList.remove('tf-hidden');
+  // 3D画面とお題・入力欄が同時に見える位置へスクロール
+  setTimeout(() => $('tf-turn-panel').scrollIntoView({ behavior: 'smooth', block: 'end' }), 420);
   $('tf-bhp-pname').textContent = `${selectedChar.emoji} ${selectedChar.name} Lv.${save.level}`;
   $('tf-bhp-ename').textContent = `${def.name}${enemyObj.isBoss ? '【BOSS】' : ''} ${def.emoji}`;
   promptEl.textContent = '…';
@@ -1563,18 +1571,16 @@ function startTurn(phase) {
   const chip = $('tf-phase-chip');
   if (phase === 'attack') {
     chip.className = 'tf-phase-chip attack';
-    $('tf-phase-label').textContent = '攻撃ターン：打ち切れば攻撃成功！';
-    $('tf-timer-note').textContent = '⚡金ラインより前に打ち切るとクリティカル2倍！';
+    $('tf-phase-label').textContent = '攻撃';
   } else {
     chip.className = 'tf-phase-chip defend';
-    $('tf-phase-label').textContent = '防御ターン：打ち返してガード！';
-    $('tf-timer-note').textContent = '⚡金ラインより前に打ち返すとカウンター反撃！';
+    $('tf-phase-label').textContent = '防御';
     showAlert('敵の攻撃！');
   }
   renderPromptHighlight(battle.target, '');
   inputEl.value = '';
   inputEl.disabled = false;
-  feedbackEl.textContent = phase === 'attack' ? '時間内に打ち切ろう。速いほど強い！' : '時間内に打てればノーダメージ。速ければ反撃！';
+  feedbackEl.textContent = phase === 'attack' ? '⚡金ライン前に打ち切るとクリティカル2倍' : '⚡金ライン前に打ち返すとカウンター反撃';
   feedbackEl.className = 'tf-feedback';
 
   battle.limitMs = timeLimitFor(battle.target.length) * 1000;
