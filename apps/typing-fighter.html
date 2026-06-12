@@ -216,7 +216,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 <section class="tf-hero fade-up">
   <span class="tf-badge inline-flex items-center gap-1"><i data-lucide="swords" class="w-3 h-3"></i>3D オープンワールド・タイピングRPG</span>
   <h1>タイピング・ファイター 3D</h1>
-  <p>広大な3Dフィールドを自由に探索。荒野をうろつく敵に近づくとバトル開始！<br>制限時間内のタイピングで攻撃＆防御。北の黒城にひそむ<b>ブラック魔王社長</b>を倒せ。</p>
+  <p>3Dのオフィス街を自由に探索。街をうろつく敵に近づくとバトル開始！<br>制限時間内のタイピングで攻撃＆防御。北の本社ビルにひそむ<b>ブラック魔王社長</b>を倒せ。</p>
 </section>
 
 <!-- ============ SELECT VIEW ============ -->
@@ -271,7 +271,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
       <li><b>防御ターン</b>：敵のお題を時間内に打ち返すとガード成功。<b>速く打ち返すとカウンター反撃</b>が発動！</li>
       <li>ミスタイプすると少しだけ自分にダメージ</li>
       <li>勝つと経験値ゲット。レベルが上がるとHPと攻撃力アップ（アカウントに保存）</li>
-      <li>北の丘の黒城には<b>ボス：ブラック魔王社長</b>が。長文ビジネス文を打ち切って倒そう</li>
+      <li>街の北にそびえる本社ビルには<b>ボス：ブラック魔王社長</b>が。長文ビジネス文を打ち切って倒そう</li>
     </ul>
   </div>
 </section>
@@ -294,7 +294,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
           <div class="tf-hud-xp"><div id="tf-hud-xp" style="width:0%"></div></div>
         </div>
       </div>
-      <div class="tf-quest" id="tf-quest">クエスト：北の黒城にひそむ<br>ブラック魔王社長を たおせ！</div>
+      <div class="tf-quest" id="tf-quest">クエスト：北の本社ビルにひそむ<br>ブラック魔王社長を たおせ！</div>
       <p class="tf-hint" id="tf-hint">W/↑ 前進 ・ A D / ← → 旋回 ・ 敵にふれるとバトル！</p>
       <p class="tf-alert" id="tf-alert">バトル！</p>
 
@@ -612,23 +612,38 @@ function smoothstep(e0, e1, x) { const t = clamp((x - e0) / (e1 - e0), 0, 1); re
 
 const SPAWN = { x: 0, z: 78 };
 const BOSS_POS = { x: 0, z: -78 };
-function pathCenter(z) { return Math.sin(z * 0.045) * 10; } // 蛇行する道
+function pathCenter(z) { return 0; } // 大通り（南北にまっすぐ）
+
+// 市街地の範囲（この中は平地にならして街を建てる）
+const CITY = { x: 42, zMin: -64, zMax: 82 };
+function cityOutDist(x, z) {
+  const dx = Math.max(0, Math.abs(x) - CITY.x);
+  const dz = Math.max(0, z > CITY.zMax ? z - CITY.zMax : (z < CITY.zMin ? CITY.zMin - z : 0));
+  return Math.hypot(dx, dz);
+}
+function inCity(x, z, margin = 0) {
+  return Math.abs(x) < CITY.x + margin && z > CITY.zMin - margin && z < CITY.zMax + margin;
+}
 
 function heightAt(x, z) {
   let h = fbm(x / 52 + 10, z / 52 + 10) * 16 - 5; // なだらかな丘
   // 外周の山脈
   const edge = Math.max(Math.abs(x), Math.abs(z)) / (WORLD / 2);
   if (edge > 0.72) h += Math.pow((edge - 0.72) / 0.28, 1.7) * 46;
-  // 湖（西側）
-  const ld = Math.hypot(x + 52, z - 28);
-  if (ld < 30) h -= (1 - ld / 30) * 11;
+  // 湖（西側・市街地の外）
+  const ld = Math.hypot(x + 70, z - 30);
+  if (ld < 26) h -= (1 - ld / 26) * 11;
+  // 市街地は平地にならす
+  h = lerp(0.55, h, smoothstep(0, 16, cityOutDist(x, z)));
   // スポーン平地
-  h = lerp(h, 0.6, smoothstep(26, 8, Math.hypot(x - SPAWN.x, z - SPAWN.z)));
+  h = lerp(h, 0.55, smoothstep(26, 8, Math.hypot(x - SPAWN.x, z - SPAWN.z)));
   // ボスの丘（高台の平地）
   h = lerp(h, 9, smoothstep(34, 16, Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z)));
-  // 道はならす
-  const pd = Math.abs(x - pathCenter(z));
-  if (Math.abs(z) < 72) h = lerp(h, lerp(0.6, 9, smoothstep(60, -60, z)) , smoothstep(7, 2.5, pd) * 0.85);
+  // 市街地北端→本社ビル高台への坂道
+  if (z < -56 && z > -82) {
+    const ramp = lerp(0.55, 9, smoothstep(-58, -76, z));
+    h = lerp(h, ramp, smoothstep(10, 5, Math.abs(x)));
+  }
   return h;
 }
 
@@ -744,7 +759,8 @@ function buildWorld() {
     else {
       col.copy(cGrassA).lerp(cGrassB, n);
       const pd = Math.abs(x - pathCenter(z));
-      if (Math.abs(z) < 72 && pd < 2.6 + n * 1.2) col.lerp(cDirt, 0.85);
+      if (z < -54 && z > -84 && pd < 3.4 + n * 1.2) col.lerp(cDirt, 0.85); // 本社ビルへの坂道だけ土の道
+      if (inCity(x, z, -2)) col.lerp(new THREE.Color(0x9aa78c), 0.45); // 市街地はやや舗装寄りの色味に
       if (h > 12) col.lerp(cRock, smoothstep(12, 17, h));
     }
     colors[i * 3] = col.r; colors[i * 3 + 1] = col.g; colors[i * 3 + 2] = col.b;
@@ -769,10 +785,10 @@ function buildWorld() {
 
   // --- 水面 ---
   const water = new THREE.Mesh(
-    new THREE.CircleGeometry(34, 40).rotateX(-Math.PI / 2),
+    new THREE.CircleGeometry(30, 40).rotateX(-Math.PI / 2),
     new THREE.MeshStandardMaterial({ color: 0x2d6f9e, transparent: true, opacity: 0.82, roughness: 0.15, metalness: 0.5 })
   );
-  water.position.set(-52, WATER_Y, 28);
+  water.position.set(-70, WATER_Y, 30);
   scene.add(water);
 
   // --- 木（インスタンス） ---
@@ -794,6 +810,7 @@ function buildWorld() {
     const z = (hash2(tries, 13) - 0.5) * (WORLD - 40);
     const h = heightAt(x, z);
     if (h < WATER_Y + 1 || h > 14) continue;
+    if (inCity(x, z, 6)) continue; // 市街地には生やさない
     if (Math.abs(x - pathCenter(z)) < 5 && Math.abs(z) < 72) continue;
     if (Math.hypot(x - SPAWN.x, z - SPAWN.z) < 14) continue;
     if (Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z) < 22) continue;
@@ -825,6 +842,7 @@ function buildWorld() {
     const z = (hash2(tries, 211) - 0.5) * (WORLD - 50);
     const h = heightAt(x, z);
     if (h < WATER_Y + 1 || h > 12) continue;
+    if (inCity(x, z, 6)) continue; // 市街地には生やさない
     if (Math.abs(x - pathCenter(z)) < 5.5 && Math.abs(z) < 72) continue;
     if (Math.hypot(x - SPAWN.x, z - SPAWN.z) < 14) continue;
     if (Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z) < 22) continue;
@@ -859,6 +877,7 @@ function buildWorld() {
     const z = (hash2(tries, 59) - 0.5) * (WORLD - 60);
     const h = heightAt(x, z);
     if (h < WATER_Y + 0.8 || h > 12) continue;
+    if (inCity(x, z, 2)) continue; // 市街地には草を生やさない
     q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), hash2(tries, 61) * 6.28);
     const s = 0.7 + hash2(tries, 67) * 0.8;
     p3.set(x, h, z); sc3.set(s, s, s);
@@ -881,6 +900,7 @@ function buildWorld() {
     const z = (hash2(tries, 89) - 0.5) * (WORLD - 50);
     const h = heightAt(x, z);
     if (h < WATER_Y + 0.5) continue;
+    if (inCity(x, z, 4)) continue; // 市街地に岩は置かない
     const s = 0.5 + hash2(tries, 97) * 1.6;
     q.setFromAxisAngle(new THREE.Vector3(hash2(tries,1), 1, hash2(tries,2)).normalize(), hash2(tries, 3) * 6.28);
     p3.set(x, h + s * 0.3, z); sc3.set(s, s * (0.6 + hash2(tries, 5) * 0.5), s);
@@ -909,58 +929,109 @@ function buildWorld() {
     scene.add(g);
   }
 
-  // --- ボスの黒城 ---
-  buildCastle();
+  // --- 街（KayKit City Builder） ---
+  buildCity();
+  // --- ボスの本社ビル群 ---
+  buildHQ();
 
   worldBuilt = true;
 }
 
-function buildCastle() {
-  const g = new THREE.Group();
-  const baseH = heightAt(BOSS_POS.x, BOSS_POS.z);
-  const stone = new THREE.MeshStandardMaterial({ color: 0x2b2b33, roughness: 0.85 });
-  const darkRoof = new THREE.MeshStandardMaterial({ color: 0x551111, roughness: 0.6 });
-  // 本丸
-  const keep = new THREE.Mesh(new THREE.BoxGeometry(14, 11, 10), stone);
-  keep.position.set(0, 5.5, -10);
-  g.add(keep);
-  const roof = new THREE.Mesh(new THREE.ConeGeometry(10.5, 5, 4), darkRoof);
-  roof.position.set(0, 13.4, -10); roof.rotation.y = Math.PI / 4;
-  g.add(roof);
-  // 塔
-  for (const sx of [-9, 9]) {
-    const tower = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.6, 13, 8), stone);
-    tower.position.set(sx, 6.5, -5);
-    g.add(tower);
-    const tr = new THREE.Mesh(new THREE.ConeGeometry(3, 3.6, 8), darkRoof);
-    tr.position.set(sx, 14.8, -5);
-    g.add(tr);
+/* ---------------- 街の生成（KayKit City Builder Bits） ---------------- */
+const CITY_PIECES = ['road_straight', 'road_straight_crossing', 'road_junction',
+  'building_A', 'building_B', 'building_C', 'building_D', 'building_E', 'building_F', 'building_G', 'building_H',
+  'streetlight', 'trafficlight_A', 'firehydrant', 'bench', 'dumpster', 'trash_A', 'bush', 'watertower',
+  'car_sedan', 'car_taxi', 'car_police', 'car_hatchback', 'car_stationwagon'];
+
+function placeCity(name, x, z, rotY = 0, scale = 4, collideR = 0, shadow = true) {
+  const obj = gltfCache['city_' + name].scene.clone(true);
+  obj.scale.setScalar(scale);
+  obj.rotation.y = rotY;
+  obj.position.set(x, heightAt(x, z) + 0.03, z);
+  obj.traverse(o => { if (o.isMesh) { o.castShadow = shadow; o.receiveShadow = true; } });
+  scene.add(obj);
+  if (collideR > 0) treeCols.push({ x, z, r: collideR });
+  return obj;
+}
+
+const CROSS_Z = [16, -24]; // 横道のz位置
+function buildCity() {
+  const T = 8; // 道路タイル一辺（モデル2×2をスケール4で使用）
+  const R = Math.PI / 2;
+  // 大通り（南北）
+  for (let z = -60; z <= 76; z += T) {
+    if (CROSS_Z.includes(z)) { placeCity('road_junction', 0, z, 0, 4, 0, false); continue; }
+    const crossing = CROSS_Z.some(cz => Math.abs(z - cz) === T);
+    placeCity(crossing ? 'road_straight_crossing' : 'road_straight', 0, z, 0, 4, 0, false);
   }
-  // 門壁
-  for (const sx of [-5.6, 5.6]) {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(6.5, 6, 1.6), stone);
-    wall.position.set(sx, 3, 0);
-    g.add(wall);
+  // 横道（東西）
+  for (const cz of CROSS_Z) {
+    for (const sx of [-1, 1]) {
+      for (let x = T; x <= 40; x += T) {
+        placeCity(x === T ? 'road_straight_crossing' : 'road_straight', sx * x, cz, R, 4, 0, false);
+      }
+    }
   }
-  const lintel = new THREE.Mesh(new THREE.BoxGeometry(18, 1.6, 1.6), stone);
-  lintel.position.set(0, 6.6, 0);
-  g.add(lintel);
-  // 赤い社旗
-  const flagMat = new THREE.MeshStandardMaterial({ color: 0xb91c1c, side: THREE.DoubleSide, roughness: 0.7 });
-  for (const sx of [-9, 9]) {
-    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 4, 5), stone);
-    pole.position.set(sx, 18.4, -5);
-    g.add(pole);
-    const flag = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.4), flagMat);
-    flag.position.set(sx + 1.2, 19.4, -5);
-    g.add(flag);
+  // 建物: 大通り沿い（道路を向くように回転）
+  const BUILDINGS = ['building_A', 'building_B', 'building_C', 'building_D', 'building_E', 'building_F', 'building_G', 'building_H'];
+  let bi = 0;
+  for (let z = -56; z <= 72; z += 9) {
+    if (CROSS_Z.some(cz => Math.abs(z - cz) < 9)) continue;
+    for (const side of [-1, 1]) {
+      bi++;
+      if (hash2(bi, 17) < 0.15) continue; // ところどころ空き地
+      const name = BUILDINGS[Math.floor(hash2(bi, 23) * BUILDINGS.length)];
+      placeCity(name, side * 10.5, z, side > 0 ? -R : R, 4, 5.4);
+    }
   }
-  g.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
-  g.position.set(BOSS_POS.x, baseH, BOSS_POS.z - 8);
-  scene.add(g);
-  treeCols.push({ x: BOSS_POS.x, z: BOSS_POS.z - 18, r: 9 });
-  treeCols.push({ x: BOSS_POS.x - 9, z: BOSS_POS.z - 13, r: 3 });
-  treeCols.push({ x: BOSS_POS.x + 9, z: BOSS_POS.z - 13, r: 3 });
+  // 横道沿いの建物
+  for (const cz of CROSS_Z) {
+    for (let x = 20; x <= 38; x += 9) {
+      for (const sx of [-1, 1]) {
+        for (const sz of [-1, 1]) {
+          bi++;
+          if (hash2(bi, 29) < 0.3) continue;
+          const name = BUILDINGS[Math.floor(hash2(bi, 31) * BUILDINGS.length)];
+          placeCity(name, sx * x, cz + sz * 10.5, sz > 0 ? Math.PI : 0, 4, 5.4);
+        }
+      }
+    }
+  }
+  // 街灯
+  for (let z = -56; z <= 72; z += 16) {
+    placeCity('streetlight', -5, z, R, 4, 0, false);
+    placeCity('streetlight', 5, z + T, -R, 4, 0, false);
+  }
+  // 信号（交差点の角）
+  for (const cz of CROSS_Z) {
+    placeCity('trafficlight_A', 5, cz + 5, Math.PI, 4, 0, false);
+    placeCity('trafficlight_A', -5, cz - 5, 0, 4, 0, false);
+  }
+  // 路上駐車の車
+  const CARS = ['car_sedan', 'car_taxi', 'car_police', 'car_hatchback', 'car_stationwagon'];
+  [-50, -34, -4, 30, 48, 64].forEach((z, i) => {
+    const side = i % 2 ? 1 : -1;
+    placeCity(CARS[i % CARS.length], side * 2.6, z, side > 0 ? 0 : Math.PI, 4, 1.8);
+  });
+  // 歩道の小物
+  const PROPS = ['firehydrant', 'bench', 'trash_A', 'bush', 'dumpster'];
+  for (let i = 0; i < 26; i++) {
+    const z = -58 + hash2(i, 41) * 130;
+    if (CROSS_Z.some(cz => Math.abs(z - cz) < 5)) continue;
+    const side = hash2(i, 43) < 0.5 ? -1 : 1;
+    const name = PROPS[Math.floor(hash2(i, 47) * PROPS.length)];
+    placeCity(name, side * (5.4 + hash2(i, 53) * 1.4), z, hash2(i, 59) * 6.28, 4, name === 'dumpster' ? 1.6 : 0, false);
+  }
+  // 給水塔（裏路地の雰囲気づくり）
+  placeCity('watertower', 30, 52, 0.4, 4, 2);
+  placeCity('watertower', -32, -44, 2.2, 4, 2);
+}
+
+function buildHQ() {
+  // ブラック魔王社長の本社ビル群（北の高台）
+  placeCity('building_H', BOSS_POS.x, BOSS_POS.z - 13, 0, 8, 10);
+  placeCity('building_E', BOSS_POS.x - 17, BOSS_POS.z - 9, 0.35, 5, 7);
+  placeCity('building_F', BOSS_POS.x + 17, BOSS_POS.z - 9, -0.35, 5, 7);
 }
 
 /* ---------------- キャラクターモデル（KayKit製GLB + スケルタルアニメーション） ---------------- */
@@ -989,6 +1060,19 @@ function loadModel(key) {
   }
   return new Promise((resolve, reject) => {
     gltfLoader.load('../assets/models/' + MODEL_CONF[key].file,
+      (gltf) => { gltfCache[key] = gltf; resolve(gltf); }, undefined, reject);
+  });
+}
+
+function loadCityPiece(name) {
+  const key = 'city_' + name;
+  if (gltfCache[key]) return Promise.resolve(gltfCache[key]);
+  if (!gltfLoader) {
+    gltfLoader = new GLTFLoader();
+    gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+  }
+  return new Promise((resolve, reject) => {
+    gltfLoader.load('../assets/models/city/' + name + '.glb',
       (gltf) => { gltfCache[key] = gltf; resolve(gltf); }, undefined, reject);
   });
 }
@@ -1063,15 +1147,22 @@ function spawnPlayer() {
 function spawnEnemies() {
   enemies.forEach(e => { scene.remove(e.group); actors.delete(e.actor); });
   enemies = [];
+  // スケルトンは街路に出現させる（会社街をうろつく）
   let tries = 0;
   while (enemies.length < ENEMY_COUNT && tries < 800) {
     tries++;
-    const x = (hash2(tries, 333) - 0.5) * (WORLD - 90);
-    const z = (hash2(tries, 337) - 0.5) * (WORLD - 90);
-    const h = heightAt(x, z);
-    if (h < WATER_Y + 1 || h > 12) continue;
+    let x, z;
+    if (tries % 2 === 0) {
+      // 大通り沿い
+      x = (hash2(tries, 333) - 0.5) * 6;
+      z = -56 + hash2(tries, 337) * 122;
+    } else {
+      // 横道沿い
+      z = CROSS_Z[tries % CROSS_Z.length] + (hash2(tries, 333) - 0.5) * 5;
+      x = (hash2(tries, 337) - 0.5) * 72;
+    }
     if (Math.hypot(x - SPAWN.x, z - SPAWN.z) < 22) continue;
-    if (Math.hypot(x - BOSS_POS.x, z - BOSS_POS.z) < 26) continue;
+    if (enemies.some(e => Math.hypot(e.home.x - x, e.home.z - z) < 14)) continue; // 密集回避
     const def = DATA.enemies[enemies.length % DATA.enemies.length];
     addEnemy(def, x, z, false);
   }
@@ -1191,7 +1282,13 @@ function updateField(dt, t) {
     if (eSpeed > 0) {
       const ex = ep.x + mvx * eSpeed * dt, ez = ep.z + mvz * eSpeed * dt;
       const eh = heightAt(ex, ez);
-      if (eh > WATER_Y + 0.35 && Math.abs(eh - ep.y) < 2.4) { ep.x = ex; ep.z = ez; }
+      let blockedE = eh < WATER_Y + 0.35 || Math.abs(eh - ep.y) > 2.4;
+      if (!blockedE) {
+        for (const c of treeCols) { // 建物や木にめり込まない
+          if (Math.hypot(ex - c.x, ez - c.z) < c.r + 0.4) { blockedE = true; break; }
+        }
+      }
+      if (!blockedE) { ep.x = ex; ep.z = ez; }
       e.group.rotation.y = Math.atan2(mvx, mvz);
     }
     ep.y = lerp(ep.y, heightAt(ep.x, ep.z), Math.min(1, dt * 10));
@@ -1217,13 +1314,17 @@ function respawnEnemy(e) {
   let tries = 0;
   while (tries < 200) {
     tries++;
-    const x = (Math.random() - 0.5) * (WORLD - 90);
-    const z = (Math.random() - 0.5) * (WORLD - 90);
-    const h = heightAt(x, z);
-    if (h < WATER_Y + 1 || h > 12) continue;
+    let x, z;
+    if (tries % 2 === 0) {
+      x = (Math.random() - 0.5) * 6;
+      z = -56 + Math.random() * 122;
+    } else {
+      z = CROSS_Z[tries % CROSS_Z.length] + (Math.random() - 0.5) * 5;
+      x = (Math.random() - 0.5) * 72;
+    }
     if (Math.hypot(x - player.group.position.x, z - player.group.position.z) < 30) continue;
     e.home = { x, z }; e.tgt = { x, z };
-    e.group.position.set(x, h, z);
+    e.group.position.set(x, heightAt(x, z), z);
     break;
   }
   if (e.isBoss) {
@@ -1844,10 +1945,10 @@ function enterWorld() {
   $('tf-loading').classList.remove('tf-hidden');
   const start = async () => {
     try {
-      if (!worldBuilt) buildWorld();
-      // 必要なキャラモデル（GLB）を読み込む（2回目以降はキャッシュから即時）
+      // 必要なモデル（キャラ＋街パーツ）を読み込む（2回目以降はキャッシュから即時）
       const needed = [...new Set([selectedChar.model, ...DATA.enemies.map(e => e.model), DATA.boss.model])];
-      await Promise.all(needed.map(loadModel));
+      await Promise.all([...needed.map(loadModel), ...CITY_PIECES.map(loadCityPiece)]);
+      if (!worldBuilt) buildWorld();
       spawnPlayer();
       spawnEnemies();
       mode = 'field';

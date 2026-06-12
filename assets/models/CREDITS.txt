@@ -1,6 +1,7 @@
 キャラクターモデル: KayKit (Kay Lousberg) - CC0
   - KayKit Character Pack: Adventurers (Knight, Rogue, Mage)
   - KayKit Character Pack: Skeletons (Minion, Rogue, Warrior, Mage)
+  - KayKit City Builder Bits (city/ 道路・建物・車・小物)
   https://kaylousberg.itch.io/ / https://github.com/KayKit-Game-Assets
   ※使用アニメーションのみ残してmeshopt圧縮済み
 
