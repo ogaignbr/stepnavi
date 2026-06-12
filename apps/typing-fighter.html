@@ -159,6 +159,12 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .tf-feedback { font-size: 11.5px; color: #64748b; margin-top: 7px; min-height: 17px; text-align: center }
 .tf-feedback.ok { color: #16a34a }
 .tf-feedback.bad { color: #dc2626 }
+
+/* フルスクリーン時: ゲーム画面の下にタイピングパネルも表示する */
+#tf-view-game:fullscreen { background: linear-gradient(180deg, #0b1120 0%, #1e293b 100%); overflow-y: auto; padding: 14px 18px calc(16px + env(safe-area-inset-bottom, 0px)) }
+#tf-view-game:fullscreen .tf-canvas-wrap { height: clamp(340px, 58vh, 900px) }
+#tf-view-game:fullscreen .tf-turn-panel { background: #fff; border-radius: 14px; padding: 14px 16px; margin-top: 12px }
+#tf-view-game:fullscreen .tf-tool-btn { background: rgba(255, 255, 255, 0.92) }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
 <script src="../assets/storage.js"></script>
@@ -943,11 +949,11 @@ const CITY_PIECES = ['road_straight', 'road_straight_crossing', 'road_junction',
   'streetlight', 'trafficlight_A', 'firehydrant', 'bench', 'dumpster', 'trash_A', 'bush', 'watertower',
   'car_sedan', 'car_taxi', 'car_police', 'car_hatchback', 'car_stationwagon'];
 
-function placeCity(name, x, z, rotY = 0, scale = 4, collideR = 0, shadow = true) {
+function placeCity(name, x, z, rotY = 0, scale = 4, collideR = 0, shadow = true, yOff = 0) {
   const obj = gltfCache['city_' + name].scene.clone(true);
   obj.scale.setScalar(scale);
   obj.rotation.y = rotY;
-  obj.position.set(x, heightAt(x, z) + 0.03, z);
+  obj.position.set(x, heightAt(x, z) + 0.03 + yOff, z);
   obj.traverse(o => { if (o.isMesh) { o.castShadow = shadow; o.receiveShadow = true; } });
   scene.add(obj);
   if (collideR > 0) treeCols.push({ x, z, r: collideR });
@@ -958,17 +964,19 @@ const CROSS_Z = [16, -24]; // 横道のz位置
 function buildCity() {
   const T = 8; // 道路タイル一辺（モデル2×2をスケール4で使用）
   const R = Math.PI / 2;
+  // 道路はアスファルト面(モデル内y=0.07×スケール4=0.28)が地面と面一になるよう沈める
+  const ROAD_Y = -0.28;
   // 大通り（南北）
   for (let z = -60; z <= 76; z += T) {
-    if (CROSS_Z.includes(z)) { placeCity('road_junction', 0, z, 0, 4, 0, false); continue; }
+    if (CROSS_Z.includes(z)) { placeCity('road_junction', 0, z, 0, 4, 0, false, ROAD_Y); continue; }
     const crossing = CROSS_Z.some(cz => Math.abs(z - cz) === T);
-    placeCity(crossing ? 'road_straight_crossing' : 'road_straight', 0, z, 0, 4, 0, false);
+    placeCity(crossing ? 'road_straight_crossing' : 'road_straight', 0, z, 0, 4, 0, false, ROAD_Y);
   }
   // 横道（東西）
   for (const cz of CROSS_Z) {
     for (const sx of [-1, 1]) {
       for (let x = T; x <= 40; x += T) {
-        placeCity(x === T ? 'road_straight_crossing' : 'road_straight', sx * x, cz, R, 4, 0, false);
+        placeCity(x === T ? 'road_straight_crossing' : 'road_straight', sx * x, cz, R, 4, 0, false, ROAD_Y);
       }
     }
   }
@@ -1007,11 +1015,11 @@ function buildCity() {
     placeCity('trafficlight_A', 5, cz + 5, Math.PI, 4, 0, false);
     placeCity('trafficlight_A', -5, cz - 5, 0, 4, 0, false);
   }
-  // 路上駐車の車
+  // 路上駐車の車（タイヤが原点より下にあるモデルなので持ち上げる）
   const CARS = ['car_sedan', 'car_taxi', 'car_police', 'car_hatchback', 'car_stationwagon'];
   [-50, -34, -4, 30, 48, 64].forEach((z, i) => {
     const side = i % 2 ? 1 : -1;
-    placeCity(CARS[i % CARS.length], side * 2.6, z, side > 0 ? 0 : Math.PI, 4, 1.8);
+    placeCity(CARS[i % CARS.length], side * 2.6, z, side > 0 ? 0 : Math.PI, 4, 1.8, true, 0.28);
   });
   // 歩道の小物
   const PROPS = ['firehydrant', 'bench', 'trash_A', 'bush', 'dumpster'];
@@ -1300,6 +1308,16 @@ function updateField(dt, t) {
   _camPos.copy(pp).addScaledVector(_fwd, -7.4); _camPos.y = pp.y + 3.6;
   const cg = heightAt(_camPos.x, _camPos.z);
   if (_camPos.y < cg + 1.2) _camPos.y = cg + 1.2;
+  // カメラが建物や木の中に入らないよう押し出す
+  for (const c of treeCols) {
+    const dcx = _camPos.x - c.x, dcz = _camPos.z - c.z;
+    const dC = Math.hypot(dcx, dcz);
+    const minC = c.r + 0.8;
+    if (dC < minC && dC > 0.01) {
+      _camPos.x = c.x + dcx / dC * minC;
+      _camPos.z = c.z + dcz / dC * minC;
+    }
+  }
   camera.position.lerp(_camPos, Math.min(1, dt * 4.2));
   _camTgt.copy(pp); _camTgt.y += 1.6;
   _camTgt.x += Math.sin(p.heading) * 2; _camTgt.z += Math.cos(p.heading) * 2;
@@ -1453,8 +1471,8 @@ function startBattle(enemyObj) {
   player.heading = Math.atan2(dir.x, dir.z);
   enemyObj.group.rotation.y = Math.atan2(-dir.x, -dir.z);
   center.y = (pp.y + ep.y) / 2 + (enemyObj.isBoss ? 2.8 : 1.3);
-  // カメラは左右のうち木に遮られにくい側へ
-  const side = new THREE.Vector3(-dir.z, 0, dir.x);
+  // カメラは建物や木に遮られない角度を探す（真横を基本に複数候補を採点）
+  const baseSide = new THREE.Vector3(-dir.z, 0, dir.x);
   const camDist = enemyObj.isBoss ? 15 : 7.6;
   const scoreFor = (s) => {
     const cx = center.x + s.x * camDist, cz = center.z + s.z * camDist;
@@ -1470,9 +1488,17 @@ function startBattle(enemyObj) {
     score += Math.max(0, heightAt(cx, cz) - center.y + 1) * 2; // 高台に埋まる側も避ける
     return score;
   };
-  if (scoreFor(side.clone().negate()) < scoreFor(side)) side.negate();
+  const UP_AXIS = new THREE.Vector3(0, 1, 0);
+  let bestSide = baseSide.clone(), bestScore = Infinity;
+  for (const flip of [1, -1]) {
+    for (const ang of [0, 0.45, -0.45, 0.9, -0.9, 1.25, -1.25]) {
+      const cand = baseSide.clone().multiplyScalar(flip).applyAxisAngle(UP_AXIS, ang);
+      const sc = scoreFor(cand) + Math.abs(ang) * 0.4; // 同点なら真横を優先
+      if (sc < bestScore - 1e-6) { bestScore = sc; bestSide = cand; }
+    }
+  }
   battleCam.center.copy(center);
-  battleCam.side.copy(side);
+  battleCam.side.copy(bestSide);
   battleCam.t = 0;
 
   battle = {
@@ -1994,10 +2020,13 @@ $('tf-r-field-btn').addEventListener('click', backToField);
 $('tf-r-select-btn').addEventListener('click', exitToSelect);
 
 $('tf-full-btn').addEventListener('click', () => {
+  // ゲーム画面だけでなくタイピングパネルも含めて全画面化する
+  const fsEl = $('tf-view-game');
   if (document.fullscreenElement) document.exitFullscreen();
-  else shell.requestFullscreen && shell.requestFullscreen();
+  else if (fsEl.requestFullscreen) fsEl.requestFullscreen();
   setTimeout(onResize, 300);
 });
+document.addEventListener('fullscreenchange', () => setTimeout(onResize, 100));
 $('tf-sound-btn').addEventListener('click', () => {
   soundOn = !soundOn;
   $('tf-sound-btn').innerHTML = soundOn
