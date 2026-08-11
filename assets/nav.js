@@ -16,8 +16,6 @@
 
   /* ===== メニュー定義：ここだけ直せば全ページに反映される ===== */
 
-  var LINE_URL = 'https://lin.ee/WQzrYGn';
-
   // 求職者の行動順（仕事を決める→書類→面接→スキル→相談）でグループ分けする。
   // 個別記事はカテゴリのハブ側に置き、ここには入れない（サイトマップ化させない）。
   var SECTIONS = [
@@ -52,8 +50,7 @@
       label: '相談する',
       cls: 'support',
       items: [
-        { href: 'links/index.html', icon: 'external-link', text: '求人・サポート' },
-        { href: LINE_URL, icon: 'message-circle', text: 'LINEで相談', external: true },
+        { href: 'links/index.html', icon: 'message-circle', text: '各種公式LINE' },
       ],
     },
   ];

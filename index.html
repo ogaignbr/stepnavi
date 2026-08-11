@@ -50,11 +50,53 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .start-thumb--amber  { background: linear-gradient(145deg, #fbbf24, #b45309) }
 .priority-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; line-height: 1.4; letter-spacing: .02em }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
-/* ヒーロー：グリーンの世界観（写真風SVG背景を活かす軽いオーバーレイ） */
-.hero-overlay { background: radial-gradient(125% 95% at 50% 32%, rgba(255,255,255,0.62) 0%, rgba(240,253,244,0.22) 55%, rgba(187,247,208,0.05) 100%); }
-.hero-chip { display:flex; flex-direction:column; align-items:center; gap:6px; }
-.hero-chip span { font-size:10.5px; font-weight:700; color:#166534; letter-spacing:.02em; line-height:1.3; text-align:center }
-.hero-chip .ic { width:42px; height:42px; border-radius:14px; background:#fff; border:1px solid #dcfce7; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px -6px rgba(21,128,61,.35) }
+/* ===== ヒーロー：淡いグリーン背景をやめ、締まった濃色に作り替え ===== */
+.hero {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 15% 0%, rgba(34,197,94,0.22) 0%, transparent 55%),
+    radial-gradient(90% 70% at 100% 100%, rgba(13,148,136,0.20) 0%, transparent 60%),
+    linear-gradient(160deg, #0b1f16 0%, #08130e 55%, #050b08 100%);
+}
+/* 奥行きを出す細いグリッド */
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(80% 65% at 50% 25%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(80% 65% at 50% 25%, #000 0%, transparent 78%);
+}
+.hero-inner { position: relative; z-index: 1 }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+  color: #6ee7b7; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid rgba(110,231,183,0.28); background: rgba(16,185,129,0.10);
+}
+.hero-h1 {
+  font-size: 30px; font-weight: 800; line-height: 1.38; letter-spacing: -0.02em; color: #fff;
+  margin: 18px 0 0; text-shadow: 0 2px 24px rgba(0,0,0,.35);
+}
+.hero-h1 em { font-style: normal; color: #4ade80 }
+.hero-rule { width: 40px; height: 3px; border-radius: 999px; background: linear-gradient(90deg,#4ade80,#0d9488); margin: 18px auto 0 }
+.hero-lead { font-size: 13px; line-height: 2; color: #a7c4b5; margin: 16px 0 0 }
+.hero-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; max-width: 300px; margin: 24px auto 0; padding: 15px 20px;
+  border-radius: 14px; font-size: 14.5px; font-weight: 700; color: #052e16;
+  background: linear-gradient(135deg,#86efac,#22c55e);
+  box-shadow: 0 12px 28px -10px rgba(34,197,94,.55);
+  transition: transform .15s ease;
+}
+.hero-cta:active { transform: translateY(1px) scale(.99) }
+/* ヒーロー下部：3タブへの道筋を示す */
+.hero-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 30px; background: rgba(255,255,255,0.09) }
+.hero-step { background: rgba(5,11,8,0.55); padding: 14px 6px; text-align: center; text-decoration: none }
+.hero-step b { display: block; font-size: 12px; font-weight: 700; color: #fff }
+.hero-step span { display: block; font-size: 10px; color: #7e9c8d; margin-top: 3px; line-height: 1.5 }
+.hero-step i, .hero-step svg { width: 17px; height: 17px; color: #4ade80; margin: 0 auto 6px }
 /* ロードマップ */
 .road-step { position:relative; display:flex; gap:14px; padding-bottom:22px }
 .road-step:last-child { padding-bottom:0 }
@@ -88,20 +130,36 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 </header>
 
 <!-- ===== HERO ===== -->
-<section class="relative overflow-hidden fade-up">
-  <img src="assets/hero/home-bg.svg" alt="" class="absolute inset-0 w-full h-full object-cover">
-  <div class="absolute inset-0 hero-overlay"></div>
-  <div class="relative px-5 pt-11 pb-9 text-center">
-    <p class="sn-eyebrow mb-4">Career Support for You</p>
-    <h1 class="text-[26px] font-extrabold leading-[1.4] mb-3.5 font-heading text-slate-900">
-      あなたのキャリアを、<br><span class="text-brand-600">一歩前へ。</span>
+<section class="hero">
+  <div class="hero-inner px-5 pt-12 pb-0 text-center">
+    <span class="hero-eyebrow">Career Support</span>
+    <h1 class="hero-h1">
+      次の一歩は、<br><em>ここから決まる。</em>
     </h1>
-    <p class="text-[13px] text-slate-600 leading-[1.9] mb-7">
-      準備から面接、スキルアップまで。<br>就職活動に必要なことは、ここですべて整います。
+    <div class="hero-rule"></div>
+    <p class="hero-lead">
+      仕事選びから書類、面接、スキルまで。<br>
+      必要なことだけを、順番に。
     </p>
-    <a href="content/index.html" class="sn-btn max-w-[300px] mx-auto">
-      <i data-lucide="play" class="w-[16px] h-[16px]"></i>学習をはじめる
+    <a href="content/index.html" class="hero-cta">
+      <i data-lucide="arrow-right" class="w-[16px] h-[16px]"></i>準備をはじめる
     </a>
+
+    <!-- 下タブと同じ3ステップを示して、サイトの構造をここで伝える -->
+    <div class="hero-steps">
+      <a href="content/index.html" class="hero-step">
+        <i data-lucide="clipboard-list"></i>
+        <b>準備する</b><span>仕事選び・書類・面接</span>
+      </a>
+      <a href="apps/index.html" class="hero-step">
+        <i data-lucide="gamepad-2"></i>
+        <b>鍛える</b><span>PC・資格・AI活用</span>
+      </a>
+      <a href="links/index.html" class="hero-step">
+        <i data-lucide="message-circle"></i>
+        <b>相談する</b><span>公式LINEで無料</span>
+      </a>
+    </div>
   </div>
 </section>
 

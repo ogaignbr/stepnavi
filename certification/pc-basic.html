@@ -32,38 +32,83 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .step-list li { counter-increment: stepnum; padding: 6px 0 6px 28px; position: relative; font-size: 13px; color: #475569; line-height: 1.8 }
 .step-list li::before { content: counter(stepnum); position: absolute; left: 0; top: 8px; width: 20px; height: 20px; background: #0f172a; color: white; border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center }
 
-/* ===== Shortcut Game ===== */
-.kg-wrap { margin: 18px 0 8px; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; background: #fff }
-.kg-cover { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #fff7ed }
-.kg-head { padding: 16px 16px 10px }
-.kg-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #15803d; background: #fff7ed; border: 1px solid #bbf7d0; padding: 3px 8px; border-radius: 6px }
-.kg-title { font-size: 16px; font-weight: 700; color: #0f172a; margin: 8px 0 4px; padding: 0; border: none }
-.kg-lead { font-size: 12px; color: #64748b; line-height: 1.8; margin: 0 }
-.kg-stage { position: relative; width: 100%; background: linear-gradient(#eef6ff 0%, #f8fafc 100%); }
-#kg-canvas { display: block; width: 100%; height: auto; touch-action: manipulation }
-.kg-hud { position: absolute; top: 10px; left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: center; pointer-events: none }
-.kg-lives { font-size: 16px; letter-spacing: 2px }
-.kg-dist { font-size: 13px; font-weight: 700; color: #0f172a; background: rgba(255,255,255,0.8); padding: 2px 10px; border-radius: 999px }
-.kg-quest { position: absolute; top: 44px; left: 0; right: 0; text-align: center; pointer-events: none; transition: opacity .15s }
-.kg-quest-jp { font-size: 15px; font-weight: 700; color: #0f172a; text-shadow: 0 1px 6px rgba(255,255,255,0.95) }
-.kg-quest-key { display: inline-block; margin-top: 4px; font-family: monospace; font-size: 14px; font-weight: 700; color: #fff; background: #0f172a; padding: 4px 12px; border-radius: 8px }
-.kg-overlay { position: absolute; inset: 0; background: rgba(15,23,42,0.72); display: flex; align-items: center; justify-content: center; text-align: center; padding: 20px }
-.kg-overlay.kg-hidden { display: none }
-.kg-overlay-inner { max-width: 320px }
-.kg-ov-title { font-size: 18px; font-weight: 700; color: #fff; margin: 0 0 8px }
-.kg-ov-text { font-size: 12px; color: #e2e8f0; line-height: 1.8; margin: 0 0 6px }
-.kg-ov-best { font-size: 12px; color: #86efac; font-weight: 700; margin: 0 0 14px; min-height: 14px }
-.kg-start-btn { background: #16a34a; color: #fff; border: none; border-radius: 10px; padding: 12px 32px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .15s }
-.kg-start-btn:active { opacity: .85 }
-.kg-pad { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px }
-.kg-pad button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all .12s }
-.kg-pad button:active { background: #f1f5f9; transform: scale(0.97) }
-.kg-pad button .kp-jp { font-size: 12px; font-weight: 600; color: #334155 }
-.kg-pad button .kp-key { font-family: monospace; font-size: 11px; font-weight: 700; color: #0f172a }
-.kg-hint { font-size: 10.5px; color: #94a3b8; text-align: center; padding: 0 12px 14px; margin: 0; line-height: 1.7 }
-.kg-mini-kbd { display: inline-block; font-family: monospace; font-size: 10px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px 5px; color: #475569 }
+/* ===== ショートカット4択クイズ ===== */
+.sq-wrap { margin: 18px 0 8px; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; background: #fff }
+.sq-cover { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #fff7ed }
+.sq-head { padding: 16px 16px 12px }
+.sq-badge { display: inline-block; font-size: 10px; font-weight: 700; color: #15803d; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 3px 8px; border-radius: 6px }
+.sq-title { font-size: 16px; font-weight: 700; color: #0f172a; margin: 8px 0 4px; padding: 0; border: none }
+.sq-lead { font-size: 12px; color: #64748b; line-height: 1.8; margin: 0 }
+
+.sq-body { padding: 0 16px 16px }
+
+/* 進捗バー */
+.sq-meter { display: flex; align-items: center; gap: 10px; margin-bottom: 14px }
+.sq-meter-bar { flex: 1; height: 6px; background: #f1f5f9; border-radius: 999px; overflow: hidden }
+.sq-meter-fill { height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(to right, #4ade80, #16a34a); transition: width .3s ease }
+.sq-meter-txt { font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap }
+
+/* 問題 */
+.sq-q { background: #f8fafc; border: 1px solid #eef2f7; border-radius: 14px; padding: 18px 16px; text-align: center; margin-bottom: 14px }
+.sq-q-label { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; color: #16a34a; margin: 0 0 8px }
+.sq-q-text { font-size: 16.5px; font-weight: 700; color: #0f172a; line-height: 1.6; margin: 0 }
+.sq-q-text small { display: block; font-size: 12px; font-weight: 600; color: #64748b; margin-top: 6px }
+
+/* 選択肢 */
+.sq-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px }
+.sq-opts button {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px 8px; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; font-weight: 700; color: #0f172a;
+  cursor: pointer; transition: border-color .12s, background .12s, transform .12s;
+}
+.sq-opts button:hover:not(:disabled) { border-color: #86efac; background: #f0fdf4 }
+.sq-opts button:active:not(:disabled) { transform: scale(.97) }
+.sq-opts button:disabled { cursor: default }
+.sq-opts button .sq-num {
+  display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px;
+  border-radius: 5px; background: #f1f5f9; color: #94a3b8; font-family: inherit; font-size: 10px; flex-shrink: 0;
+}
+.sq-opts button.is-correct { border-color: #16a34a; background: #f0fdf4; color: #15803d }
+.sq-opts button.is-correct .sq-num { background: #16a34a; color: #fff }
+.sq-opts button.is-wrong { border-color: #ef4444; background: #fef2f2; color: #b91c1c }
+.sq-opts button.is-wrong .sq-num { background: #ef4444; color: #fff }
+.sq-opts button.is-dim { opacity: .45 }
+
+/* 正誤フィードバック */
+.sq-feedback { margin-top: 14px; border-radius: 12px; padding: 14px; display: none }
+.sq-feedback.show { display: block }
+.sq-feedback.ok { background: #f0fdf4; border: 1px solid #bbf7d0 }
+.sq-feedback.ng { background: #fef2f2; border: 1px solid #fecaca }
+.sq-fb-head { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; margin: 0 0 6px }
+.sq-feedback.ok .sq-fb-head { color: #15803d }
+.sq-feedback.ng .sq-fb-head { color: #b91c1c }
+.sq-fb-text { font-size: 12px; color: #475569; line-height: 1.8; margin: 0 }
+.sq-fb-text b { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: #0f172a }
+.sq-next {
+  width: 100%; margin-top: 12px; padding: 13px; border: none; border-radius: 12px;
+  background: #16a34a; color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.sq-next:active { opacity: .85 }
+
+/* 開始・結果画面 */
+.sq-panel { text-align: center; padding: 8px 4px 4px }
+.sq-panel-title { font-size: 17px; font-weight: 800; color: #0f172a; margin: 0 0 8px }
+.sq-panel-text { font-size: 12px; color: #64748b; line-height: 1.9; margin: 0 0 4px }
+.sq-panel-best { font-size: 12px; font-weight: 700; color: #16a34a; margin: 8px 0 0; min-height: 15px }
+.sq-score { font-size: 34px; font-weight: 800; color: #16a34a; line-height: 1.2; margin: 6px 0 2px }
+.sq-score span { font-size: 15px; color: #94a3b8; font-weight: 700 }
+.sq-start-btn {
+  width: 100%; max-width: 280px; margin: 16px auto 0; display: block; padding: 14px;
+  border: none; border-radius: 12px; background: #16a34a; color: #fff; font-size: 14.5px; font-weight: 700; cursor: pointer;
+}
+.sq-start-btn:active { opacity: .85 }
+.sq-hint { font-size: 10.5px; color: #94a3b8; text-align: center; margin: 12px 0 0; line-height: 1.7 }
+.sq-mini-kbd { display: inline-block; font-family: ui-monospace, monospace; font-size: 10px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px 5px; color: #475569 }
+.sq-hidden { display: none !important }
+
 @media (min-width: 768px) {
-  .kg-pad { grid-template-columns: repeat(4, 1fr); }
+  .sq-opts { grid-template-columns: repeat(4, 1fr) }
 }
 </style>
 <link rel="stylesheet" href="../assets/desktop.css">
@@ -133,44 +178,57 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <p><strong>覚え方のコツ:</strong> まず「Ctrl+C / V / Z / S」の4つだけ覚えれば、9割の場面で困らなくなります。</p>
   </div>
 
-  <!-- ===== SHORTCUT GAME ===== -->
-  <div class="kg-wrap" id="shortcut-run">
-    <img src="../assets/apps/shortcut-run-cover.jpg" alt="ショートカット・ランの表紙" class="kg-cover" loading="lazy">
-    <div class="kg-head">
-      <span class="kg-badge">ゲームで覚える</span>
-      <h3 class="kg-title">ショートカット・ラン</h3>
-      <p class="kg-lead">お題のショートカットを入力してジャンプ！障害物を avoid しながら走った距離を競おう。空中の<span style="color:#ef4444;font-weight:700;">♥</span>はジャンプで取るとライフ回復。</p>
+  <!-- ===== ショートカット4択クイズ ===== -->
+  <div class="sq-wrap" id="shortcut-quiz">
+    <img src="../assets/apps/shortcut-run-cover.jpg" alt="" class="sq-cover" loading="lazy">
+    <div class="sq-head">
+      <span class="sq-badge">クイズで覚える</span>
+      <h3 class="sq-title">ショートカット・クイズ</h3>
+      <p class="sq-lead">「これをやるには、どのキー？」を4択で10問。答えるとその場で解説が出るので、覚えながら進められます。</p>
     </div>
 
-    <div class="kg-stage">
-      <canvas id="kg-canvas" width="720" height="320"></canvas>
-
-      <!-- HUD -->
-      <div class="kg-hud">
-        <div class="kg-lives" id="kg-lives">♥♥♥</div>
-        <div class="kg-dist"><span id="kg-distance">0</span> m</div>
+    <div class="sq-body">
+      <!-- 開始画面 -->
+      <div class="sq-panel" id="sq-intro">
+        <p class="sq-panel-title">全10問・所要2分</p>
+        <p class="sq-panel-text">仕事でよく使うショートカットだけを集めました。<br>間違えても解説が出るので、そのまま覚えられます。</p>
+        <p class="sq-panel-best" id="sq-best"></p>
+        <button class="sq-start-btn" id="sq-start-btn">スタート</button>
       </div>
 
-      <!-- お題 -->
-      <div class="kg-quest" id="kg-quest">
-        <div class="kg-quest-jp" id="kg-quest-jp">コピー</div>
-        <div class="kg-quest-key" id="kg-quest-key">Ctrl + C</div>
-      </div>
-
-      <!-- スタート/オーバー オーバーレイ -->
-      <div class="kg-overlay" id="kg-overlay">
-        <div class="kg-overlay-inner">
-          <p class="kg-ov-title" id="kg-ov-title">ショートカット・ラン</p>
-          <p class="kg-ov-text" id="kg-ov-text">お題のショートカットキーを押して（スマホはタップで）ジャンプ！<br>3回ミスでゲームオーバー。</p>
-          <p class="kg-ov-best" id="kg-ov-best"></p>
-          <button class="kg-start-btn" id="kg-start-btn">スタート</button>
+      <!-- 出題画面 -->
+      <div id="sq-play" class="sq-hidden">
+        <div class="sq-meter">
+          <span class="sq-meter-txt" id="sq-progress">1 / 10</span>
+          <div class="sq-meter-bar"><div class="sq-meter-fill" id="sq-meter-fill"></div></div>
+          <span class="sq-meter-txt" id="sq-score">0問正解</span>
         </div>
+
+        <div class="sq-q">
+          <p class="sq-q-label">どのショートカット？</p>
+          <p class="sq-q-text" id="sq-question">—</p>
+        </div>
+
+        <div class="sq-opts" id="sq-opts"></div>
+
+        <div class="sq-feedback" id="sq-feedback">
+          <p class="sq-fb-head" id="sq-fb-head"></p>
+          <p class="sq-fb-text" id="sq-fb-text"></p>
+          <button class="sq-next" id="sq-next-btn">次の問題へ</button>
+        </div>
+
+        <p class="sq-hint">パソコンなら <span class="sq-mini-kbd">1</span><span class="sq-mini-kbd">2</span><span class="sq-mini-kbd">3</span><span class="sq-mini-kbd">4</span> キーでも答えられます</p>
+      </div>
+
+      <!-- 結果画面 -->
+      <div class="sq-panel sq-hidden" id="sq-result">
+        <p class="sq-panel-title" id="sq-result-title">おつかれさまでした</p>
+        <p class="sq-score"><span id="sq-result-score">0</span><span> / 10問正解</span></p>
+        <p class="sq-panel-text" id="sq-result-text"></p>
+        <p class="sq-panel-best" id="sq-result-best"></p>
+        <button class="sq-start-btn" id="sq-retry-btn">もう一度チャレンジ</button>
       </div>
     </div>
-
-    <!-- スマホ用4択ボタン -->
-    <div class="kg-pad" id="kg-pad"></div>
-    <p class="kg-hint">PCはキーボードで <span class="kg-mini-kbd">Ctrl</span>＋<span class="kg-mini-kbd">C</span> のように入力／スマホは上のボタンをタップ</p>
   </div>
 
   <!-- ===== タイピング速度を測ろう ===== -->
@@ -305,465 +363,156 @@ const ARTICLE_ID = 'cert-pc-basic';
 const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 if (!read.includes(ARTICLE_ID)) { read.push(ARTICLE_ID); localStorage.setItem(STORAGE_KEY, JSON.stringify(read)); }
 
-/* ===== Shortcut Game ===== */
+/* ===== ショートカット4択クイズ ===== */
 (function(){
+  // task = やりたいこと（問題文）、note = 答えたあとに出す一言解説
   const SHORTCUTS = [
-    { jp:'コピー',     key:'c', label:'Ctrl + C' },
-    { jp:'貼り付け',   key:'v', label:'Ctrl + V' },
-    { jp:'切り取り',   key:'x', label:'Ctrl + X' },
-    { jp:'元に戻す',   key:'z', label:'Ctrl + Z' },
-    { jp:'やり直し',   key:'y', label:'Ctrl + Y' },
-    { jp:'保存',       key:'s', label:'Ctrl + S' },
-    { jp:'全選択',     key:'a', label:'Ctrl + A' },
-    { jp:'検索',       key:'f', label:'Ctrl + F' },
-    { jp:'印刷',       key:'p', label:'Ctrl + P' },
+    { key:'Ctrl + C',  task:'選んだ文字や画像をコピーする',      note:'元の文字は残ります。まずこれを覚えるのが最優先。' },
+    { key:'Ctrl + V',  task:'コピーしたものを貼り付ける',        note:'コピー（Ctrl + C）とセットで使います。' },
+    { key:'Ctrl + X',  task:'選んだ文字を切り取る',              note:'コピーと違い、元の場所からは消えます。' },
+    { key:'Ctrl + Z',  task:'直前の操作を取り消す',              note:'間違えたときの命綱。困ったらまずこれ。' },
+    { key:'Ctrl + Y',  task:'取り消した操作をやり直す',          note:'Ctrl + Z で戻しすぎたときに使います。' },
+    { key:'Ctrl + S',  task:'ファイルを上書き保存する',          note:'こまめに押す習慣がつくと事故が減ります。' },
+    { key:'Ctrl + A',  task:'画面の項目をすべて選択する',        note:'全部まとめてコピーしたいときに便利。' },
+    { key:'Ctrl + F',  task:'ページの中から言葉を探す',          note:'長い資料やマニュアルで効きます。' },
+    { key:'Ctrl + P',  task:'印刷の画面を開く',                  note:'PDFとして保存したいときにも使えます。' },
+    { key:'Alt + Tab', task:'開いているアプリを切り替える',      note:'資料を見ながら入力するときに手放せません。' },
+    { key:'Win + D',   task:'デスクトップを表示する',            note:'画面を一気に片づけたいときに。' },
   ];
 
-  const canvas = document.getElementById('kg-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const DPR = Math.min(2, window.devicePixelRatio || 1);
-  const W = 720, H = 320;
-  canvas.width = W * DPR; canvas.height = H * DPR;
-  ctx.scale(DPR, DPR);
-  const GROUND = H - 54;
+  const QUESTION_COUNT = 10;
+  const BEST_KEY = 'stepnavi.shortcut.best';
 
-  const elLives = document.getElementById('kg-lives');
-  const elDist = document.getElementById('kg-distance');
-  const elQuest = document.getElementById('kg-quest');
-  const elQuestJp = document.getElementById('kg-quest-jp');
-  const elQuestKey = document.getElementById('kg-quest-key');
-  const elOverlay = document.getElementById('kg-overlay');
-  const elOvTitle = document.getElementById('kg-ov-title');
-  const elOvText = document.getElementById('kg-ov-text');
-  const elOvBest = document.getElementById('kg-ov-best');
-  const elStartBtn = document.getElementById('kg-start-btn');
-  const elPad = document.getElementById('kg-pad');
+  const el = (id) => document.getElementById(id);
+  const elIntro = el('sq-intro'), elPlay = el('sq-play'), elResult = el('sq-result');
+  if (!elIntro || !elPlay || !elResult) return;
 
-  const BEST_KEY = 'stepnavi_kbd_highscore';
+  const elOpts = el('sq-opts'), elQuestion = el('sq-question');
+  const elProgress = el('sq-progress'), elScore = el('sq-score'), elMeter = el('sq-meter-fill');
+  const elFeedback = el('sq-feedback'), elFbHead = el('sq-fb-head'), elFbText = el('sq-fb-text');
 
-  let state = 'idle'; // idle | playing | over
-  let lives, distance, speed, runner, obstacles, hearts, currentQuest, lastTs, spawnTimer, heartTimer, correctCount, totalCount;
-  let frame, particles, rings, clouds, buildings, hillsOff, flash, shake, combo, comboPop;
+  let quiz = [];      // 出題順
+  let index = 0;      // 何問目か
+  let correct = 0;    // 正解数
+  let answered = false;
 
-  const runnerBase = { x: 96, w: 34, h: 40 };
-
-  function rand(a,b){ return a + Math.random()*(b-a); }
-
-  function pickQuest(){
-    const prevKey = currentQuest ? currentQuest.key : null;
-    let next;
-    do { next = SHORTCUTS[Math.floor(Math.random()*SHORTCUTS.length)]; }
-    while (next.key === prevKey && SHORTCUTS.length > 1);
-    currentQuest = next;
-    elQuestJp.textContent = currentQuest.jp;
-    elQuestKey.textContent = currentQuest.label;
-    elQuest.style.opacity = '1';
-    buildPad();
+  function shuffle(arr){
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
   }
 
-  function buildPad(){
-    // 正解＋ダミー3つの4択
-    const opts = [currentQuest];
-    const pool = SHORTCUTS.filter(s => s.key !== currentQuest.key);
-    while (opts.length < 4 && pool.length) {
-      const i = Math.floor(Math.random()*pool.length);
-      opts.push(pool.splice(i,1)[0]);
-    }
-    // シャッフル
-    for (let i=opts.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [opts[i],opts[j]]=[opts[j],opts[i]]; }
-    elPad.innerHTML = '';
-    opts.forEach(o => {
-      const b = document.createElement('button');
-      b.innerHTML = '<span class="kp-jp">'+o.jp+'</span><span class="kp-key">'+o.label+'</span>';
-      b.addEventListener('click', () => attempt(o.key));
-      elPad.appendChild(b);
+  function readBest(){
+    return parseInt(localStorage.getItem(BEST_KEY) || '0', 10) || 0;
+  }
+
+  function showBest(target){
+    const best = readBest();
+    target.textContent = best > 0 ? '最高記録：' + best + ' / ' + QUESTION_COUNT + '問正解' : '';
+  }
+
+  /** 1問ぶんの出題データ（正解＋ダミー3つ）を作る */
+  function buildQuestion(answer){
+    const dummies = shuffle(SHORTCUTS.filter(s => s.key !== answer.key)).slice(0, 3);
+    return { answer: answer, options: shuffle([answer].concat(dummies)) };
+  }
+
+  function startQuiz(){
+    quiz = shuffle(SHORTCUTS).slice(0, QUESTION_COUNT).map(buildQuestion);
+    index = 0;
+    correct = 0;
+    elIntro.classList.add('sq-hidden');
+    elResult.classList.add('sq-hidden');
+    elPlay.classList.remove('sq-hidden');
+    render();
+  }
+
+  function render(){
+    answered = false;
+    const q = quiz[index];
+    elQuestion.textContent = q.answer.task;
+    elProgress.textContent = (index + 1) + ' / ' + QUESTION_COUNT;
+    elScore.textContent = correct + '問正解';
+    elMeter.style.width = Math.round((index / QUESTION_COUNT) * 100) + '%';
+    elFeedback.classList.remove('show', 'ok', 'ng');
+
+    elOpts.innerHTML = '';
+    q.options.forEach(function(opt, i){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.innerHTML = '<span class="sq-num">' + (i + 1) + '</span>' + opt.key;
+      btn.addEventListener('click', function(){ answer(i); });
+      elOpts.appendChild(btn);
     });
   }
 
-  function initScenery(){
-    clouds = [];
-    for (let i=0;i<5;i++) clouds.push({ x: rand(0,W), y: rand(20,90), s: rand(0.6,1.3), sp: rand(0.15,0.4) });
-    buildings = [];
-    let bx = 0;
-    while (bx < W + 80){ const bw = rand(40,70), bh = rand(50,120); buildings.push({ x:bx, w:bw, h:bh }); bx += bw + rand(8,26); }
-    hillsOff = 0;
-  }
+  function answer(choiceIndex){
+    if (answered) return;
+    answered = true;
 
-  function startGame(){
-    lives = 3; distance = 0; speed = 3.2;
-    runner = { x: runnerBase.x, y: GROUND - runnerBase.h, vy: 0, jumping: false, hit: 0, squash: 0 };
-    obstacles = []; hearts = [];
-    particles = []; rings = [];
-    spawnTimer = 40; heartTimer = 180;
-    correctCount = 0; totalCount = 0;
-    frame = 0; flash = 0; shake = 0; combo = 0; comboPop = 0;
-    initScenery();
-    state = 'playing';
-    elOverlay.classList.add('kg-hidden');
-    updateHud();
-    pickQuest();
-    lastTs = performance.now();
-    requestAnimationFrame(loop);
-  }
+    const q = quiz[index];
+    const chosen = q.options[choiceIndex];
+    const isRight = chosen.key === q.answer.key;
+    if (isRight) correct++;
 
-  function burst(x, y, n, colors, opts){
-    opts = opts || {};
-    for (let i=0;i<n;i++){
-      const a = rand(0, Math.PI*2), sp = rand(opts.spMin||1, opts.spMax||4);
-      particles.push({
-        x, y,
-        vx: Math.cos(a)*sp + (opts.vx||0),
-        vy: Math.sin(a)*sp + (opts.vy||0),
-        g: opts.g!=null?opts.g:0.18,
-        life: rand(opts.lifeMin||18, opts.lifeMax||34),
-        size: rand(opts.sizeMin||2, opts.sizeMax||4.5),
-        color: colors[Math.floor(Math.random()*colors.length)],
-        star: !!opts.star
-      });
-    }
-  }
-
-  function updateHud(){
-    elLives.textContent = '♥'.repeat(Math.max(0,lives)) + '<span style="opacity:.25">'.length ? '' : '';
-    elLives.innerHTML = '<span style="color:#ef4444">'+'♥'.repeat(Math.max(0,lives))+'</span>'+'<span style="color:#cbd5e1">'+'♥'.repeat(Math.max(0,3-lives))+'</span>';
-    elDist.textContent = Math.floor(distance);
-  }
-
-  function jump(){
-    if (!runner.jumping){
-      runner.vy = -13.5;
-      runner.jumping = true;
-      runner.squash = 6;
-      // 砂埃
-      burst(runner.x + runnerBase.w/2, GROUND - 2, 8, ['#cbd5e1','#e2e8f0','#94a3b8'], { spMin:0.5, spMax:2.5, vy:-0.5, g:0.12, lifeMin:14, lifeMax:24, sizeMin:1.5, sizeMax:3.5 });
-    }
-  }
-
-  function attempt(key){
-    if (state !== 'playing') return;
-    totalCount++;
-    if (currentQuest && key === currentQuest.key){
-      correctCount++;
-      combo++; comboPop = 14;
-      jump();
-      // 正解エフェクト：キラキラ＋リング＋フラッシュ
-      const cx = runner.x + runnerBase.w/2, cy = runner.y + runnerBase.h/2;
-      burst(cx, cy, 14, ['#fbbf24','#16a34a','#fde68a','#fff'], { spMin:1.5, spMax:5, g:0.06, lifeMin:20, lifeMax:38, sizeMin:2, sizeMax:5, star:true });
-      rings.push({ x:cx, y:cy, r:8, maxR:46, life:1 });
-      flash = 0.5;
-    } else {
-      // 誤入力：ダメージは受けない（コンボだけリセット）
-      combo = 0;
-    }
-    // 正解・誤入力どちらでも、1回入力したら必ず次のお題へ
-    pickQuest();
-  }
-
-  function loseLife(){
-    lives--;
-    combo = 0;
-    updateHud();
-    runner.hit = 16;
-    shake = 9;
-    const cx = runner.x + runnerBase.w/2, cy = runner.y + runnerBase.h/2;
-    burst(cx, cy, 10, ['#94a3b8','#cbd5e1','#64748b'], { spMin:1, spMax:3.5, g:0.15, lifeMin:16, lifeMax:28 });
-    if (lives <= 0){ gameOver(); }
-  }
-
-  function gameOver(){
-    state = 'over';
-    const best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10);
-    const cur = Math.floor(distance);
-    if (cur > best) localStorage.setItem(BEST_KEY, String(cur));
-    const acc = totalCount ? Math.round(correctCount/totalCount*100) : 0;
-    elOvTitle.textContent = 'ゲームオーバー';
-    elOvText.innerHTML = '走行距離 <b style="color:#fff">'+cur+' m</b><br>正解率 '+acc+'%';
-    elOvBest.textContent = '最高記録：' + Math.max(best, cur) + ' m';
-    elStartBtn.textContent = 'もう一度';
-    elOverlay.classList.remove('kg-hidden');
-    elQuest.style.opacity = '0';
-  }
-
-  function spawnObstacle(){
-    const h = rand(30, 46);
-    obstacles.push({ x: W + 30, w: rand(24, 32), h: h, passed:false });
-  }
-  function spawnHeart(){
-    // 空中に配置（ジャンプで取れる高さ）
-    hearts.push({ x: W + 30, baseY: GROUND - rand(78, 116), r: 13, taken:false, ph: rand(0, Math.PI*2) });
-  }
-
-  function loop(ts){
-    if (state !== 'playing') return;
-    const dt = Math.min(40, ts - lastTs); lastTs = ts;
-    const step = dt / 16.67;
-    frame += step;
-
-    distance += speed * step * 0.35;
-    speed += 0.0008 * step; // 徐々に加速
-
-    // runner物理
-    runner.vy += 0.58 * step;
-    runner.y += runner.vy * step;
-    if (runner.y >= GROUND - runnerBase.h){ runner.y = GROUND - runnerBase.h; runner.vy = 0; runner.jumping = false; }
-    if (runner.hit > 0) runner.hit -= step;
-    if (runner.squash > 0) runner.squash -= step;
-
-    // 背景スクロール
-    hillsOff = (hillsOff + speed * 0.25 * step);
-    clouds.forEach(c => { c.x -= c.sp * step; if (c.x < -60) { c.x = W + rand(10,60); c.y = rand(20,90); c.s = rand(0.6,1.3); } });
-    buildings.forEach(b => { b.x -= speed * 0.4 * step; });
-    if (buildings.length && buildings[0].x + buildings[0].w < -10){ const b = buildings.shift(); const last = buildings[buildings.length-1]; b.x = last.x + last.w + rand(8,26); b.w = rand(40,70); b.h = rand(50,120); buildings.push(b); }
-
-    // 走行ダスト
-    if (!runner.jumping && frame % 6 < step){
-      burst(runner.x + 4, GROUND - 2, 1, ['#cbd5e1','#e2e8f0'], { spMin:0.5, spMax:1.5, vx:-1.5, vy:-0.4, g:0.05, lifeMin:10, lifeMax:18, sizeMin:1.5, sizeMax:3 });
-    }
-
-    // スポーン
-    spawnTimer -= step;
-    if (spawnTimer <= 0){ spawnObstacle(); spawnTimer = rand(120, 180) / (speed/3.2); }
-    heartTimer -= step;
-    if (heartTimer <= 0){ spawnHeart(); heartTimer = rand(300, 480); }
-
-    // 移動 & 当たり判定
-    const rx = runner.x, ry = runner.y, rw = runnerBase.w, rh = runnerBase.h;
-    obstacles.forEach(o => {
-      o.x -= speed * step;
-      if (!o.passed && o.x + o.w < rx){ o.passed = true; }
-      if (o.x < rx + rw - 4 && o.x + o.w > rx + 4 && ry + rh > GROUND - o.h + 4 && !o.cleared){
-        o.cleared = true;
-        loseLife();
-      }
-    });
-    obstacles = obstacles.filter(o => o.x + o.w > -10);
-
-    hearts.forEach(hh => {
-      hh.x -= speed * step;
-      hh.y = hh.baseY + Math.sin(frame*0.08 + hh.ph) * 6;
-      if (!hh.taken){
-        const cx = rx + rw/2, cy = ry + rh/2;
-        const dx = cx - hh.x, dy = cy - hh.y;
-        if (Math.sqrt(dx*dx+dy*dy) < hh.r + 20){
-          hh.taken = true; hh.pop = 14;
-          if (lives < 3){ lives++; updateHud(); }
-          burst(hh.x, hh.y, 12, ['#ef4444','#fca5a5','#fff','#fb7185'], { spMin:1.5, spMax:4, g:0.05, lifeMin:18, lifeMax:32, sizeMin:2, sizeMax:4.5, star:true });
-          rings.push({ x:hh.x, y:hh.y, r:6, maxR:38, life:1, color:'#fb7185' });
-        }
-      }
-    });
-    hearts = hearts.filter(hh => hh.x + hh.r > -10 && !(hh.taken && (!hh.pop || hh.pop<=0)));
-
-    // パーティクル更新
-    particles.forEach(p => { p.vy += p.g*step; p.x += p.vx*step; p.y += p.vy*step; p.life -= step; });
-    particles = particles.filter(p => p.life > 0);
-    rings.forEach(r => { r.r += (r.maxR - r.r) * 0.18 * step; r.life -= 0.06*step; });
-    rings = rings.filter(r => r.life > 0);
-
-    if (flash > 0) flash -= 0.04*step;
-    if (shake > 0) shake -= 0.6*step;
-    if (comboPop > 0) comboPop -= step;
-
-    updateHud();
-    draw();
-    requestAnimationFrame(loop);
-  }
-
-  function rr(x,y,w,h,r){ ctx.beginPath(); if(ctx.roundRect){ctx.roundRect(x,y,w,h,r);} else {ctx.rect(x,y,w,h);} }
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    ctx.save();
-    if (shake > 0.3) ctx.translate((Math.random()-0.5)*shake, (Math.random()-0.5)*shake);
-
-    // ---- 空 ----
-    let sky = ctx.createLinearGradient(0,0,0,GROUND);
-    sky.addColorStop(0,'#a9d8ff'); sky.addColorStop(0.55,'#d8f0ff'); sky.addColorStop(1,'#fef3e2');
-    ctx.fillStyle = sky; ctx.fillRect(0,0,W,GROUND);
-
-    // ---- 太陽 ----
-    const sx = W-110, sy = 64;
-    let sg = ctx.createRadialGradient(sx,sy,8,sx,sy,80);
-    sg.addColorStop(0,'rgba(255,243,180,0.95)'); sg.addColorStop(0.4,'rgba(255,224,138,0.45)'); sg.addColorStop(1,'rgba(255,224,138,0)');
-    ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(sx,sy,80,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#fde68a'; ctx.beginPath(); ctx.arc(sx,sy,26,0,Math.PI*2); ctx.fill();
-
-    // ---- 雲 ----
-    clouds.forEach(c => {
-      ctx.save(); ctx.translate(c.x, c.y); ctx.scale(c.s, c.s);
-      ctx.fillStyle = 'rgba(255,255,255,0.92)';
-      ctx.beginPath();
-      ctx.arc(0,0,13,0,Math.PI*2); ctx.arc(15,2,16,0,Math.PI*2); ctx.arc(32,0,12,0,Math.PI*2); ctx.arc(16,-8,12,0,Math.PI*2);
-      ctx.fill();
-      ctx.restore();
+    // 選択肢の色付け：正解は緑、外したものは赤、残りは薄く
+    Array.prototype.forEach.call(elOpts.children, function(btn, i){
+      btn.disabled = true;
+      const opt = q.options[i];
+      if (opt.key === q.answer.key) btn.classList.add('is-correct');
+      else if (i === choiceIndex) btn.classList.add('is-wrong');
+      else btn.classList.add('is-dim');
     });
 
-    // ---- 遠景ビル ----
-    ctx.fillStyle = 'rgba(120,145,180,0.22)';
-    buildings.forEach(b => { rr(b.x, GROUND-b.h, b.w, b.h, 3); ctx.fill(); });
-
-    // ---- 丘（2層パララックス）----
-    function hill(amp, baseY, color, off){
-      ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(0,H);
-      for (let x=0;x<=W;x+=20){ const y = baseY + Math.sin((x+off)*0.012)*amp; ctx.lineTo(x,y); }
-      ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
-    }
-    hill(14, GROUND-26, '#c6f0d0', -hillsOff*0.5);
-    hill(20, GROUND-8,  '#9be8ae', -hillsOff);
-
-    // ---- 地面 ----
-    let gg = ctx.createLinearGradient(0,GROUND,0,H);
-    gg.addColorStop(0,'#dcfce7'); gg.addColorStop(1,'#bbf7d0');
-    ctx.fillStyle = gg; ctx.fillRect(0,GROUND,W,H-GROUND);
-    ctx.fillStyle = '#4ade80'; ctx.fillRect(0,GROUND,W,4);
-    // 流れる芝の模様
-    ctx.fillStyle = 'rgba(34,197,94,0.25)';
-    const off = (distance*6) % 46;
-    for (let x=-off; x<W; x+=46){ ctx.beginPath(); ctx.moveTo(x,GROUND+16); ctx.lineTo(x+5,GROUND+9); ctx.lineTo(x+10,GROUND+16); ctx.closePath(); ctx.fill(); }
-
-    // ---- スピードライン ----
-    if (speed > 4){
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2;
-      for (let i=0;i<4;i++){ const yy = 50 + ((frame*speed*2 + i*70) % (GROUND-40)); const len = 30+speed*4; ctx.beginPath(); ctx.moveTo((frame*speed*3 + i*180)%W, yy); ctx.lineTo(((frame*speed*3 + i*180)%W)-len, yy); ctx.stroke(); }
-    }
-
-    // ---- ハート ----
-    hearts.forEach(hh => {
-      let s = 1, alpha = 1;
-      if (hh.taken && hh.pop>0){ s = 1 + (14-hh.pop)/10; alpha = hh.pop/14; hh.pop -= 0.5; }
-      ctx.save(); ctx.globalAlpha = alpha; ctx.translate(hh.x, hh.y); ctx.scale(s,s);
-      // グロー
-      let hg = ctx.createRadialGradient(0,2,2,0,2,22);
-      hg.addColorStop(0,'rgba(251,113,133,0.5)'); hg.addColorStop(1,'rgba(251,113,133,0)');
-      ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(0,2,22,0,Math.PI*2); ctx.fill();
-      // 本体
-      let hgrad = ctx.createLinearGradient(0,-8,0,14);
-      hgrad.addColorStop(0,'#fb7185'); hgrad.addColorStop(1,'#e11d48');
-      ctx.fillStyle = hgrad;
-      ctx.beginPath(); ctx.moveTo(0,5); ctx.bezierCurveTo(-11,-8,-14,5,0,14); ctx.bezierCurveTo(14,5,11,-8,0,5); ctx.fill();
-      // ハイライト
-      ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.beginPath(); ctx.ellipse(-4,-1,2.4,3.6,-0.5,0,Math.PI*2); ctx.fill();
-      ctx.restore();
-    });
-
-    // ---- 障害物 ----
-    obstacles.forEach(o => {
-      const oy = GROUND - o.h;
-      // 影
-      ctx.fillStyle = 'rgba(15,23,42,0.18)';
-      ctx.beginPath(); ctx.ellipse(o.x+o.w/2, GROUND+3, o.w*0.6, 5, 0, 0, Math.PI*2); ctx.fill();
-      // 本体
-      let og = ctx.createLinearGradient(o.x,oy,o.x,GROUND);
-      if (o.cleared){ og.addColorStop(0,'#fda4af'); og.addColorStop(1,'#fb7185'); }
-      else { og.addColorStop(0,'#475569'); og.addColorStop(1,'#1e293b'); }
-      ctx.fillStyle = og; rr(o.x, oy, o.w, o.h, 5); ctx.fill();
-      // 上面ハイライト
-      ctx.fillStyle = 'rgba(255,255,255,0.18)'; rr(o.x+3, oy+3, o.w-6, 5, 2); ctx.fill();
-      // とげ（オレンジの三角）
-      ctx.fillStyle = o.cleared ? '#fecaca' : '#16a34a';
-      ctx.beginPath(); ctx.moveTo(o.x+o.w/2-6, oy); ctx.lineTo(o.x+o.w/2, oy-9); ctx.lineTo(o.x+o.w/2+6, oy); ctx.closePath(); ctx.fill();
-    });
-
-    // ---- パーティクル（後ろ：ダスト）----
-    particles.forEach(p => { if (p.star) return; ctx.globalAlpha = Math.max(0, p.life/30); ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); });
-    ctx.globalAlpha = 1;
-
-    // ---- ランナー ----
-    const rx = runner.x, ry = runner.y, rw = runnerBase.w, rh = runnerBase.h;
-    const cx = rx + rw/2;
-    // 影（ジャンプで縮小）
-    const jumpRatio = Math.max(0, (GROUND - rh - ry) / 90);
-    ctx.fillStyle = 'rgba(15,23,42,0.18)';
-    ctx.beginPath(); ctx.ellipse(cx, GROUND+2, rw*0.5*(1-jumpRatio*0.5), 5*(1-jumpRatio*0.4), 0, 0, Math.PI*2); ctx.fill();
-
-    const blink = runner.hit > 0 && Math.floor(runner.hit) % 2 === 0;
-    if (!blink){
-      // squash変形
-      const sq = runner.squash > 0 ? runner.squash/6 : 0;
-      const scaleX = 1 + sq*0.25, scaleY = 1 - sq*0.25;
-      ctx.save();
-      ctx.translate(cx, ry + rh);
-      ctx.scale(scaleX, scaleY);
-      // 脚（走行アニメ。ジャンプ中は揃える）
-      const legSwing = runner.jumping ? 0 : Math.sin(frame*0.5)*6;
-      ctx.fillStyle = '#166534';
-      rr(-8 - legSwing*0.3, -10, 7, 12 + (runner.jumping?-3:legSwing*0.3), 3); ctx.fill();
-      rr(2 + legSwing*0.3, -10, 7, 12 + (runner.jumping?-3:-legSwing*0.3), 3); ctx.fill();
-      // 体（卵型グラデ）
-      let bg = ctx.createLinearGradient(0,-rh,0,0);
-      bg.addColorStop(0,'#86efac'); bg.addColorStop(0.5,'#4ade80'); bg.addColorStop(1,'#16a34a');
-      ctx.fillStyle = bg;
-      rr(-rw/2, -rh, rw, rh, 13); ctx.fill();
-      // 腕
-      ctx.fillStyle = '#15803d';
-      rr(rw/2-6, -rh+15, 9, 6, 3); ctx.fill();
-      // ほっぺ
-      ctx.fillStyle = 'rgba(254,205,170,0.9)'; ctx.beginPath(); ctx.arc(rw/2-9, -12, 3, 0, Math.PI*2); ctx.fill();
-      // 目（白＋黒目、進行方向）
-      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(rw/2-8, -rh+18, 5, 6, 0, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.arc(rw/2-6, -rh+19, 2.5, 0, Math.PI*2); ctx.fill();
-      // ハイライト（頭）
-      ctx.fillStyle = 'rgba(255,255,255,0.45)'; ctx.beginPath(); ctx.ellipse(-rw/2+11, -rh+9, 5, 3.5, -0.5, 0, Math.PI*2); ctx.fill();
-      ctx.restore();
-    }
-
-    // ---- パーティクル（前：キラキラ）----
-    particles.forEach(p => {
-      if (!p.star) return;
-      ctx.save(); ctx.globalAlpha = Math.max(0, p.life/34); ctx.translate(p.x,p.y); ctx.rotate(p.life*0.3);
-      ctx.fillStyle = p.color; ctx.beginPath();
-      for (let i=0;i<5;i++){ const a=Math.PI*2/5*i - Math.PI/2; const r1=p.size*1.6, r2=p.size*0.7; ctx.lineTo(Math.cos(a)*r1, Math.sin(a)*r1); const a2=a+Math.PI/5; ctx.lineTo(Math.cos(a2)*r2, Math.sin(a2)*r2); }
-      ctx.closePath(); ctx.fill(); ctx.restore();
-    });
-    ctx.globalAlpha = 1;
-
-    // ---- リング ----
-    rings.forEach(r => {
-      ctx.save(); ctx.globalAlpha = Math.max(0, r.life); ctx.strokeStyle = r.color || '#fbbf24'; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, Math.PI*2); ctx.stroke(); ctx.restore();
-    });
-    ctx.globalAlpha = 1;
-
-    // ---- コンボ表示 ----
-    if (combo >= 2){
-      const pop = comboPop > 0 ? comboPop/14 : 0;
-      ctx.save();
-      ctx.translate(cx, ry - 14);
-      ctx.scale(1+pop*0.4, 1+pop*0.4);
-      ctx.font = 'bold 16px Inter, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillStyle = '#16a34a'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 3;
-      ctx.strokeText('x'+combo, 0, 0); ctx.fillText('x'+combo, 0, 0);
-      ctx.restore();
-    }
-
-    ctx.restore();
-
-    // ---- フラッシュ ----
-    if (flash > 0){ ctx.fillStyle = 'rgba(255,210,130,'+(flash*0.5)+')'; ctx.fillRect(0,0,W,H); }
+    elFeedback.classList.add('show', isRight ? 'ok' : 'ng');
+    elFbHead.textContent = isRight ? '正解！' : '惜しい！';
+    elFbText.innerHTML = (isRight ? '' : '正解は <b>' + q.answer.key + '</b> でした。') + q.answer.note;
+    elScore.textContent = correct + '問正解';
+    elMeter.style.width = Math.round(((index + 1) / QUESTION_COUNT) * 100) + '%';
   }
 
-  // キーボード入力（PC）
-  window.addEventListener('keydown', (e) => {
-    if (state !== 'playing') return;
-    const mod = e.ctrlKey || e.metaKey;
-    if (!mod) return;
-    const k = (e.key || '').toLowerCase();
-    if (k.length === 1 && k >= 'a' && k <= 'z'){
-      // ゲーム対象キーならデフォルト動作を抑止
-      if (SHORTCUTS.some(s => s.key === k)){
-        e.preventDefault();
-        attempt(k);
-      }
+  function next(){
+    index++;
+    if (index >= quiz.length) finish();
+    else render();
+  }
+
+  function finish(){
+    elPlay.classList.add('sq-hidden');
+    elResult.classList.remove('sq-hidden');
+    el('sq-result-score').textContent = correct;
+
+    const prevBest = readBest();
+    if (correct > prevBest) {
+      try { localStorage.setItem(BEST_KEY, String(correct)); } catch (_) {}
     }
+
+    let msg;
+    if (correct === QUESTION_COUNT) msg = '全問正解です。もう職場で困ることはありません。';
+    else if (correct >= 8) msg = 'かなり身についています。あと少しで満点です。';
+    else if (correct >= 5) msg = '半分以上正解。よく使う4つ（C・V・Z・S）から固めましょう。';
+    else msg = 'まずは Ctrl + C / V / Z / S の4つだけ覚えれば十分です。';
+    el('sq-result-title').textContent = correct >= 8 ? 'お見事です' : 'おつかれさまでした';
+    el('sq-result-text').textContent = msg;
+    showBest(el('sq-result-best'));
+  }
+
+  el('sq-start-btn').addEventListener('click', startQuiz);
+  el('sq-retry-btn').addEventListener('click', startQuiz);
+  el('sq-next-btn').addEventListener('click', next);
+
+  // パソコンでは 1〜4 キーでも回答できるようにする
+  window.addEventListener('keydown', function(e){
+    if (elPlay.classList.contains('sq-hidden')) return;
+    if (e.key === 'Enter' && answered) { e.preventDefault(); next(); return; }
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 4) { e.preventDefault(); answer(n - 1); }
   });
 
-  elStartBtn.addEventListener('click', startGame);
-
-  // 初期ベスト表示
-  const best0 = parseInt(localStorage.getItem(BEST_KEY) || '0', 10);
-  if (best0 > 0) elOvBest.textContent = '最高記録：' + best0 + ' m';
-  elQuest.style.opacity = '0';
+  showBest(el('sq-best'));
 })();
 </script>
 </body>

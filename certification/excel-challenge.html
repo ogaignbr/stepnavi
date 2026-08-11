@@ -75,12 +75,10 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
 .ec-quest-card { background: #f8fafc; border-radius: 14px; padding: 16px; margin-bottom: 14px }
 .ec-quest-label { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 0.04em; margin-bottom: 6px }
-.ec-quest-func-tag { display: inline-block; font-family: 'Inter', monospace; font-size: 11px; font-weight: 700; color: #15803d; background: #dcfce7; padding: 2px 7px; border-radius: 5px; margin-right: 6px }
 .ec-quest-prompt { font-size: 14px; line-height: 1.8; color: #0f172a; font-weight: 600 }
 
 .ec-input-wrap { display: flex; align-items: center; gap: 8px; background: #fff; border: 2px solid #e2e8f0; border-radius: 12px; padding: 4px 4px 4px 14px; transition: border-color .15s }
 .ec-input-wrap:focus-within { border-color: #10b981 }
-.ec-input-wrap .ec-eq { font-family: 'Inter', monospace; font-size: 17px; font-weight: 800; color: #10b981 }
 .ec-input { flex: 1; padding: 12px 8px 12px 0; font-family: 'Inter', monospace; font-size: 16px; font-weight: 600; border: none; outline: none; background: transparent; min-width: 0 }
 .ec-submit { background: #10b981; color: #fff; border: none; border-radius: 9px; padding: 10px 14px; font-size: 13px; font-weight: 700; cursor: pointer }
 .ec-submit:active { opacity: 0.85 }
@@ -197,8 +195,8 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 
   <div class="ec-quest-card" id="ec-quest-card">
     <p class="ec-quest-label">お題</p>
+    <!-- 使う関数名は出さない（出すと答えになってしまうため） -->
     <p class="ec-quest-prompt">
-      <span class="ec-quest-func-tag" id="ec-quest-func">SUM</span>
       <span id="ec-quest-text">読み込み中...</span>
     </p>
   </div>
@@ -211,8 +209,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
   </div>
 
   <div class="ec-input-wrap">
-    <span class="ec-eq">=</span>
-    <input class="ec-input" id="ec-input" type="text" placeholder="SUM(A1:A5)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <input class="ec-input" id="ec-input" type="text" placeholder="=SUM(A1:A5)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
     <button class="ec-submit" id="ec-submit-btn">答える</button>
   </div>
 
@@ -609,7 +606,6 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
   const streakEl = $('ec-streak');
   const totalEl = $('ec-total');
   const questCardEl = $('ec-quest-card');
-  const questFuncEl = $('ec-quest-func');
   const questTextEl = $('ec-quest-text');
   const tableHeadEl = $('ec-table-head');
   const tableBodyEl = $('ec-table-body');
@@ -717,7 +713,6 @@ document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
   }
 
   function renderQuestion() {
-    questFuncEl.textContent = currentFunc;
     questTextEl.textContent = currentQuest.prompt;
     renderTable(currentQuest.table);
     inputEl.value = '';
