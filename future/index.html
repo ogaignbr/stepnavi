@@ -70,7 +70,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
       <div id="progress-bar" class="h-full bg-gradient-to-r from-orange-400 to-orange-500 rounded-full transition-all duration-500" style="width:0%"></div>
     </div>
-    <span id="progress-text" class="text-[11px] text-slate-400 whitespace-nowrap">0 / 6 読了</span>
+    <span id="progress-text" class="text-[11px] text-slate-400 whitespace-nowrap">0 / 2 読了</span>
   </div>
 </section>
 
@@ -80,35 +80,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <p class="text-[11px] font-semibold text-slate-400 tracking-wider">記事一覧</p>
   </div>
 
-  <a href="future-of-work.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="future-of-work">
-    <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">入門</span>
-        <span class="text-[10px] text-slate-300">5分</span>
-      </div>
-      <p class="font-semibold text-[13px]">AIで仕事はどう変わる？2030年の働き方</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">増える仕事・減る仕事・変わらない仕事</p>
-    </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
-  </a>
 
-  <a href="ai-resistant-jobs.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="future-ai-resistant">
-    <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">入門</span>
-        <span class="text-[10px] text-slate-300">6分</span>
-      </div>
-      <p class="font-semibold text-[13px]">AIに代替されにくい仕事の特徴</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">AIが苦手な領域・具体的な職種例</p>
-    </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
-  </a>
 
   <a href="blue-collar.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="future-blue-collar">
     <div class="flex-1 min-w-0">
@@ -125,35 +97,7 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </div>
   </a>
 
-  <a href="hands-on-skills.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="future-hands-on">
-    <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">基礎</span>
-        <span class="text-[10px] text-slate-300">6分</span>
-      </div>
-      <p class="font-semibold text-[13px]">AI時代に「手に職」をつける道</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">資格・技能で築く安定キャリア</p>
-    </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
-  </a>
 
-  <a href="ai-tool-users.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="future-ai-tool-users">
-    <div class="flex-1 min-w-0">
-      <div class="flex items-center gap-2 mb-1">
-        <span class="text-[10px] font-semibold text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">実践</span>
-        <span class="text-[10px] text-slate-300">5分</span>
-      </div>
-      <p class="font-semibold text-[13px]">AIをツールとして使いこなす人の共通点</p>
-      <p class="text-[11px] text-slate-400 mt-0.5">使う側に回るための具体的ステップ</p>
-    </div>
-    <div class="flex items-center gap-2 ml-3">
-      <span class="read-badge text-[10px] text-slate-300 hidden">読了</span>
-      <i data-lucide="chevron-right" class="w-4 h-4 text-slate-200"></i>
-    </div>
-  </a>
 
   <a href="mental-care.html" class="menu-item flex items-center px-5 py-4 border-b border-slate-50" data-article="future-mental-care">
     <div class="flex-1 min-w-0">
@@ -190,7 +134,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 const STORAGE_KEY = 'stepnavi_read';
-const articles = ['future-of-work','future-ai-resistant','future-blue-collar','future-hands-on','future-ai-tool-users','future-mental-care'];
+const articles = ['future-blue-collar','future-mental-care'];
 const read = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 let readCount = 0;
 document.querySelectorAll('[data-article]').forEach(card => {

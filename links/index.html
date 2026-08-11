@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>外部リンク - STEP NAVI</title>
+<title>相談する - STEP NAVI</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,27 +35,32 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <a href="../index.html" class="w-8 h-8 flex items-center justify-center -ml-1 mr-2">
       <i data-lucide="arrow-left" class="w-[18px] h-[18px] text-slate-900"></i>
     </a>
-    <h1 class="font-bold text-[15px]">外部リンク</h1>
+    <h1 class="font-bold text-[15px]">相談する</h1>
   </div>
 </header>
 
-<!-- CATEGORY INFO -->
-<section class="px-5 pt-6 pb-5 border-b border-slate-100 fade-up">
-  <div class="flex items-center gap-4">
-    <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center flex-shrink-0">
-      <i data-lucide="external-link" class="w-5 h-5 text-slate-600"></i>
-    </div>
-    <div class="flex-1">
-      <h2 class="font-bold text-[15px]">外部リンク</h2>
-      <p class="text-[12px] text-slate-400 mt-0.5">求職活動と生活を支える外部サービス</p>
-    </div>
-  </div>
+<!-- 主役はLINE相談。迷ったらまずここ、と分かるように最上部に置く。 -->
+<section class="px-5 pt-6 pb-6 fade-up" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-bottom: 1px solid #bbf7d0;">
+  <span class="inline-flex items-center gap-1 text-[10px] font-bold text-brand-700 bg-white border border-brand-200 rounded-full px-3 py-1 mb-2.5">
+    <i data-lucide="message-circle" class="w-3 h-3"></i>相談は何度でも無料
+  </span>
+  <h2 class="text-[21px] font-extrabold text-brand-800 leading-tight">一人で抱えなくて大丈夫</h2>
+  <p class="text-[12.5px] text-slate-700 mt-2.5 leading-[1.9]">
+    履歴書の添削、面接前の不安、求人の探し方。<br>
+    どこから聞いてもらっても構いません。
+  </p>
+  <a href="https://lin.ee/WQzrYGn" target="_blank" rel="noopener"
+     class="mt-4 flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl text-white font-bold text-[14.5px]"
+     style="background:#06C755; box-shadow:0 8px 20px -6px rgba(6,199,85,.5);">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+    LINEで相談する
+  </a>
 </section>
 
 <!-- LINK LIST -->
 <section class="fade-up d1">
   <div class="px-5 pt-5 pb-2">
-    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">サービス一覧</p>
+    <p class="text-[11px] font-semibold text-slate-400 tracking-wider">使えるサービス</p>
   </div>
   <div class="desktop-grid-2 px-5">
 
@@ -102,16 +107,6 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     </div>
     <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 ml-2"></i>
   </a>
-  </div>
-</section>
-
-<!-- LINE CTA -->
-<section class="px-5 mt-6 mb-8">
-  <div class="flex items-center gap-3 px-4 py-3.5 border border-slate-100 rounded-xl">
-    <div class="w-8 h-8 rounded-full bg-[#06C755] flex items-center justify-center flex-shrink-0">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.271.173-.508.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-    </div>
-    <p class="text-[11px] text-slate-500">求人相談・退職不安・生活費の見直しもLINEで相談できます</p>
   </div>
 </section>
 

@@ -16,6 +16,10 @@
 
   /* ===== メニュー定義：ここだけ直せば全ページに反映される ===== */
 
+  var LINE_URL = 'https://lin.ee/WQzrYGn';
+
+  // 求職者の行動順（仕事を決める→書類→面接→スキル→相談）でグループ分けする。
+  // 個別記事はカテゴリのハブ側に置き、ここには入れない（サイトマップ化させない）。
   var SECTIONS = [
     {
       label: 'メイン',
@@ -25,58 +29,41 @@
       ],
     },
     {
-      label: '面接対策',
+      label: '準備する',
       cls: 'interview',
       items: [
-        { href: 'guides/index.html', icon: 'target', text: '面接対策一覧' },
-        { href: 'guides/interview-questions.html', icon: 'messages-square', text: 'よくある質問' },
-        { href: 'prompts/interview.html', icon: 'wand-2', text: 'AI面接練習' },
+        { href: 'careers/index.html', icon: 'library', text: '職種図鑑' },
+        { href: 'future/index.html', icon: 'compass', text: 'AI時代のキャリア' },
         { href: 'guides/resume.html', icon: 'file-text', text: '履歴書の書き方' },
-        { href: 'guides/interview-checklist.html', icon: 'list-checks', text: 'チェックリスト' },
+        { href: 'guides/index.html', icon: 'target', text: '面接対策' },
+        { href: 'manners/index.html', icon: 'briefcase', text: 'ビジネスマナー' },
       ],
     },
     {
-      label: 'レベルアップアプリ',
+      label: '鍛える',
       cls: 'apps',
       items: [
-        { href: 'certification/pc-basic.html#shortcut-run', icon: 'gamepad-2', text: 'ショートカット・ラン' },
-        { href: 'apps/typing-fighter.html', icon: 'swords', text: 'タイピング・ファイター' },
-        { href: 'certification/excel-challenge.html', icon: 'sigma', text: 'Excel関数チャレンジ' },
-      ],
-    },
-    {
-      label: 'コンテンツ',
-      cls: 'content',
-      items: [
-        { href: 'content/index.html', icon: 'layout-grid', text: 'コンテンツ一覧' },
-        { href: 'manners/index.html', icon: 'briefcase', text: 'ビジネスマナー' },
+        { href: 'apps/index.html', icon: 'gamepad-2', text: 'アプリで練習' },
         { href: 'certification/index.html', icon: 'award', text: '資格取得ガイド' },
         { href: 'ai/index.html', icon: 'sparkles', text: 'AI活用入門' },
-        { href: 'careers/index.html', icon: 'library', text: '職種図鑑' },
-        { href: 'prompts/index.html', icon: 'wand-2', text: 'プロンプト集' },
-        { href: 'future/index.html', icon: 'compass', text: 'AI時代のキャリア' },
       ],
     },
     {
-      label: '各種サポート',
+      label: '相談する',
       cls: 'support',
       items: [
-        { href: 'links/index.html', icon: 'external-link', text: '各種サポート一覧' },
-        { href: 'links/jobs.html', icon: 'briefcase', text: '求人情報' },
-        { href: 'links/resignation.html', icon: 'shield-check', text: '退職サポート' },
-        { href: 'links/ai-reskilling.html', icon: 'brain-circuit', text: 'AIリスキリング' },
-        { href: 'links/living-cost.html', icon: 'piggy-bank', text: '生活費見直し' },
+        { href: 'links/index.html', icon: 'external-link', text: '求人・サポート' },
+        { href: LINE_URL, icon: 'message-circle', text: 'LINEで相談', external: true },
       ],
     },
   ];
 
-  // ボトムナビ。match はそのタブを点灯させるディレクトリ/ページのキー。
+  // ボトムナビ（4タブ）。match はそのタブを点灯させるディレクトリ/ページのキー。
   var TABS = [
     { href: 'index.html', icon: 'home', text: 'ホーム', match: ['index.html'] },
-    { href: 'guides/index.html', icon: 'target', text: '面接対策', match: ['guides', 'prompts/interview.html'] },
-    { href: 'apps/index.html', icon: 'gamepad-2', text: 'アプリ', match: ['apps', 'certification/excel-challenge.html', 'certification/pc-basic.html'] },
-    { href: 'content/index.html', icon: 'layout-grid', text: 'コンテンツ', match: ['content', 'manners', 'certification', 'ai', 'careers', 'prompts', 'future'] },
-    { href: 'links/index.html', icon: 'external-link', text: 'サポート', match: ['links'] },
+    { href: 'content/index.html', icon: 'clipboard-list', text: '準備する', match: ['content', 'careers', 'future', 'guides', 'manners'] },
+    { href: 'apps/index.html', icon: 'gamepad-2', text: '鍛える', match: ['apps', 'certification', 'ai'] },
+    { href: 'links/index.html', icon: 'message-circle', text: '相談する', match: ['links'] },
   ];
 
   /* ===== 現在地の判定 ===== */
@@ -107,6 +94,11 @@
     SECTIONS.forEach(function (sec) {
       html += '<div class="sidebar-section sidebar-section--' + sec.cls + '">' + esc(sec.label) + '</div>';
       sec.items.forEach(function (item) {
+        if (item.external) {
+          html += '<a href="' + esc(item.href) + '" target="_blank" rel="noopener">' +
+            '<i data-lucide="' + esc(item.icon) + '"></i>' + esc(item.text) + '</a>';
+          return;
+        }
         var active = canonical(item.href) === CURRENT ? ' class="active"' : '';
         html += '<a href="' + esc(PREFIX + item.href) + '"' + active + '>' +
           '<i data-lucide="' + esc(item.icon) + '"></i>' + esc(item.text) + '</a>';
