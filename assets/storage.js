@@ -1,14 +1,19 @@
 /**
- * STEP NAVI のブラウザ保存をユーザー別に分離する。
+ * STEP NAVI の共通スクリプト。
  *
- * 静的HTMLのまま運用できるよう、既存ページが使っている localStorage の
- * 進捗系キーだけをログイン中ユーザーの名前空間へ自動的に振り分ける。
+ * ログイン機能を廃止したため、進捗（読了・スコア）はブラウザにそのまま保存する。
+ * 以前はログインユーザーごとに localStorage を名前空間分けしていたが、
+ * その分岐は不要になったので撤去した。
+ *
+ * 残している役割は2つ:
+ *   1. 旧ログイン時代のユーザー別データを、通常キーへ一度だけ引き戻す（進捗の救済）
+ *   2. LINE相談カードを、どのページでもタップできるリンクに変換する
  */
 (function () {
   const LINE_URL = 'https://lin.ee/WQzrYGn';
-  const SESSION_KEY = 'stepnavi_session';
-  const USERS_KEY = 'stepnavi_users';
-  const SCOPED_KEYS = new Set([
+
+  // 旧実装がユーザーごとに分けて保存していた進捗キー。
+  const PROGRESS_KEYS = [
     'stepnavi_read',
     'stepnavi_iv_checklist',
     'stepnavi_kbd_highscore',
@@ -20,161 +25,50 @@
     'stepnavi.excel.mastered',
     'stepnavi.excel.unlocked',
     'stepnavi.excel.total_solved',
-  ]);
+  ];
 
-  const native = {
-    getItem: Storage.prototype.getItem,
-    setItem: Storage.prototype.setItem,
-    removeItem: Storage.prototype.removeItem,
-  };
+  const MIGRATED_FLAG = 'stepnavi_unscoped_v1';
 
-  function readJson(key, fallback) {
+  /**
+   * 旧 'stepnavi_user:<id>:<key>' 形式の保存を、通常キーへ戻す。
+   * 複数アカウントぶんある場合は、最初に見つかったものを採用する。
+   * 移行後は旧キーとログイン情報を掃除する。
+   */
+  function migrateFromScopedStorage() {
     try {
-      const value = native.getItem.call(localStorage, key);
-      return value ? JSON.parse(value) : fallback;
-    } catch (_) {
-      return fallback;
-    }
-  }
+      if (localStorage.getItem(MIGRATED_FLAG)) return;
 
-  function writeJson(key, value) {
-    native.setItem.call(localStorage, key, JSON.stringify(value));
-  }
+      PROGRESS_KEYS.forEach((key) => {
+        if (localStorage.getItem(key) !== null) return; // 既に通常キーがあるなら触らない
+        for (let i = 0; i < localStorage.length; i++) {
+          const storedKey = localStorage.key(i);
+          if (storedKey && storedKey.startsWith('stepnavi_user:') && storedKey.endsWith(':' + key)) {
+            localStorage.setItem(key, localStorage.getItem(storedKey));
+            break;
+          }
+        }
+      });
 
-  function normalizeEmail(email) {
-    return String(email || '').trim().toLowerCase();
-  }
-
-  function makeUserId(email) {
-    const normalized = normalizeEmail(email);
-    if (!normalized) return 'guest';
-    try {
-      return 'u_' + btoa(unescape(encodeURIComponent(normalized)))
-        .replace(/=+$/g, '')
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_');
-    } catch (_) {
-      return 'u_' + normalized.replace(/[^a-z0-9]+/g, '_');
-    }
-  }
-
-  function getUsers() {
-    return readJson(USERS_KEY, []);
-  }
-
-  function saveUsers(users) {
-    writeJson(USERS_KEY, users);
-  }
-
-  function ensureUserId(user) {
-    if (!user) return null;
-    if (!user.userId) user.userId = makeUserId(user.email);
-    return user.userId;
-  }
-
-  function getSession() {
-    const session = readJson(SESSION_KEY, null);
-    if (session && !session.userId) {
-      session.userId = makeUserId(session.email);
-      writeJson(SESSION_KEY, session);
-    }
-    return session;
-  }
-
-  function getCurrentUser() {
-    const session = getSession();
-    if (!session) return null;
-    const users = getUsers();
-    const user = users.find((u) => normalizeEmail(u.email) === normalizeEmail(session.email));
-    if (user && !user.userId) {
-      ensureUserId(user);
-      saveUsers(users);
-    }
-    return user || session;
-  }
-
-  function scopedKey(key, userLike) {
-    const userId = ensureUserId(userLike) || makeUserId(userLike && userLike.email);
-    return `stepnavi_user:${userId}:${key}`;
-  }
-
-  function isScopedKey(key) {
-    return SCOPED_KEYS.has(key);
-  }
-
-  function migrateLegacyUserData(userLike) {
-    if (!userLike) return;
-    SCOPED_KEYS.forEach((key) => {
-      const targetKey = scopedKey(key, userLike);
-      const current = native.getItem.call(localStorage, targetKey);
-      const legacy = native.getItem.call(localStorage, key);
-      if (current === null && legacy !== null) {
-        native.setItem.call(localStorage, targetKey, legacy);
+      // 旧ログイン関連の残骸を削除する。
+      const stale = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const storedKey = localStorage.key(i);
+        if (!storedKey) continue;
+        if (storedKey.startsWith('stepnavi_user:') || storedKey === 'stepnavi_session' || storedKey === 'stepnavi_users') {
+          stale.push(storedKey);
+        }
       }
-      if (legacy !== null) {
-        native.removeItem.call(localStorage, key);
-      }
-    });
+      stale.forEach((k) => localStorage.removeItem(k));
+
+      localStorage.setItem(MIGRATED_FLAG, '1');
+    } catch (_) {
+      // プライベートブラウジング等で localStorage が使えない場合は何もしない。
+    }
   }
 
-  function createSession(user, loginAt) {
-    ensureUserId(user);
-    const session = {
-      userId: user.userId,
-      email: user.email,
-      nickname: user.nickname,
-      loginAt: loginAt || new Date().toISOString(),
-    };
-    writeJson(SESSION_KEY, session);
-    migrateLegacyUserData(user);
-    return session;
-  }
-
-  const api = {
-    LINE_URL,
-    USERS_KEY,
-    SESSION_KEY,
-    makeUserId,
-    getUsers,
-    saveUsers,
-    ensureUserId,
-    getSession,
-    getCurrentUser,
-    scopedKey,
-    migrateLegacyUserData,
-    createSession,
-    getJSON(key, fallback) {
-      return readJson(scopedKey(key, getCurrentUser()), fallback);
-    },
-    setJSON(key, value) {
-      writeJson(scopedKey(key, getCurrentUser()), value);
-    },
-  };
-
-  window.StepNaviStorage = api;
-  window.StepNaviLineUrl = LINE_URL;
-
-  Storage.prototype.getItem = function (key) {
-    if (this === localStorage && isScopedKey(key)) {
-      return native.getItem.call(this, scopedKey(key, getCurrentUser()));
-    }
-    return native.getItem.call(this, key);
-  };
-
-  Storage.prototype.setItem = function (key, value) {
-    if (this === localStorage && isScopedKey(key)) {
-      return native.setItem.call(this, scopedKey(key, getCurrentUser()), value);
-    }
-    return native.setItem.call(this, key, value);
-  };
-
-  Storage.prototype.removeItem = function (key) {
-    if (this === localStorage && isScopedKey(key)) {
-      return native.removeItem.call(this, scopedKey(key, getCurrentUser()));
-    }
-    return native.removeItem.call(this, key);
-  };
-
+  /**
+   * LINE相談カードが <div> のままのページでは、カード全体をリンクに置き換える。
+   */
   function enhanceLineCtas() {
     document.querySelectorAll('section').forEach((section) => {
       if (!section.textContent || !section.textContent.includes('LINE')) return;
@@ -196,6 +90,10 @@
       card.replaceWith(link);
     });
   }
+
+  migrateFromScopedStorage();
+
+  window.StepNaviLineUrl = LINE_URL;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', enhanceLineCtas);
