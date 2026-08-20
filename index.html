@@ -50,53 +50,37 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
 .start-thumb--amber  { background: linear-gradient(145deg, #fbbf24, #b45309) }
 .priority-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700; line-height: 1.4; letter-spacing: .02em }
 .bottom-nav { padding-bottom: env(safe-area-inset-bottom, 0px) }
-/* ===== ヒーロー：淡いグリーン背景をやめ、締まった濃色に作り替え ===== */
-.hero {
-  position: relative; overflow: hidden;
-  background:
-    radial-gradient(120% 80% at 15% 0%, rgba(34,197,94,0.22) 0%, transparent 55%),
-    radial-gradient(90% 70% at 100% 100%, rgba(13,148,136,0.20) 0%, transparent 60%),
-    linear-gradient(160deg, #0b1f16 0%, #08130e 55%, #050b08 100%);
-}
-/* 奥行きを出す細いグリッド */
-.hero::before {
-  content: ""; position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: radial-gradient(80% 65% at 50% 25%, #000 0%, transparent 78%);
-  -webkit-mask-image: radial-gradient(80% 65% at 50% 25%, #000 0%, transparent 78%);
-}
-.hero-inner { position: relative; z-index: 1 }
+/* ===== ヒーロー：白背景・装飾を足さないシンプル構成 ===== */
+.hero { background: #fff; border-bottom: 1px solid #f1f5f9 }
+.hero-inner { position: relative }
 .hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 7px;
+  display: inline-block;
   font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-  color: #6ee7b7; padding: 5px 12px; border-radius: 999px;
-  border: 1px solid rgba(110,231,183,0.28); background: rgba(16,185,129,0.10);
+  color: #16a34a;
 }
 .hero-h1 {
-  font-size: 30px; font-weight: 800; line-height: 1.38; letter-spacing: -0.02em; color: #fff;
-  margin: 18px 0 0; text-shadow: 0 2px 24px rgba(0,0,0,.35);
+  font-size: 29px; font-weight: 800; line-height: 1.4; letter-spacing: -0.02em; color: #0f172a;
+  margin: 14px 0 0;
 }
-.hero-h1 em { font-style: normal; color: #4ade80 }
-.hero-rule { width: 40px; height: 3px; border-radius: 999px; background: linear-gradient(90deg,#4ade80,#0d9488); margin: 18px auto 0 }
-.hero-lead { font-size: 13px; line-height: 2; color: #a7c4b5; margin: 16px 0 0 }
+.hero-h1 em { font-style: normal; color: #16a34a }
+.hero-lead { font-size: 13px; line-height: 2; color: #64748b; margin: 14px 0 0 }
 .hero-cta {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   width: 100%; max-width: 300px; margin: 24px auto 0; padding: 15px 20px;
-  border-radius: 14px; font-size: 14.5px; font-weight: 700; color: #052e16;
-  background: linear-gradient(135deg,#86efac,#22c55e);
-  box-shadow: 0 12px 28px -10px rgba(34,197,94,.55);
-  transition: transform .15s ease;
+  border-radius: 12px; font-size: 14.5px; font-weight: 700; color: #fff;
+  background: #16a34a; transition: opacity .15s ease;
 }
-.hero-cta:active { transform: translateY(1px) scale(.99) }
+.hero-cta:active { opacity: .85 }
 /* ヒーロー下部：3タブへの道筋を示す */
-.hero-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 30px; background: rgba(255,255,255,0.09) }
-.hero-step { background: rgba(5,11,8,0.55); padding: 14px 6px; text-align: center; text-decoration: none }
-.hero-step b { display: block; font-size: 12px; font-weight: 700; color: #fff }
-.hero-step span { display: block; font-size: 10px; color: #7e9c8d; margin-top: 3px; line-height: 1.5 }
-.hero-step i, .hero-step svg { width: 17px; height: 17px; color: #4ade80; margin: 0 auto 6px }
+.hero-steps {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  margin-top: 28px; border-top: 1px solid #f1f5f9;
+}
+.hero-step { padding: 16px 6px; text-align: center; text-decoration: none; border-right: 1px solid #f1f5f9 }
+.hero-step:last-child { border-right: none }
+.hero-step b { display: block; font-size: 12px; font-weight: 700; color: #0f172a }
+.hero-step span { display: block; font-size: 10px; color: #94a3b8; margin-top: 3px; line-height: 1.5 }
+.hero-step i, .hero-step svg { width: 18px; height: 18px; color: #16a34a; margin: 0 auto 7px }
 /* ロードマップ */
 .road-step { position:relative; display:flex; gap:14px; padding-bottom:22px }
 .road-step:last-child { padding-bottom:0 }
@@ -136,7 +120,6 @@ body { -webkit-font-smoothing: antialiased; font-feature-settings: "palt" }
     <h1 class="hero-h1">
       次の一歩は、<br><em>ここから決まる。</em>
     </h1>
-    <div class="hero-rule"></div>
     <p class="hero-lead">
       仕事選びから書類、面接、スキルまで。<br>
       必要なことだけを、順番に。
